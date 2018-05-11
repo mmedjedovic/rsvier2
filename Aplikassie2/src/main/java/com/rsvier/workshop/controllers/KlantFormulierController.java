@@ -1,4 +1,4 @@
-package com.rsvier.workshop;
+package com.rsvier.workshop.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +13,5 @@ public class KlantFormulierController {
 	public String getFormulier(Model model) {
 		return "klantformulier";
 	}
-	
 	
 }
