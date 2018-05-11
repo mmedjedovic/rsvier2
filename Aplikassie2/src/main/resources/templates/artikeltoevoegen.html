@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html
-    xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Artikel toevoegen</title>
     </head>
     <body>
         <h1>Voeg een artikel toe</h1>
+        <form method="POST" th:object="${artikel}">
+            <label for="naam">Naam: </label>
+            <input type="text" th:field="*{naam}"/>
+        </form>
     </body>
 </html>
