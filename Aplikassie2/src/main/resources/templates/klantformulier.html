@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+      
 <head>
 <meta charset="UTF-8">
 <title>Applikaassie2</title>
@@ -8,11 +9,10 @@
 	<h1>Invullen:</h1>
 	
 	<form method="POST" action="/register" th:action="@{/registreren}" th:object="${persoon}">
-			<label for="voorNaam">Voornaam</label>
-			<input type="text" name="voorNaam"/>
-			<br><br>
-			<input type="submit" value="subi" />
-		
+		<label for="voorNaam">Voornaam:</label>
+		<input type="text" th:field=*{voorNaam} />
+		<br>
+		<input type="submit" value="register" />
 	</form>
 </body>
 </html>
