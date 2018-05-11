@@ -28,6 +28,10 @@ public class Artikel {
     @Column(nullable = false)
     protected boolean actief;
     
+    public Artikel(boolean actief) {
+        this.actief = actief;
+    }
+    
     public Long getId() {
         return id;
     }

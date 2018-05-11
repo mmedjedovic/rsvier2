@@ -6,9 +6,11 @@
     </head>
     <body>
         <h1>Voeg een artikel toe</h1>
-        <form method="POST" th:object="${artikel}">
-            <label for="naam">Naam: </label>
-            <input type="text" th:field="*{naam}"/>
-        </form>
+        <form method="POST" action="/register" th:action="@{/registreren}" th:object="${artikel}">
+		<label for="naam">Naam:</label>
+		<input type="text" th:field="*{naam}" />
+		
+		<input type="submit" value="register" />
+	</form>
     </body>
 </html>
