@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Artikel aanpassen</title>
+    </head>
+    <body>
+        <h1>Pas een artikel aan</h1>
+        
+            <form name='f' th:object="${artikel}" method='POST'>
+                <table>
+                    <tr>
+                        <td>Selecteer Artikel: </td>
+                        <td>
+                            <select th:field="*{id}">
+                                 <option value=""> -- </option>
+                                 <option th:each="artikel : ${artikelen}"
+                                    th:value="${artikel.Id}"
+                                    th:utext="${artikel.Naam}"/>
+                          </select>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input name="submit" type="submit" value="Kies" /></td>
+                    </tr>
+                </table>
+            </form>
+        
+    </body>
+</html>

@@ -7,5 +7,5 @@ import com.rsvier.workshop.domein.Artikel;
 
 @Repository
 public interface ArtikelRepository extends CrudRepository<Artikel, Long>{
-
+    
 }
