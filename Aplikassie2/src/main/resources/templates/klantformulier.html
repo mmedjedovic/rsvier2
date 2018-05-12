@@ -24,15 +24,30 @@
 		</div>
 		<div>
 			<h3>Woonadres</h3>
-			
+			<label for="straatnaam">Straatnaam:</label>
+			<input type="text" th:field=*{adresCollection[0].straatnaam} />
+			<br><br>
+			<label for="huisnummer">Huisnummer:</label>
+			<input type="text" th:field=*{adresCollection[0].huisnummer} />
+			<br><br>
+			<label for="toevoeging">Toevoeging:</label>
+			<input type="text" th:field=*{adresCollection[0].toevoeging} />
+			<br><br>
+			<label for="postcode">Postcode:</label>
+			<input type="text" th:field=*{adresCollection[0].postcode} />
+			<br><br>
+			<label for="woonplaats">Woonplaats:</label>
+			<input type="text" th:field=*{adresCollection[0].woonplaats} />
+			<br><br>
 		</div>
-		<br><br>
-		<label for="gebruikersnaam">Gebruikersnaam:</label>
-		<input type="text" th:field=*{gebruikersnaam} />
-		<br><br>
-		<label for="wachtwoord">Voornaam:</label>
-		<input type="text" th:field=*{wachtwoord} />
-		<br><br>
+		<div>
+			<label for="gebruikersnaam">Gebruikersnaam:</label>
+			<input type="text" th:field=*{gebruikersnaam} />
+			<br><br>
+			<label for="wachtwoord">Voornaam:</label>
+			<input type="text" th:field=*{wachtwoord} />
+			<br><br>
+		</div>
 		<input type="submit" value="register" />
 		
 	</form>
