@@ -19,7 +19,7 @@ public class RegisterArtikelController {
     }
 
     @PostMapping
-    public Artikel registerKlant(Artikel artikel) {
+    public Artikel registerArtikel(Artikel artikel) {
         artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
         repository.save(artikel);
         return artikel;
