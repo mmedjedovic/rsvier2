@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -23,10 +24,6 @@ public class ArtikelEditFormulierController {
     
     @GetMapping
     public String getFormulier(Model model) {
-        //Iterable<Artikel> artikelenIterable = repository.findAll();
-        //ArrayList<Artikel> artikelenlijst = new ArrayList();
-        //artikelenIterable.forEach(artikelenlijst::add);
-        //model.addAttribute("artikelen", artikelenlijst);
         model.addAttribute("artikel", new Artikel());
         return "artikeleditformulier";
     }
@@ -37,5 +34,11 @@ public class ArtikelEditFormulierController {
         List<Artikel> artikelen = new ArrayList();
         artikelenIterable.forEach(artikelen::add);
         return artikelen;
+    }
+    
+    @PostMapping
+    public String getEditFormulier(Artikel artikel, Model model) {
+        model.addAttribute(artikel);
+        return "artikeledit";
     }
 }
