@@ -7,10 +7,13 @@
     <body>
         <h1>Voeg een artikel toe</h1>
         <form method="POST" action="/register" th:action="@{/registreren}" th:object="${artikel}">
-		<label for="naam">Naam:</label>
-		<input type="text" th:field="*{naam}" />
-		
-		<input type="submit" value="register" />
+            <p> <label for="naam">Naam:</label>
+            <input type="text" th:field="*{naam}" /></p>
+            <p> <label for="prijs">Prijs:</label>
+            <input type="text" th:field="*{prijs}" /></p>
+            <p><label for="voorraad">Voorraad:</label>
+            <input type="text" th:field="*{voorraad}" /></p>
+            <p><input type="submit" value="Voeg toe" /> <input type="reset" value="Reset" /></p>
 	</form>
     </body>
 </html>
