@@ -35,12 +35,12 @@ public class RegisterKlantController {
 	
 	
 	@PostMapping
-	public Persoon registerKlant(Persoon persoon) {
+	public String registerKlant(Persoon persoon) {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setAdresSoort(persoon);
 		repository.save(persoon);
-		return persoon;
+		return "nogtemaken";
 	}
 	
 	private void setAdresSoort(Persoon persoon) {
