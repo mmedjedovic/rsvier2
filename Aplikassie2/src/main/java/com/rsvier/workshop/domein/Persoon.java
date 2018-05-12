@@ -19,6 +19,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 @Table(name="persoon")
@@ -39,6 +41,7 @@ public class Persoon {
     protected String tussenVoegsel;
     
     @Column(name="geboortedatum")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     protected LocalDate geboorteDatum;
 	
     @OneToMany(mappedBy="klant", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
@@ -67,11 +70,7 @@ public class Persoon {
     public enum AccountSoort {ADMINISTRATOR, MEDEWERKER, KLANT}
     
     
-    protected Persoon() {}
-    
-    public Persoon(AccountSoort accountSoort) {
-        this.accountSoort = accountSoort;
-    }
+    public Persoon() {}
 
     public Long getId() {
         return id;

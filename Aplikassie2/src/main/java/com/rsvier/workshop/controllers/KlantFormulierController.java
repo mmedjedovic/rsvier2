@@ -14,7 +14,7 @@ public class KlantFormulierController {
 	
 	@GetMapping
 	public String getFormulier(Model model) {
-		model.addAttribute("persoon", new Persoon(AccountSoort.KLANT));
+		model.addAttribute("persoon", new Persoon());
 		return "klantformulier";
 	}
 	

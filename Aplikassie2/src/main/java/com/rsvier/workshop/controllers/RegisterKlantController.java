@@ -32,8 +32,8 @@ public class RegisterKlantController {
 	
 	@PostMapping
 	public Persoon registerKlant(Persoon persoon) {
-		persoon.setAccountSoort(AccountSoort.KLANT);
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
+		persoon.setAccountSoort(AccountSoort.KLANT);
 		repository.save(persoon);
 		return persoon;
 	}
