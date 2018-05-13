@@ -57,7 +57,7 @@ public class Persoon {
     
     @Enumerated(EnumType.STRING)
     @Column(name="persoon_status", nullable=false)
-    protected PersoonStatus persoonStatus;
+    public PersoonStatus persoonStatus;
     
     @Column(nullable=false)
     protected String gebruikersnaam;
