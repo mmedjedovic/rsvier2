@@ -5,18 +5,21 @@
         <title>Artikel aanpassen</title>
     </head>
     <body>
-        <h1>Pas een artikel aan</h1>
-        
+        <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">
+            <h1>Pas een artikel aan</h1>
             <form name='f' th:object="${artikel}" method='POST' action="/artikeledit" th:action="@{/artikeledit}">
                 <table>
                     <tr>
                         <td>Selecteer Artikel: </td>
                         <td>
-                            <select th:field="*{id}">
-                                 <option value=""> -- </option>
-                                 <option th:each="artikel : ${artikelen}"
+                            <select>
+                                <option th:each="dropDownItem : ${artikelen}"
+                                th:value="${dropDownItem.id}"
+                                th:text="${dropDownItem.naam}" />
+
+                                 <!--<option th:each="artikel : ${artikelen}"
                                     th:value="${artikel.Id}"
-                                    th:utext="${artikel.Naam}"/>
+                                    th:utext="${artikel.Naam}"/>-->
                             </select>
 
                         </td>
@@ -26,6 +29,9 @@
                     </tr>
                 </table>
             </form>
-        
+        </div>
+        <div th:if="${artikelen == null or #lists.isEmpty(artikelen)}">
+            <div><a href="/artikelformulier">Geen artikelen gevonden, voeg eerst iets toe</a></div>
+        </div>
     </body>
 </html>
