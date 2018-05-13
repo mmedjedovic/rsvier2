@@ -12,7 +12,7 @@
 	</div>
 	<div>
 		<p><b>Klanten overzicht maken</b></p>
-		<form method="GET" action="werktemplate" th:action="@{werktemplate}" th:object="${statusName}">
+		<form method="GET" action="/klantenoverzicht" th:action="@{/klantenoverzicht}" th:object="${statusName}">
 			<select th:field="${statusName}">
 				<option th:each="statusName: ${persoonStatusNames}" th:value="${statusName}" th:text="${statusName}"></option> 
 			</select>
