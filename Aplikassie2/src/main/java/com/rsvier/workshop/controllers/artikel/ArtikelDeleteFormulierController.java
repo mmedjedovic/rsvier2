@@ -29,8 +29,7 @@ public class ArtikelDeleteFormulierController {
     
     @ModelAttribute("artikelen")
     public List<Artikel> artikelen() {
-        List<Artikel> artikelen = new ArrayList();
-        artikelen = repository.findActief();
+        List<Artikel> artikelen = repository.findActief();
         return artikelen;
     }
     

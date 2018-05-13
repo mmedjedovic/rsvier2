@@ -30,11 +30,7 @@ public class ArtikelEditFormulierController {
     
     @ModelAttribute("artikelen")
     public List<Artikel> artikelen() {
-        List<Artikel> artikelen = new ArrayList();
-        artikelen = repository.findActief();
-        //Iterable<Artikel> artikelenIterable = repository.findAll();
-        //List<Artikel> artikelen = new ArrayList();
-        //artikelenIterable.forEach(artikelen::add);
+        List<Artikel> artikelen = repository.findActief();
         return artikelen;
     }
     
