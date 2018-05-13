@@ -21,10 +21,15 @@ public class ArtikelEditController {
         repository = artikelRepository;
     }
     
+    //@ModelAttribute("artikel")
+    //public Artikel artikel() {
+    //    Optional artikelOptional = repository.findById(1L);
+    //    Artikel artikel = (Artikel) artikelOptional.get();
+    //    return artikel;
+    //}
+    
     @ModelAttribute("artikel")
-    public Artikel artikel() {
-        Optional artikelOptional = repository.findById(1L);
-        Artikel artikel = (Artikel) artikelOptional.get();
+    public Artikel artikel(Artikel artikel) {
         return artikel;
     }
     

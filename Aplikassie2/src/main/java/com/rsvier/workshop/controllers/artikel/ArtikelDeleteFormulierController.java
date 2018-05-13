@@ -9,32 +9,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/artikeleditformulier")
-public class ArtikelEditFormulierController {
+@RequestMapping("/artikeldeleteformulier")
+public class ArtikelDeleteFormulierController {
     ArtikelRepository repository;
 	
     @Autowired
-    public ArtikelEditFormulierController(ArtikelRepository artikelRepository) {
+    public ArtikelDeleteFormulierController(ArtikelRepository artikelRepository) {
         repository = artikelRepository;
     }
     
     @GetMapping
     public String getFormulier(Model model) {
         model.addAttribute("artikel", new Artikel());
-        return "artikeleditformulier";
+        return "artikeldeleteformulier";
     }
     
     @ModelAttribute("artikelen")
     public List<Artikel> artikelen() {
         List<Artikel> artikelen = new ArrayList();
         artikelen = repository.findActief();
-        //Iterable<Artikel> artikelenIterable = repository.findAll();
-        //List<Artikel> artikelen = new ArrayList();
-        //artikelenIterable.forEach(artikelen::add);
         return artikelen;
     }
     

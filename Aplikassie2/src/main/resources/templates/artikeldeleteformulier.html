@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Artikel verwijderen</title>
+    </head>
+    <body>
+        <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">
+            <h1>Verwijder een artikel</h1>
+            <form name='f' th:object="${artikel}" method='POST' action="/artikeldelete" th:action="@{/artikeldelete}">
+                <table>
+                    <tr>
+                        <td>Selecteer Artikel: </td>
+                        <td>
+                            <select>
+                                <option th:each="dropDownItem : ${artikelen}"
+                                th:value="${dropDownItem.id}"
+                                th:text="${dropDownItem.naam}" />
+
+                                 <!--<option th:each="artikel : ${artikelen}"
+                                    th:value="${artikel.Id}"
+                                    th:utext="${artikel.Naam}"/>-->
+                            </select>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input name="submit" type="submit" value="Pas aan" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div th:if="${artikelen == null or #lists.isEmpty(artikelen)}">
+            <div><a href="/artikelformulier">Geen artikelen gevonden, voeg eerst iets toe</a></div>
+        </div>
+    </body>
+</html>
