@@ -1,4 +1,4 @@
-package com.rsvier.workshop.controllers;
+package com.rsvier.workshop.controllers.artikel;
 
 import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.domein.Artikel;
@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/artikeledit")
-public class ArtikelEditController {
+@RequestMapping("/artikeldeleted")
+public class ArtikelDeletedController {
     CrudRepository repository;
 	
     @Autowired
-    public ArtikelEditController(ArtikelRepository artikelRepository) {
+    public ArtikelDeletedController(ArtikelRepository artikelRepository) {
         repository = artikelRepository;
     }
-    
+
     @PostMapping
     public Artikel registerArtikel(Artikel artikel) {
-        artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
+        artikel.setArtikelStatus(Artikel.ArtikelStatus.INACTIEF);
         repository.save(artikel);
         return artikel;
     }

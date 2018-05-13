@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Artikel aanpassen</title>
+        <title>Artikel verwijderen</title>
     </head>
     <body>
         <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">
-            <h1>Pas een artikel aan</h1>
-            <form name='f' th:object="${artikel}" method='POST' action="/artikeledit" th:action="@{/artikeledit}">
+            <h1>Verwijder een artikel</h1>
+            <form name='f' th:object="${artikel}" method='POST' action="/artikeldelete" th:action="@{/artikeldelete}">
                 <table>
                     <tr>
                         <td>Selecteer Artikel: </td>

@@ -1,4 +1,4 @@
-package com.rsvier.workshop.controllers;
+package com.rsvier.workshop.controllers.artikel;
 
 import com.rsvier.workshop.domein.Artikel;
 import org.springframework.stereotype.Controller;

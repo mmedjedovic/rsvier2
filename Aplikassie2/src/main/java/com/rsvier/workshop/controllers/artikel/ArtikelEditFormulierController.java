@@ -1,4 +1,4 @@
-package com.rsvier.workshop.controllers;
+package com.rsvier.workshop.controllers.artikel;
 
 import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.domein.Artikel;
@@ -30,15 +30,9 @@ public class ArtikelEditFormulierController {
     
     @ModelAttribute("artikelen")
     public List<Artikel> artikelen() {
-        Iterable<Artikel> artikelenIterable = repository.findAll();
-        List<Artikel> artikelen = new ArrayList();
-        artikelenIterable.forEach(artikelen::add);
+        List<Artikel> artikelen = repository.findActief();
         return artikelen;
     }
     
-    @PostMapping
-    public String getEditFormulier(Artikel artikel, Model model) {
-        model.addAttribute(artikel);
-        return "artikeledit";
-    }
+    
 }

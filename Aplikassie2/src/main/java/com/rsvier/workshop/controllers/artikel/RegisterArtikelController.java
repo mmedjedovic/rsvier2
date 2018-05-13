@@ -1,4 +1,4 @@
-package com.rsvier.workshop.controllers;
+package com.rsvier.workshop.controllers.artikel;
 
 import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.domein.Artikel;
@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/artikelgewijzigd")
-public class WijzigArtikelController {
+@RequestMapping("/artikeltoegevoegd")
+public class RegisterArtikelController {
     CrudRepository repository;
 	
     @Autowired
-    public WijzigArtikelController(ArtikelRepository artikelRepository) {
+    public RegisterArtikelController(ArtikelRepository artikelRepository) {
         repository = artikelRepository;
     }
 
     @PostMapping
-    public Artikel wijzigArtikel(Artikel artikel) {
+    public Artikel registerArtikel(Artikel artikel) {
+        artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
         repository.save(artikel);
         return artikel;
     }
