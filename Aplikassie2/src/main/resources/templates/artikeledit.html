@@ -7,9 +7,15 @@
     <body>
         <h1>Pas een artikel aan</h1>
         
-            <form name='f' th:object="${artikel}" method='POST'>
+            <form name='f' th:object="${artikel}" method='POST' action="/artikelgewijzigd" th:action="@{/artikelgewijzigd}"}>
                 <table>
                     <tr>
+                        <td>
+                            <input type="hidden" th:value= "${artikel.Id}"th:field="*{id}" />
+                            <span class="validationError"
+                            th:if="${#fields.hasErrors('id')}"
+                            th:errors="*{id}">Id Error</span>
+                        </td>
                         <td><label for="naam">Naam:</label>
                             <input type="text" th:value= "${artikel.Naam}"th:field="*{naam}" />
                             <span class="validationError"

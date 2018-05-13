@@ -1,4 +1,4 @@
-package com.rsvier.workshop.controllers;
+package com.rsvier.workshop.controllers.artikel;
 
 import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.domein.Artikel;
@@ -36,9 +36,5 @@ public class ArtikelEditFormulierController {
         return artikelen;
     }
     
-    @PostMapping
-    public String getEditFormulier(Artikel artikel, Model model) {
-        model.addAttribute(artikel);
-        return "artikeledit";
-    }
+    
 }
