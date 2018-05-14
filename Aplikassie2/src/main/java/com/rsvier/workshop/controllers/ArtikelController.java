@@ -46,11 +46,20 @@ public class ArtikelController {
         
         @GetMapping(value="/edit")
 	public ModelAndView artikelWijzigen(@RequestParam(value="id", required=true) Long id) {
-		ModelAndView modelAndView = new ModelAndView("artikeledit");
-		Optional artikelOptional = artikelRepository.findById(id);
+		
+                Optional artikelOptional = artikelRepository.findById(id);
                 Artikel artikel = (Artikel) artikelOptional.get();
-		modelAndView.addObject("artikel",artikel);
-		return modelAndView;
+                
+                if(artikel.getArtikelStatus() == Artikel.ArtikelStatus.INACTIEF) {
+                    ModelAndView modelAndView = new ModelAndView("artikel");
+                    return modelAndView;
+                }
+                
+                else {
+                    ModelAndView modelAndView = new ModelAndView("artikeledit");
+                    modelAndView.addObject("artikel",artikel);
+                    return modelAndView;
+                }
 	}
 	
 	@PostMapping(value="/edit")
