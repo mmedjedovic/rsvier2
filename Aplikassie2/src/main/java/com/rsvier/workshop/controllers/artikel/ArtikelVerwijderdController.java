@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/artikeldeleted")
-public class ArtikelDeletedController {
+@RequestMapping("/artikelverwijderd")
+public class ArtikelVerwijderdController {
     CrudRepository repository;
 	
     @Autowired
-    public ArtikelDeletedController(ArtikelRepository artikelRepository) {
+    public ArtikelVerwijderdController(ArtikelRepository artikelRepository) {
         repository = artikelRepository;
     }
 
     @PostMapping
-    public Artikel registerArtikel(Artikel artikel) {
+    public Artikel verwijderArtikel(Artikel artikel) {
         artikel.setArtikelStatus(Artikel.ArtikelStatus.INACTIEF);
         repository.save(artikel);
         return artikel;

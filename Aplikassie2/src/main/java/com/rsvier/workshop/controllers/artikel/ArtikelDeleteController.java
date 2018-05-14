@@ -8,18 +8,19 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/artikeledit")
-public class ArtikelEditController {
+@RequestMapping("/artikeldelete")
+public class ArtikelDeleteController {
     CrudRepository repository;
 	
     @Autowired
-    public ArtikelEditController(ArtikelRepository artikelRepository) {
+    public ArtikelDeleteController(ArtikelRepository artikelRepository) {
         repository = artikelRepository;
     }
-    
+
     @GetMapping
     public String getFormulier(Artikel artikel, Model model) {
         System.out.println("ARTIKEL: " + artikel.getId() + artikel.getNaam());
@@ -27,8 +28,6 @@ public class ArtikelEditController {
         Artikel artikelcompleet = (Artikel) artikelOptional.get();
         model.addAttribute("artikel", artikelcompleet);
         System.out.println("ARTIKEL: " + artikelcompleet.getId() + artikelcompleet.getNaam());
-        return "artikeledit";
+        return "artikeldelete";
     }
-    
-    
 }

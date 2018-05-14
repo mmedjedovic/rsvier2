@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Artikel verwijder</title>
+    </head>
+    <body>
+        <h1>Het volgende artikel wordt verwijderd, zeker weten?</h1>
+        <form name='f' th:object="${artikel}" method='POST' action="/artikelverwijderd" th:action="@{/artikelverwijderd}"}>
+                <input type="hidden" th:value= "${artikel.Id}"th:field="*{id}" readonly/>
+                            
+                <table>
+                    <tr>
+                        <td><label for="naam">Naam:</label>
+                            <input type="text" th:value= "${artikel.Naam}"th:field="*{naam}" readonly/>
+                            
+                        </td>
+                        <td>
+                            <label for="prijs">Prijs:</label>
+                            <input type="text" th:value= "${artikel.Prijs}"th:field="*{prijs}" readonly/>
+                            
+                        </td>
+                        <td>
+                            <label for="voorraad">Voorraad:</label>
+                            <input type="text" th:value= "${artikel.Voorraad}"th:field="*{voorraad}" readonly/>
+                            
+                        </td>
+                           
+                    </tr>
+
+                    <tr>
+                        <td><input name="submit" type="submit" value="Verwijder" /></td>
+                        <td><a href="/artikeldeleteformulier">Terug</a></td>
+                    </tr>
+                    
+                </table>
+            </form>
+        
+    </body>
+</html>

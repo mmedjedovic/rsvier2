@@ -7,27 +7,15 @@
     <body>
         <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">
             <h1>Verwijder een artikel</h1>
-            <form name='f' th:object="${artikel}" method='POST' action="/artikeldelete" th:action="@{/artikeldelete}">
-                <table>
-                    <tr>
-                        <td>Selecteer Artikel: </td>
-                        <td>
-                            <select>
-                                <option th:each="dropDownItem : ${artikelen}"
-                                th:value="${dropDownItem.id}"
-                                th:text="${dropDownItem.naam}" />
+            <form th:object="${artikel}" method='GET' action="/artikeldelete" th:action="@{/artikeldelete}">
+                <label>Selecteer artikel:</label>
+                <select th:field="*{id}">
+                    <option th:each="dropDownItem : ${artikelen}"
+                            th:value="${dropDownItem.Id}"
+                            th:utext="${dropDownItem.Naam}"/>
+                    </select>
 
-                                 <!--<option th:each="artikel : ${artikelen}"
-                                    th:value="${artikel.Id}"
-                                    th:utext="${artikel.Naam}"/>-->
-                            </select>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><input name="submit" type="submit" value="Pas aan" /></td>
-                    </tr>
-                </table>
+                <p><button type="submit">Verwijderen</button></p>
             </form>
         </div>
         <div th:if="${artikelen == null or #lists.isEmpty(artikelen)}">
