@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>Voeg een artikel toe</h1>
-        <form method="POST" action="/artikeltoegevoegd" th:action="@{/artikeltoegevoegd}" th:object="${artikel}">
+        <form method="POST" th:object="${artikel}">
             <p> <label for="naam">Naam:</label>
             <input type="text" th:field="*{naam}" />
             <span class="validationError"

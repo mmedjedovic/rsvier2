@@ -6,7 +6,7 @@
     </head>
     <body>
         <h1>Het volgende artikel wordt verwijderd, zeker weten?</h1>
-        <form name='f' th:object="${artikel}" method='POST' action="/artikelverwijderd" th:action="@{/artikelverwijderd}"}>
+        <form name='f' th:object="${artikel}" method='POST' >
                 <input type="hidden" th:value= "${artikel.Id}"th:field="*{id}" readonly/>
                             
                 <table>
