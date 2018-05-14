@@ -2,7 +2,6 @@ package com.rsvier.workshop.controllers.artikel;
 
 import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.domein.Artikel;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +31,4 @@ public class ArtikelDeleteFormulierController {
         List<Artikel> artikelen = repository.findActief();
         return artikelen;
     }
-    
-    
 }

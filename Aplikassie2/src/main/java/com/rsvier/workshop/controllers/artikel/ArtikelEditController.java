@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -28,14 +28,18 @@ public class ArtikelEditController {
     //    return artikel;
     //}
     
-    @ModelAttribute("artikel")
-    public Artikel artikel(Artikel artikel) {
-        return artikel;
-    }
+    //@ModelAttribute("artikel")
+    //public Artikel artikel(Artikel artikel) {
+    //    return artikel;
+    //}
     
-    @PostMapping
-    public String getFormulier(Model model) {
-        //model.addAttribute("artikel", artikel);
+    @GetMapping
+    public String getFormulier(@ModelAttribute(value="artikel") Artikel artikel, Model model) {
+        System.out.println("ARTIKEL: " + artikel.getId() + artikel.getNaam());
+        Optional artikelOptional = repository.findById(artikel.getId());
+        Artikel artikelcompleet = (Artikel) artikelOptional.get();
+        model.addAttribute("artikelcompleet", artikelcompleet);
+        System.out.println("ARTIKEL: " + artikelcompleet.getId() + artikelcompleet.getNaam());
         return "artikeledit";
     }
     
