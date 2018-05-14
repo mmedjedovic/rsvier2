@@ -34,11 +34,11 @@ public class ArtikelEditController {
     //}
     
     @GetMapping
-    public String getFormulier(@ModelAttribute(value="artikel") Artikel artikel, Model model) {
+    public String getFormulier(Artikel artikel, Model model) {
         System.out.println("ARTIKEL: " + artikel.getId() + artikel.getNaam());
         Optional artikelOptional = repository.findById(artikel.getId());
         Artikel artikelcompleet = (Artikel) artikelOptional.get();
-        model.addAttribute("artikelcompleet", artikelcompleet);
+        model.addAttribute("artikel", artikelcompleet);
         System.out.println("ARTIKEL: " + artikelcompleet.getId() + artikelcompleet.getNaam());
         return "artikeledit";
     }
