@@ -51,7 +51,7 @@ public class ArtikelController {
                 Artikel artikel = (Artikel) artikelOptional.get();
                 
                 if(artikel.getArtikelStatus() == Artikel.ArtikelStatus.INACTIEF) {
-                    ModelAndView modelAndView = new ModelAndView("artikel");
+                    ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
                     return modelAndView;
                 }
                 
