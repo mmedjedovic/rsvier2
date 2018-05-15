@@ -90,9 +90,11 @@ public class BestelRegelController {
     }
     
     @PostMapping
-    public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel) {
-        //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
+    public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel, 
+            @RequestParam(value="id", required=true) Long id, Bestelling bestelling) {
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        bestelling = (Bestelling) bestellingOptional.get();
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
         return modelAndView;
     }
     
