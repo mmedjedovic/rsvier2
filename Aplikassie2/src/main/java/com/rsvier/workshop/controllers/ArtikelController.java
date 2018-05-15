@@ -56,7 +56,7 @@ public class ArtikelController {
                 }
                 
                 else {
-                    ModelAndView modelAndView = new ModelAndView("artikeledit");
+                    ModelAndView modelAndView = new ModelAndView("artikelformulier");
                     modelAndView.addObject("artikel",artikel);
                     return modelAndView;
                 }
