@@ -13,7 +13,6 @@
             <caption>Overzicht</caption>
             <thead>
                     <tr>
-                            <th scope="col" >Id</th>
                             <th scope="col" >Naam</th>
                             <th scope="col" >Prijs</th>
                             <th scope="col" >Voorraad</th>
@@ -22,7 +21,6 @@
             </thead>
             <tbody>
                     <tr data-th-each="artikel : ${artikelen}">
-                            <td data-th-text="${artikel.id}">ID</td>
                             <td data-th-text="${artikel.naam}">Naam</td>
                             <td data-th-text="${artikel.prijs}">Prijs</td>
                             <td data-th-text="${artikel.voorraad}">Voorraad</td>
