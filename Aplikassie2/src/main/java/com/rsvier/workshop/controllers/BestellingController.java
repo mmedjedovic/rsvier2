@@ -2,10 +2,12 @@ package com.rsvier.workshop.controllers;
 
 import com.rsvier.workshop.dao.BestelRegelRepository;
 import com.rsvier.workshop.dao.BestellingRepository;
+import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.BestelRegel;
 import com.rsvier.workshop.domein.Bestelling;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,42 +26,43 @@ public class BestellingController {
         
         @Autowired
         private BestelRegelRepository bestelRegelRepository;
+        
+        @Autowired
+        private PersoonRepository persoonRepository;
 
-        @ModelAttribute("bestellingen")
-        public List<Bestelling> bestellingen() {
+        @ModelAttribute("allebestellingen")
+        public List<Bestelling> alleBestellingen() {
             Iterable<Bestelling> bestellingenIterable = bestellingRepository.findAll();
             List<Bestelling> bestellingen = new ArrayList();
             bestellingenIterable.forEach(bestellingen::add);
             return bestellingen;
         }
-	
+        
+        @ModelAttribute("bestellingen")
+        public List<Bestelling> actieveBestellingen() {
+            List<Bestelling> bestellingen = bestellingRepository.findActief();
+            return bestellingen;
+        }
+        
         @GetMapping
 	public String getOverizicht() {
-		return "bestelling";
+            return "bestelling";
 	}
 	
-	@GetMapping(value="/add")
-	public String bestellingToevoegformulier(@ModelAttribute Bestelling bestelling, @ModelAttribute BestelRegel bestelRegel) {
-                return "bestellingformulier";
-        }
-        
-        @PostMapping(value="/add")
-        public ModelAndView bestellingToegevoegen (Bestelling bestelling) {
-            //TODO
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
-            return modelAndView;
-        }
-        
-        @GetMapping(value="/edit")
+	@GetMapping(value="/edit")
 	public ModelAndView bestellingWijzigen(@RequestParam(value="id", required=true) Long id) {
-            //TODO
-            ModelAndView modelAndView = new ModelAndView("bestellingedit");
+            Optional bestellingOptional = bestellingRepository.findById(id);
+            Bestelling bestelling = (Bestelling) bestellingOptional.get();
+            List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
+            ModelAndView modelAndView = new ModelAndView("bestellingformulier");
+            modelAndView.addObject("bestelling", bestelling);
+            modelAndView.addObject("bestelregels", bestelregels);
             return modelAndView;
         }
 	
 	@PostMapping(value="/edit")
 	public ModelAndView bestellingGewijzigd(Bestelling bestelling) {
-            //TODO
+            bestellingRepository.save(bestelling);
             ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
             return modelAndView;
 	}
@@ -73,7 +76,8 @@ public class BestellingController {
         
         @PostMapping(value="/delete")
 	public ModelAndView verwijderBestellingPagina(Bestelling bestelling) {
-            //TODO
+            bestelling.setStatus(Bestelling.Status.GESLOTEN);
+            bestellingRepository.save(bestelling);
             ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
             return modelAndView;
 	}
