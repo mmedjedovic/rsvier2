@@ -12,4 +12,5 @@ public interface BestellingRepository extends CrudRepository<Bestelling, Long>{
     @Query(value = "SELECT * FROM bestelling b WHERE b.status = 'OPEN' OR 'VERZONDEN'",
             nativeQuery=true)
     public List<Bestelling> findActief();
+    public Bestelling findByFactuurnummer(Long factuurnummer);
 }

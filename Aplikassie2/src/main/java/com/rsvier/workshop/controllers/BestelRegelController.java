@@ -7,9 +7,15 @@ import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.Artikel;
 import com.rsvier.workshop.domein.BestelRegel;
 import com.rsvier.workshop.domein.Bestelling;
+import com.rsvier.workshop.domein.Persoon;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,17 +44,43 @@ public class BestelRegelController {
     
     @GetMapping
     public String bestellingToevoegformulier(@ModelAttribute BestelRegel bestelRegel, 
-            Model model, @RequestParam(value="id", required=false) Long id) {
-        List<BestelRegel> bestelregels = new ArrayList();
-        Bestelling bestelling;
+            @ModelAttribute Bestelling bestelling, @ModelAttribute Persoon klant, Model model, 
+            @RequestParam(value="id", required=false) Long id) {
+        Set<BestelRegel> bestelregels = new HashSet();
         
-        if (id != null) {
-            Optional bestellingOptional = bestellingRepository.findById(id);
-            bestelling = (Bestelling) bestellingOptional.get();
+        if (id == null) {
+            Iterable<Persoon> klantIterable = persoonRepository.findAll();
+            List<Persoon> personen = new ArrayList();
+            klantIterable.forEach(personen::add);
+
+            klant = personen.get(0);
+            
+            LocalDate bestelDatum = LocalDate.now();
+            
+            LocalDateTime currentTime = LocalDateTime.now();
+
+            Long tempfactuurnummer = (Long.valueOf(currentTime.getNano()));
+            
+            bestelling.setBestelDatum(bestelDatum);
+            bestelling.setKlant(klant);
+            bestelling.setBestelregels(bestelregels);
+            bestelling.setTotaalprijs(BigDecimal.ZERO);
+            bestelling.setFactuurnummer(tempfactuurnummer);
+            bestelling.setStatus(Bestelling.Status.OPEN);
+            
+            bestellingRepository.save(bestelling);
+            
+            //super omslachtige manier om een factuurnummer te genereren
+            bestelling = bestellingRepository.findByFactuurnummer(tempfactuurnummer);
+            Long factuurnummer = Long.valueOf(bestelDatum.getYear() + bestelling.getId());
+            bestelling.setFactuurnummer(factuurnummer);
+            bestellingRepository.save(bestelling);
         }
         
         else {
-            bestelling = null;
+            Optional bestellingOptional = bestellingRepository.findById(id);
+            bestelling = (Bestelling) bestellingOptional.get();
+            bestelregels = bestelling.getBestelregels();
         }
         
         model.addAttribute(bestelling);
@@ -65,7 +97,7 @@ public class BestelRegelController {
     
     @GetMapping(value="/klant")
     public String klantToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel, 
-            @RequestParam(value="id", required=true) Long id) {
+            @RequestParam(value="id", required=true) Long id, Model model) {
         return "kiesklant";
     }
     
@@ -78,7 +110,7 @@ public class BestelRegelController {
     
     @GetMapping(value="/nieuweregel")
     public String bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel,
-            @RequestParam(value="id", required=true) Long id) {
+            @RequestParam(value="id", required=true) Long id, Model model) {
         return "bestelregelformulier";
     }
     
