@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bestellingen</title>
+</head>
+<body>
+    <h1>Bestellingen</h1>
+
+    <div>
+        
+        <table class="box-table-a">
+            <caption>Overzicht</caption>
+            <thead>
+                    <tr>
+                            <th scope="col" >Factuurnummer</th>
+                            <th scope="col" >Totaalprijs</th>
+                            <th scope="col" >Klant</th>
+                            <th scope="col" >Datum</th>
+                            <th scope="col" >Actie</th>
+                    </tr>
+            </thead>
+            <tbody>
+                    <tr data-th-each="bestelling : ${bestellingen}">
+                            <td data-th-text="${bestelling.factuurnummer}">Factuurnummer</td>
+                            <td data-th-text="${bestelling.totaalprijs}">Totaalprijs</td>
+                            <td data-th-text="${bestelling.klant}">Klant</td>
+                            <td data-th-text="${bestelling.datum}">Datum</td>
+                            <td><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a> | 
+                                <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">pas aan</a>
+                            </td>
+                    </tr>
+            </tbody>
+        </table>
+        <p><a href="/bestelling/add">Nieuwe bestelling</a></p>
+        <p><a href="/">Terug naar home</a></p>
+    </div>
+	
+</body>
+</html>
