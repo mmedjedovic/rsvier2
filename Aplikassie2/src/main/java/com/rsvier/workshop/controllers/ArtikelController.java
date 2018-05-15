@@ -28,12 +28,12 @@ public class ArtikelController {
 	
         @GetMapping
 	public String getOverizicht() {
-		return "artikel";
+            return "artikel";
 	}
 	
 	@GetMapping(value="/add")
 	public String artikelToevoegformulier(@ModelAttribute Artikel artikel) {
-                return "artikelformulier";
+            return "artikelformulier";
         }
         
         @PostMapping(value="/add")
@@ -47,19 +47,19 @@ public class ArtikelController {
         @GetMapping(value="/edit")
 	public ModelAndView artikelWijzigen(@RequestParam(value="id", required=true) Long id) {
 		
-                Optional artikelOptional = artikelRepository.findById(id);
-                Artikel artikel = (Artikel) artikelOptional.get();
-                
-                if(artikel.getArtikelStatus() == Artikel.ArtikelStatus.INACTIEF) {
-                    ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
-                    return modelAndView;
-                }
-                
-                else {
-                    ModelAndView modelAndView = new ModelAndView("artikelformulier");
-                    modelAndView.addObject("artikel",artikel);
-                    return modelAndView;
-                }
+            Optional artikelOptional = artikelRepository.findById(id);
+            Artikel artikel = (Artikel) artikelOptional.get();
+
+            if(artikel.getArtikelStatus() == Artikel.ArtikelStatus.INACTIEF) {
+                ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
+                return modelAndView;
+            }
+
+            else {
+                ModelAndView modelAndView = new ModelAndView("artikelformulier");
+                modelAndView.addObject("artikel",artikel);
+                return modelAndView;
+            }
 	}
 	
 	@PostMapping(value="/edit")
@@ -72,11 +72,11 @@ public class ArtikelController {
 
 	@GetMapping(value="/delete")
 	public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
-		ModelAndView modelAndView = new ModelAndView("artikeldelete");
-		Optional artikelOptional = artikelRepository.findById(id);
-                Artikel artikel = (Artikel) artikelOptional.get();
-		modelAndView.addObject("artikel",artikel);
-		return modelAndView;
+            ModelAndView modelAndView = new ModelAndView("artikeldelete");
+            Optional artikelOptional = artikelRepository.findById(id);
+            Artikel artikel = (Artikel) artikelOptional.get();
+            modelAndView.addObject("artikel",artikel);
+            return modelAndView;
 	}
         
         @PostMapping(value="/delete")
