@@ -11,7 +11,7 @@
         <div th:if="${artikelen == null or #lists.isEmpty(artikelen)}">
             <div><p>Geen artikelen gevonden, voeg eerst iets toe</p></div>
         </div>
-            <div th:if="${artikelen != null or not #lists.isEmpty(artikelen)}">    
+            <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">    
                 <table class="box-table-a">
                 <caption>Overzicht</caption>
                 <thead>
