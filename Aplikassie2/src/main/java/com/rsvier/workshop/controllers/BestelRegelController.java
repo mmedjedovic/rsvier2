@@ -1,5 +1,6 @@
 package com.rsvier.workshop.controllers;
 
+import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.dao.BestelRegelRepository;
 import com.rsvier.workshop.dao.BestellingRepository;
 import com.rsvier.workshop.dao.PersoonRepository;
@@ -8,6 +9,7 @@ import com.rsvier.workshop.domein.BestelRegel;
 import com.rsvier.workshop.domein.Bestelling;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,30 +33,59 @@ public class BestelRegelController {
     @Autowired 
     private PersoonRepository persoonRepository;
     
+    @Autowired
+    private ArtikelRepository artikelRepository;
+    
     @GetMapping
-    public String bestellingToevoegformulier(@ModelAttribute Bestelling bestelling, @ModelAttribute BestelRegel bestelRegel, 
-            Model model) {
+    public String bestellingToevoegformulier(@ModelAttribute BestelRegel bestelRegel, 
+            Model model, @RequestParam(value="id", required=false) Long id) {
         List<BestelRegel> bestelregels = new ArrayList();
+        Bestelling bestelling;
+        
+        if (id != null) {
+            Optional bestellingOptional = bestellingRepository.findById(id);
+            bestelling = (Bestelling) bestellingOptional.get();
+        }
+        
+        else {
+            bestelling = null;
+        }
+        
+        model.addAttribute(bestelling);
         model.addAttribute(bestelregels);
         return "bestellingformulier";
     }
     
     @PostMapping
-    public ModelAndView bestellingToegevoegen (Bestelling bestelling) {
+    public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel) {
         //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
+        return modelAndView;
+    }
+    
+    @GetMapping(value="/klant")
+    public String klantToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel, 
+            @RequestParam(value="id", required=true) Long id) {
+        return "kiesklant";
+    }
+    
+    @PostMapping(value="/klant")
+    public ModelAndView klantToevoegevoegd(BestelRegel bestelregel) {
+        //TODO
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
         return modelAndView;
     }
     
     @GetMapping(value="/nieuweregel")
-    public String bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel) {
+    public String bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel,
+            @RequestParam(value="id", required=true) Long id) {
         return "bestelregelformulier";
     }
     
     @PostMapping(value="/nieuweregel")
     public ModelAndView bestelRegelToevoegevoegd(BestelRegel bestelregel) {
         //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
         return modelAndView;
     }
 
@@ -66,9 +97,9 @@ public class BestelRegelController {
     }
     
     @PostMapping(value="/edit")
-    public ModelAndView bestelRegelGewijzigd(Bestelling bestelling) {
+    public ModelAndView bestelRegelGewijzigd(BestelRegel bestelregel) {
         //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
         return modelAndView;
     }
 
@@ -80,9 +111,9 @@ public class BestelRegelController {
     }
 
     @PostMapping(value="/delete")
-    public ModelAndView bestelRegelVerwijderd(Bestelling bestelling) {
+    public ModelAndView bestelRegelVerwijderd(BestelRegel bestelregel) {
         //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
         return modelAndView;
     }
 }

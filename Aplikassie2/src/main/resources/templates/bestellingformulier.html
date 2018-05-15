@@ -36,7 +36,9 @@
             
         </div>    
         
-        <p><a href="add/nieuweregel">Artikel toevoegen</a></p>
+        <p><a data-th-href="@{add/nieuweregel(id=${bestelling.id})}">Artikel toevoegen</a></p>
+        <p><a data-th-href="@{add/klant(id=${bestelling.id})}">Klant toevoegen of wijzigen</a></p>
+        <p><a href="/bestelling">Terug naar overzicht</a></p>
         <p><a href="/">Terug naar home</a></p>
         
     </div>
