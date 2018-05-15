@@ -30,8 +30,8 @@
                                 <td data-th-text="${bestelregel.artikel.naam}">Naam</td>
                                 <td data-th-text="${bestelregel.prijs}">Prijs</td>
                                 <td data-th-text="${bestelregel.aantal}">Voorraad</td>
-                                <td><a href="#" data-th-href="@{/bestelregel/delete(id=${bestelregel.id})}">verwijder</a> | 
-                                    <a href="#" data-th-href="@{/bestelregel/edit(id=${bestelregel.id})}">pas aan</a>
+                                <td><a href="#" data-th-href="@{/bestelregel/delete(bestelregel_id=${bestelregel.id})(bestelling_id=${bestelling.id})}">verwijder</a> | 
+                                    <a href="#" data-th-href="@{/bestelregel/edit(bestelregel_id=${bestelregel.id})(bestelling_id=${bestelling.id})}">pas aan</a>
                                 </td>
                         </tr>
                 </tbody>
