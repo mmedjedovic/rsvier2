@@ -21,107 +21,107 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value="/bestelling")
 public class BestellingController {
 	
-        @Autowired
-	private BestellingRepository bestellingRepository;
-        
-        @Autowired
-        private BestelRegelRepository bestelRegelRepository;
-        
-        @Autowired
-        private PersoonRepository persoonRepository;
+    @Autowired
+    private BestellingRepository bestellingRepository;
 
-        @ModelAttribute("allebestellingen")
-        public List<Bestelling> alleBestellingen() {
-            Iterable<Bestelling> bestellingenIterable = bestellingRepository.findAll();
-            List<Bestelling> bestellingen = new ArrayList();
-            bestellingenIterable.forEach(bestellingen::add);
-            return bestellingen;
-        }
-        
-        @ModelAttribute("bestellingen")
-        public List<Bestelling> actieveBestellingen() {
-            List<Bestelling> bestellingen = bestellingRepository.findActief();
-            return bestellingen;
-        }
-        
-        @GetMapping
-	public String getOverizicht() {
-            return "bestelling";
-	}
-	
-	@GetMapping(value="/edit")
-	public ModelAndView bestellingWijzigen(@RequestParam(value="id", required=true) Long id) {
-            Optional bestellingOptional = bestellingRepository.findById(id);
-            Bestelling bestelling = (Bestelling) bestellingOptional.get();
-            List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
-            ModelAndView modelAndView;
-            
-            switch (bestelling.getStatus()) {
-                case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
-                                break;
-                case VERZONDEN: modelAndView = new ModelAndView("bekijkbestelling");
-                                modelAndView.addObject("bestelling", bestelling);
-                                modelAndView.addObject("bestelregels", bestelregels);
-                                break;
-                default:        modelAndView = new ModelAndView("bestellingformulier");
-                                modelAndView.addObject("bestelling", bestelling);
-                                modelAndView.addObject("bestelregels", bestelregels);
-                                break;
-            }
-            
-            return modelAndView;
-        }
-	
-	@PostMapping(value="/edit")
-	public ModelAndView bestellingGewijzigd(Bestelling bestelling) {
-            bestellingRepository.save(bestelling);
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
-            return modelAndView;
-	}
+    @Autowired
+    private BestelRegelRepository bestelRegelRepository;
 
-	@GetMapping(value="/delete")
-	public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
-            ModelAndView modelAndView = new ModelAndView("bestellingdelete");
-            Optional bestellingOptional = bestellingRepository.findById(id);
-            Bestelling bestelling = (Bestelling) bestellingOptional.get();
-            modelAndView.addObject("bestelling",bestelling);
-            return modelAndView;
-	}
-        
-        @PostMapping(value="/delete")
-	public ModelAndView verwijderBestellingPagina(Bestelling bestelling) {
-            bestelling.setStatus(Bestelling.Status.GESLOTEN);
-            bestellingRepository.save(bestelling);
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
-            return modelAndView;
-	}
-        
-        @GetMapping(value="/verzonden")
-	public ModelAndView verzendBevestiging(@RequestParam(value="id", required=true) Long id) {
-            Optional bestellingOptional = bestellingRepository.findById(id);
-            Bestelling bestelling = (Bestelling) bestellingOptional.get();
-            List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
-            ModelAndView modelAndView;
-            
-            switch (bestelling.getStatus()) {
-                case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
-                                break;
-                case VERZONDEN: modelAndView = new ModelAndView("redirect:/bestelling");
-                                break;
-                default:        modelAndView = new ModelAndView("bestellingverzend");
-                                modelAndView.addObject("bestelling", bestelling);
-                                modelAndView.addObject("bestelregels", bestelregels);
-                                break;
-            }
-            
-            return modelAndView;
-	}
-        
-        @PostMapping(value="/verzonden")
-	public ModelAndView verzendBestellingPagina(Bestelling bestelling) {
-            bestelling.setStatus(Bestelling.Status.VERZONDEN);
-            bestellingRepository.save(bestelling);
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
-            return modelAndView;
-	}
+    @Autowired
+    private PersoonRepository persoonRepository;
+
+    @ModelAttribute("allebestellingen")
+    public List<Bestelling> alleBestellingen() {
+        Iterable<Bestelling> bestellingenIterable = bestellingRepository.findAll();
+        List<Bestelling> bestellingen = new ArrayList();
+        bestellingenIterable.forEach(bestellingen::add);
+        return bestellingen;
+    }
+
+    @ModelAttribute("bestellingen")
+    public List<Bestelling> actieveBestellingen() {
+        List<Bestelling> bestellingen = bestellingRepository.findActief();
+        return bestellingen;
+    }
+
+    @GetMapping
+    public String getOverizicht() {
+        return "bestelling";
+    }
+
+    @GetMapping(value="/edit")
+    public ModelAndView bestellingWijzigen(@RequestParam(value="id", required=true) Long id) {
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
+        ModelAndView modelAndView;
+
+        switch (bestelling.getStatus()) {
+            case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
+                            break;
+            case VERZONDEN: modelAndView = new ModelAndView("bekijkbestelling");
+                            modelAndView.addObject("bestelling", bestelling);
+                            modelAndView.addObject("bestelregels", bestelregels);
+                            break;
+            default:        modelAndView = new ModelAndView("bestellingformulier");
+                            modelAndView.addObject("bestelling", bestelling);
+                            modelAndView.addObject("bestelregels", bestelregels);
+                            break;
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping(value="/edit")
+    public ModelAndView bestellingGewijzigd(Bestelling bestelling) {
+        bestellingRepository.save(bestelling);
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
+
+    @GetMapping(value="/delete")
+    public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("bestellingdelete");
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        modelAndView.addObject("bestelling",bestelling);
+        return modelAndView;
+    }
+
+    @PostMapping(value="/delete")
+    public ModelAndView verwijderBestellingPagina(Bestelling bestelling) {
+        bestelling.setStatus(Bestelling.Status.GESLOTEN);
+        bestellingRepository.save(bestelling);
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
+
+    @GetMapping(value="/verzonden")
+    public ModelAndView verzendBevestiging(@RequestParam(value="id", required=true) Long id) {
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
+        ModelAndView modelAndView;
+
+        switch (bestelling.getStatus()) {
+            case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
+                            break;
+            case VERZONDEN: modelAndView = new ModelAndView("redirect:/bestelling");
+                            break;
+            default:        modelAndView = new ModelAndView("bestellingverzend");
+                            modelAndView.addObject("bestelling", bestelling);
+                            modelAndView.addObject("bestelregels", bestelregels);
+                            break;
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping(value="/verzonden")
+    public ModelAndView verzendBestellingPagina(Bestelling bestelling) {
+        bestelling.setStatus(Bestelling.Status.VERZONDEN);
+        bestellingRepository.save(bestelling);
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
 }
