@@ -94,6 +94,10 @@ public class BestelRegelController {
             @RequestParam(value="id", required=true) Long id, Bestelling bestelling) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         bestelling = (Bestelling) bestellingOptional.get();
+        Set<BestelRegel> bestelRegels = bestelling.getBestelregels();
+        bestelRegels.add(bestelregel);
+        bestelling.setBestelregels(bestelRegels);
+        bestellingRepository.save(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
         return modelAndView;
     }
