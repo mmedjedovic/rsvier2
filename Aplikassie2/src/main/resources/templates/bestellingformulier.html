@@ -11,6 +11,8 @@
         <div th:if="${bestelregels == null or #lists.isEmpty(bestelregels)}">
             <div><p>Deze bestelling is leeg.</p></div>
         </div>
+        <p data-th-text="${bestelling.klant}">Klant</p>
+                    
             <div th:if="${bestelregels != null and not #lists.isEmpty(bestelregels)}">    
                 <table class="box-table-a">
                 <caption>Overzicht</caption>
@@ -23,6 +25,7 @@
                         </tr>
                 </thead>
                 <tbody>
+                    
                         <tr data-th-each="bestelregel : ${bestelregels}">
                                 <td data-th-text="${bestelregel.artikel.naam}">Naam</td>
                                 <td data-th-text="${bestelregel.prijs}">Prijs</td>

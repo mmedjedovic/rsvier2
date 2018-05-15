@@ -81,8 +81,10 @@ public class BestellingController {
 
 	@GetMapping(value="/delete")
 	public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
-            //TODO
             ModelAndView modelAndView = new ModelAndView("bestellingdelete");
+            Optional bestellingOptional = bestellingRepository.findById(id);
+            Bestelling bestelling = (Bestelling) bestellingOptional.get();
+            modelAndView.addObject("bestelling",bestelling);
             return modelAndView;
 	}
         
