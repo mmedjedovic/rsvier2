@@ -72,7 +72,8 @@ public class BestelRegelController {
             
             //super omslachtige manier om een factuurnummer te genereren
             bestelling = bestellingRepository.findByFactuurnummer(tempfactuurnummer);
-            Long factuurnummer = Long.valueOf(bestelDatum.getYear() + bestelling.getId());
+            String factuurstring = String.valueOf(bestelDatum.getYear() + String.valueOf(bestelling.getId()));
+            Long factuurnummer = Long.valueOf(factuurstring);
             bestelling.setFactuurnummer(factuurnummer);
             bestellingRepository.save(bestelling);
         }
