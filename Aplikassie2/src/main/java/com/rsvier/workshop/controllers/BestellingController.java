@@ -54,9 +54,21 @@ public class BestellingController {
             Optional bestellingOptional = bestellingRepository.findById(id);
             Bestelling bestelling = (Bestelling) bestellingOptional.get();
             List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
-            ModelAndView modelAndView = new ModelAndView("bestellingformulier");
-            modelAndView.addObject("bestelling", bestelling);
-            modelAndView.addObject("bestelregels", bestelregels);
+            ModelAndView modelAndView;
+            
+            switch (bestelling.getStatus()) {
+                case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
+                                break;
+                case VERZONDEN: modelAndView = new ModelAndView("bekijkbestelling");
+                                modelAndView.addObject("bestelling", bestelling);
+                                modelAndView.addObject("bestelregels", bestelregels);
+                                break;
+                default:        modelAndView = new ModelAndView("bestellingformulier");
+                                modelAndView.addObject("bestelling", bestelling);
+                                modelAndView.addObject("bestelregels", bestelregels);
+                                break;
+            }
+            
             return modelAndView;
         }
 	
@@ -77,6 +89,35 @@ public class BestellingController {
         @PostMapping(value="/delete")
 	public ModelAndView verwijderBestellingPagina(Bestelling bestelling) {
             bestelling.setStatus(Bestelling.Status.GESLOTEN);
+            bestellingRepository.save(bestelling);
+            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+            return modelAndView;
+	}
+        
+        @GetMapping(value="/verzonden")
+	public ModelAndView verzendBevestiging(@RequestParam(value="id", required=true) Long id) {
+            Optional bestellingOptional = bestellingRepository.findById(id);
+            Bestelling bestelling = (Bestelling) bestellingOptional.get();
+            List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
+            ModelAndView modelAndView;
+            
+            switch (bestelling.getStatus()) {
+                case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
+                                break;
+                case VERZONDEN: modelAndView = new ModelAndView("redirect:/bestelling");
+                                break;
+                default:        modelAndView = new ModelAndView("bestellingverzend");
+                                modelAndView.addObject("bestelling", bestelling);
+                                modelAndView.addObject("bestelregels", bestelregels);
+                                break;
+            }
+            
+            return modelAndView;
+	}
+        
+        @PostMapping(value="/verzonden")
+	public ModelAndView verzendBestellingPagina(Bestelling bestelling) {
+            bestelling.setStatus(Bestelling.Status.VERZONDEN);
             bestellingRepository.save(bestelling);
             ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
             return modelAndView;

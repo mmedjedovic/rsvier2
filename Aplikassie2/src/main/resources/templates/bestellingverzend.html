@@ -6,7 +6,7 @@
     </head>
     <body>
         
-        <h1>Deze bestelling zal worden verwijderd, zeker weten?</h1>
+        <h1>Deze bestelling wordt als verzonden ingsteld. Aanpassen is hierna niet meer mogelijk. Zeker weten?</h1>
         
         <form name='f' th:object="${bestelling}" method='POST' >
                 <input type="hidden" th:value= "${bestelling.Id}"th:field="*{id}" readonly/>
@@ -42,7 +42,7 @@
                     </tr>
 
                     <tr>
-                        <td><input name="submit" type="submit" value="Verwijder" /></td>
+                        <td><input name="submit" type="submit" value="Deze bestelling is verzonden" /></td>
                         <td><a href="/bestelling">Terug</a></td>
                     </tr>
                     

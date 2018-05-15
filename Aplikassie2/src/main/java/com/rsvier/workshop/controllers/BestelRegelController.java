@@ -3,6 +3,7 @@ package com.rsvier.workshop.controllers;
 import com.rsvier.workshop.dao.BestelRegelRepository;
 import com.rsvier.workshop.dao.BestellingRepository;
 import com.rsvier.workshop.dao.PersoonRepository;
+import com.rsvier.workshop.domein.Artikel;
 import com.rsvier.workshop.domein.BestelRegel;
 import com.rsvier.workshop.domein.Bestelling;
 import java.util.ArrayList;
@@ -45,24 +46,43 @@ public class BestelRegelController {
         return modelAndView;
     }
     
-    @PostMapping(value="/edit")
-	public ModelAndView bestellingGewijzigd(Bestelling bestelling) {
-            //TODO
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
-            return modelAndView;
-	}
+    @GetMapping(value="/nieuweregel")
+    public String bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel) {
+        return "bestelregelformulier";
+    }
+    
+    @PostMapping(value="/nieuweregel")
+    public ModelAndView bestelRegelToevoegevoegd(BestelRegel bestelregel) {
+        //TODO
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
 
-	@GetMapping(value="/delete")
-	public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
-            //TODO
-            ModelAndView modelAndView = new ModelAndView("bestellingdelete");
-            return modelAndView;
-	}
-        
-        @PostMapping(value="/delete")
-	public ModelAndView verwijderBestellingPagina(Bestelling bestelling) {
-            //TODO
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
-            return modelAndView;
-	}
+    @GetMapping(value="/edit")
+    public ModelAndView wijzigBestelRegel(@RequestParam(value="id", required=true) Long id) {
+        //TODO
+        ModelAndView modelAndView = new ModelAndView("bestellingdelete");
+        return modelAndView;
+    }
+    
+    @PostMapping(value="/edit")
+    public ModelAndView bestelRegelGewijzigd(Bestelling bestelling) {
+        //TODO
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
+
+    @GetMapping(value="/delete")
+    public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
+        //TODO
+        ModelAndView modelAndView = new ModelAndView("bestellingdelete");
+        return modelAndView;
+    }
+
+    @PostMapping(value="/delete")
+    public ModelAndView bestelRegelVerwijderd(Bestelling bestelling) {
+        //TODO
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
 }

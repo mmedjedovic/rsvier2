@@ -21,6 +21,7 @@
                                 <th scope="col" >Totaalprijs</th>
                                 <th scope="col" >Klant</th>
                                 <th scope="col" >Datum</th>
+                                <th scope="col" >Status</th>
                                 <th scope="col" >Actie</th>
                         </tr>
                 </thead>
@@ -30,8 +31,10 @@
                                 <td data-th-text="${bestelling.totaalprijs}">Totaalprijs</td>
                                 <td data-th-text="${bestelling.klant}">Klant</td>
                                 <td data-th-text="${bestelling.datum}">Datum</td>
+                                <td data-th-text="${bestelling.status}">Status</td>
                                 <td><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a> | 
-                                    <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">pas aan</a>
+                                    <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">pas aan</a> | 
+                                    <a href="#" data-th-href="@{/bestelling/verzonden(id=${bestelling.id})}">stel in als verzonden</a>
                                 </td>
                         </tr>
                 </tbody>
