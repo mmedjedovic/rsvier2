@@ -24,12 +24,12 @@
                         </td>
                         <td>
                             <label for="voorraad">Klant:</label>
-                            <input type="text" th:value= "${bestelling.klant.achterNaam}"th:field="*{klant}" readonly/>
+                            <input type="text" th:value= "${bestelling.klant}"th:field="*{klant}" readonly/>
                             
                         </td>
                         <td>
                             <label for="voorraad">Datum:</label>
-                            <input type="text" th:value= "${bestelling.datum}"th:field="*{datum}" readonly/>
+                            <input type="text" th:value= "${bestelling.bestelDatum}"th:field="*{bestelDatum}" readonly/>
                             
                         </td>
                         
@@ -42,7 +42,7 @@
                     </tr>
 
                     <tr>
-                        <td><input name="submit" type="submit" value="Deze bestelling is verzonden" /></td>
+                        <td><input name="submit" type="submit" value="Deze bestelling als verzonden instellen" /></td>
                         <td><a href="/bestelling">Terug</a></td>
                     </tr>
                     
