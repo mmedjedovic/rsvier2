@@ -91,7 +91,7 @@ public class BestelRegelController {
     
     @PostMapping
     public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel, 
-            @RequestParam(value="id", required=true) Long id, Bestelling bestelling) {
+            @RequestParam(value="id", required=true) Long id, @ModelAttribute Bestelling bestelling) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         bestelling = (Bestelling) bestellingOptional.get();
         Set<BestelRegel> bestelRegels = bestelling.getBestelregels();
