@@ -1,7 +1,9 @@
 package com.rsvier.workshop.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.Adres;
@@ -25,12 +28,8 @@ import com.rsvier.workshop.domein.Persoon.PersoonStatus;
 @SessionAttributes("persoon")
 public class KlantController {
 	
-	CrudRepository repository;
-	
 	@Autowired
-	public KlantController(PersoonRepository persoonRepository) {
-		repository = persoonRepository;
-	}
+	PersoonRepository repository;
 	
 	@ModelAttribute("persoon")
 	public Persoon getPersoon() {
@@ -48,12 +47,12 @@ public class KlantController {
 	}
 	
 	@PostMapping("/register")
-	public String registerKlant(@ModelAttribute("persoon") Persoon persoon) {
+	public ModelAndView registerKlant(@ModelAttribute("persoon") Persoon persoon) {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setAdresSoort(persoon);
 		repository.save(persoon);
-		return "nogtemaken";
+		return new ModelAndView("redirect:/test");
 	}
 	
 	@GetMapping("/klantenzaken")
@@ -61,12 +60,17 @@ public class KlantController {
 		return "klantenzaken";
 	}
 	
-	@GetMapping("test")
+	@GetMapping("/klantenoverzicht")
 	public String getTest(@ModelAttribute("persoon") Persoon persoon, Model model) {
-		persoon.setVoorNaam("bu");
-		String statusName = persoon.getPersoonStatus().name();
-		model.addAttribute("statusName", statusName);
-		return "test";
+		Iterable<Persoon> persoonList = new ArrayList<Persoon>();
+		PersoonStatus status = persoon.getPersoonStatus();
+		if(status != null) {
+			persoonList = repository.findByPersoonStatus(status);
+		} else {
+			persoonList = repository.findAll();
+		}
+		model.addAttribute("persoonList", persoonList);
+		return "klantenoverzicht";
 	}
 	
 	
