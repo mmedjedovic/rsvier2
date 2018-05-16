@@ -1,16 +1,47 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wijs een klant toe</title>
+</head>
+<body>
+    <h1 data-th-text="${'Wijs een klant toe aan bestelling met factuurnummer ' + bestelling.factuurnummer}"></h1>
+    
+    <div>
+        <div th:if="${klanten == null or #lists.isEmpty(klanten)}">
+            <p><a href="/klantformulier">Er staan nog geen klanten in het systeem, voeg deze eerst toe</a></p>
+        </div>
+        
+                    
+            <div th:if="${klanten != null and not #lists.isEmpty(klanten)}">    
+                <table class="box-table-a">
+                <caption>Overzicht</caption>
+                <thead>
+                        <tr>
+                                <th scope="col" >Naam</th>
+                                <th scope="col" >Geboortedatum</th>
+                                <th scope="col" >Toewijzen</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    
+                        <tr data-th-each="klantkeuze : ${klanten}">
+                                <td data-th-text="${klantkeuze.achterNaam + ', ' + klantkeuze.voorNaam + ' ' + klantkeuze.tussenVoegsel}">Naam</td>
+                                <td data-th-text="${klantkeuze.geboorteDatum}">Geboortedatum</td>
+                                <td>
+                                    <a href="#" data-th-href="@{/bestelling/add/klant(id=${bestelling.id}, klant_id=${klantkeuze.id})}">voeg toe</a> 
+                                </td>
+                        </tr>
+                </tbody>
+            </table>
+            
+        </div>    
+        
+        <p><a href="#" data-th-href="@{/bestellingformulier(id=${bestelling.id})}">Terug naar bestelling</a></p>
+        <p><a href="/bestelling">Terug naar bestellingenoverzicht</a></p>
+        <p><a href="/">Terug naar home</a></p>
+        
+    </div>
+	
+</body>
 </html>
