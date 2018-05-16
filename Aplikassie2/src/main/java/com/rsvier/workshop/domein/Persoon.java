@@ -56,7 +56,7 @@ public class Persoon {
     protected AccountSoort accountSoort;
     
     @Enumerated(EnumType.STRING)
-    @Column(name="persoon_status", nullable=false)
+    @Column(name="persoon_status")
     public PersoonStatus persoonStatus;
     
     @Column(nullable=false)

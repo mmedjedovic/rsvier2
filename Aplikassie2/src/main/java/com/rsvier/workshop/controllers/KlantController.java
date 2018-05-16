@@ -1,41 +1,49 @@
 package com.rsvier.workshop.controllers;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.Adres;
-import com.rsvier.workshop.domein.Adres.AdresSoort;
 import com.rsvier.workshop.domein.Persoon;
+import com.rsvier.workshop.domein.Adres.AdresSoort;
 import com.rsvier.workshop.domein.Persoon.AccountSoort;
 import com.rsvier.workshop.domein.Persoon.PersoonStatus;
 
 @Controller
-@RequestMapping("/register")
-public class RegisterKlantController {
+@RequestMapping
+public class KlantController {
 	
 	CrudRepository repository;
 	
-	
 	@Autowired
-	public RegisterKlantController(PersoonRepository persoonRepository) {
+	public KlantController(PersoonRepository persoonRepository) {
 		repository = persoonRepository;
+	}
+	
+	@ModelAttribute("persoon")
+	public Persoon getPersoon() {
+		return new Persoon();
 	}
 	
 	
 	
-	@PostMapping
-	public String registerKlant(Persoon persoon) {
+	@GetMapping("/klantformulier")
+	public String getFormulier(Model model) {
+		return "klantformulier";
+	}
+	
+	@PostMapping("/register")
+	public String registerKlant(@ModelAttribute("persoon") Persoon persoon) {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setAdresSoort(persoon);
@@ -48,4 +56,5 @@ public class RegisterKlantController {
 		Iterator<Adres> iterator = collection.iterator();
 		iterator.next().setAdresSoort(AdresSoort.WOONADRES);
 	}
+
 }

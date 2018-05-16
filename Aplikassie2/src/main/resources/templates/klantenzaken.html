@@ -12,9 +12,11 @@
 	</div>
 	<div>
 		<p><b>Klanten overzicht maken</b></p>
-		<form method="GET" action="/klantenoverzicht" th:action="@{/klantenoverzicht}" th:object="${statusName}">
-			<select th:field="${statusName}">
-				<option th:each="statusName: ${persoonStatusNames}" th:value="${statusName}" th:text="${statusName}"></option> 
+		<form method="GET" action="/klantenoverzicht" th:action="@{/klantenoverzicht}" th:object="${persoon}">
+			<select th:field="*{persoonStatus}">
+				<option th:each="persoonStatus: ${T(com.rsvier.workshop.domein.Persoon.PersoonStatus).values()}" 
+						th:value="${persoonStatus}" 
+						th:text="${persoonStatus}"></option> 
 			</select>
 			<br><br>
 			<input type="submit" value="select" name="select">
