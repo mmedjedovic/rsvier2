@@ -102,38 +102,6 @@ public class BestelRegelController {
         return modelAndView;
     }
     
-    @GetMapping(value="/klant")
-    public ModelAndView klantToevoegen(@RequestParam(value="id", required=true) Long id, 
-            @RequestParam(value="klant_id", required=false) Long klant_id, @ModelAttribute Persoon klant) {
-        
-        if (klant_id == null) {
-            ModelAndView modelAndView = new ModelAndView("kiesklant");
-            Optional bestellingOptional = bestellingRepository.findById(id);
-            Bestelling bestelling = (Bestelling) bestellingOptional.get();
-            modelAndView.addObject("bestelling",bestelling);
-
-            Iterable<Persoon> klantIterable = persoonRepository.findAll();
-            List<Persoon> klanten = new ArrayList();
-            klantIterable.forEach(klanten::add);
-            modelAndView.addObject("klanten",klanten);
-
-            return modelAndView;
-        }
-        
-        else {
-            ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
-            Optional bestellingOptional = bestellingRepository.findById(id);
-            Bestelling bestelling = (Bestelling) bestellingOptional.get();
-
-            Optional klantOptional = persoonRepository.findById(klant_id);
-            klant = (Persoon) klantOptional.get();
-
-            bestelling.setKlant(klant);
-            bestellingRepository.save(bestelling);
-            return modelAndView;
-        }
-    }
-    
     @GetMapping(value="/nieuweregel")
     public String bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel,
             @RequestParam(value="id", required=true) Long id, Model model) {
