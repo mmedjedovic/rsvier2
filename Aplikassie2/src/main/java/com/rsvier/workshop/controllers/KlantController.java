@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.Adres;
@@ -21,6 +22,7 @@ import com.rsvier.workshop.domein.Persoon.PersoonStatus;
 
 @Controller
 @RequestMapping
+@SessionAttributes("persoon")
 public class KlantController {
 	
 	CrudRepository repository;
@@ -35,7 +37,10 @@ public class KlantController {
 		return new Persoon();
 	}
 	
-	
+	@GetMapping("klant")
+	public String getKlantMenu() {
+		return "klant";
+	}
 	
 	@GetMapping("/klantformulier")
 	public String getFormulier(Model model) {
@@ -50,6 +55,21 @@ public class KlantController {
 		repository.save(persoon);
 		return "nogtemaken";
 	}
+	
+	@GetMapping("/klantenzaken")
+	public String getKlantenZaken() {
+		return "klantenzaken";
+	}
+	
+	@GetMapping("test")
+	public String getTest(@ModelAttribute("persoon") Persoon persoon, Model model) {
+		persoon.setVoorNaam("bu");
+		String statusName = persoon.getPersoonStatus().name();
+		model.addAttribute("statusName", statusName);
+		return "test";
+	}
+	
+	
 	
 	private void setAdresSoort(Persoon persoon) {
 		Collection<Adres> collection = persoon.getAdresCollection();
