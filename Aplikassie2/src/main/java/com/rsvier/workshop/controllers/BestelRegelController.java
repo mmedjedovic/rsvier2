@@ -103,7 +103,7 @@ public class BestelRegelController {
     }
     
     @GetMapping(value="/nieuweregel")
-    public ModelAndView bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel,
+    public ModelAndView bestelRegelToevoegen(@ModelAttribute("bestelregel") BestelRegel bestelregel, @ModelAttribute("artikel") Artikel artikel,
             @RequestParam(value="id", required=true) Long id) {
         ModelAndView modelAndView = new ModelAndView("bestelregelformulier");
         
