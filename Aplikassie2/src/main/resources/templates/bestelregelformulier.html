@@ -1,16 +1,51 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Artikel aan bestellling toevoegen</title>
+</head>
+<body>
+    <h1 data-th-text="${'Voeg een artikel toe aan bestelling met factuurnummer ' + bestelling.factuurnummer}"></h1>
+    
+    <div>
+        <div th:if="${artikellijst == null or #lists.isEmpty(artikellijst)}">
+            <p><a href="/artikelformulier">Er staan nog geen artikelen in het systeem, voeg deze eerst toe</a></p>
+        </div>
+        
+                    
+        <div th:if="${artikellijst != null and not #lists.isEmpty(artikellijst)}">    
+            <form name='form' method='POST'>
+                <table>
+                    <tr>
+                        <td>Kies artikel:</td>
+                        <td>
+                            <select th:field="*{artikel.id}">
+                                 <option th:each="artikeloptie : ${artikellijst}"
+                                    th:value="${artikeloptie.id}"
+                                    th:utext="${artikeloptie.naam + ' €' + artikeloptie.prijs + ' (voorraad: ' + artikeloptie.voorraad + ')'}"/>
+                          </select>
+
+                        </td>
+                        <td>
+                            <label for="aantal">Aantal:</label>
+                            <input type="text" th:field="*{bestelRegel.aantal}"/>
+                            <input type="hidden" th:value= "${bestelling.Id}"th:field="*{bestelling.id}" />
+                            
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><input name="submit" type="submit" value="Voeg toe" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>    
+        
+        <p><a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">Terug naar bestelling</a></p>
+        <p><a href="/bestelling">Terug naar bestellingenoverzicht</a></p>
+        <p><a href="/">Terug naar home</a></p>
+        
+    </div>
+	
+</body>
 </html>

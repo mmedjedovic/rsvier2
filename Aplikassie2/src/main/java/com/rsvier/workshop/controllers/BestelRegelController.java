@@ -103,15 +103,53 @@ public class BestelRegelController {
     }
     
     @GetMapping(value="/nieuweregel")
-    public String bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel,
-            @RequestParam(value="id", required=true) Long id, Model model) {
-        return "bestelregelformulier";
+    public ModelAndView bestelRegelToevoegen(@ModelAttribute BestelRegel bestelregel, @ModelAttribute Artikel artikel,
+            @RequestParam(value="id", required=true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("bestelregelformulier");
+        
+        List<Artikel> artikellijst = artikelRepository.findActief();
+        modelAndView.addObject("artikellijst", artikellijst);
+        
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        modelAndView.addObject("bestelling",bestelling);
+        
+        return modelAndView;
     }
     
     @PostMapping(value="/nieuweregel")
-    public ModelAndView bestelRegelToevoegevoegd(BestelRegel bestelregel) {
-        //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
+    public ModelAndView bestelRegelToegevoegd(BestelRegel bestelregel, Artikel artikel, Bestelling bestelling) {
+        System.out.println("BESTELREGEL " + bestelregel.getId());
+        System.out.println("ARTIKEL " + artikel.getId());
+        System.out.println("BESTELLING " + bestelling.getId());
+        Optional artikelOptional = artikelRepository.findById(artikel.getId());
+        artikel = (Artikel) artikelOptional.get();
+        
+        if (bestelregel.getAantal() > artikel.getVoorraad()) {
+            //TODO errorhandling
+        }
+        
+        artikel.setVoorraad(artikel.getVoorraad() - bestelregel.getAantal());
+        artikelRepository.save(artikel);
+        
+        Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
+        bestelling = (Bestelling) bestellingOptional.get();
+        
+        BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
+        BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
+        BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
+        BigDecimal x = aantalartikelen.multiply(artikelprijs);
+        BigDecimal nieuwetotaalprijs = oudetotaalprijs.add(x);
+        
+        bestelling.setTotaalprijs(nieuwetotaalprijs);
+        bestellingRepository.save(bestelling);
+        
+        bestelregel.setArtikel(artikel);
+        bestelregel.setBestelling(bestelling);
+        bestelregel.setArtikelPrijs(artikel.getPrijs());
+        bestelRegelRepository.save(bestelregel);
+
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
         return modelAndView;
     }
 

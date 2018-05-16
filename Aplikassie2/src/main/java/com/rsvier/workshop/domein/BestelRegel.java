@@ -32,6 +32,8 @@ public class BestelRegel {
     
     @Column(nullable = false)
     protected int aantal;
+    
+    public BestelRegel() {}
 
     public Long getId() {
         return id;
