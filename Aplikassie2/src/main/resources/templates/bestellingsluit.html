@@ -2,11 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Bestelling verwijderen?</title>
+        <title>Bestelling sluiten?</title>
     </head>
     <body>
         
-        <h1>Deze bestelling zal verwijderd worden uit de database, zeker weten?</h1>
+        <h1>Deze bestelling zal gesloten worden en is daarna niet meer aan te passen, zeker weten?</h1>
         
         <form name='f' th:object="${bestelling}" method='POST' >
                 <input type="hidden" th:value= "${bestelling.Id}"th:field="*{id}" readonly/>
@@ -43,7 +43,7 @@
                     
 
                     <tr>
-                        <td><input name="submit" type="submit" value="Verwijder" /></td>
+                        <td><input name="submit" type="submit" value="Sluit" /></td>
                         <td><a href="/bestelling">Terug</a></td>
                     </tr>
                     

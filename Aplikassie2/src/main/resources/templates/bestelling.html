@@ -28,23 +28,28 @@
                 <tbody>
                         <tr data-th-each="bestelling : ${bestellingen}">
                                 <td data-th-text="${bestelling.factuurnummer}">Factuurnummer</td>
-                                <td data-th-text="${bestelling.totaalprijs}">Totaalprijs</td>
+                                <td data-th-text="'€' + ${bestelling.totaalprijs}">Totaalprijs</td>
                                 <td data-th-text="${bestelling.klant}">Klant</td>
                                 <td data-th-text="${bestelling.bestelDatum}">Datum</td>
                                 <td data-th-text="${bestelling.status}">Status</td>
                                 
-                                <td><div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).OPEN}"><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">sluit</a> | 
-                                    <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">pas aan</a> | 
-                                    <a href="#" data-th-href="@{/bestelling/verzonden(id=${bestelling.id})}">stel in als verzonden</a></div>
-                                    <div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).VERZONDEN}"><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">sluit</a> | 
-                                    <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">bekijk</a>
+                                <td><div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).OPEN}"><a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">pas aan</a> | 
+                                    <a href="#" data-th-href="@{/bestelling/close(id=${bestelling.id})}">sluit</a> | <a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a></div>
+                                    
+                                    <div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).GESLOTEN}"> <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">bekijk</a> | 
+                                        <a href="#" data-th-href="@{/bestelling/verzonden(id=${bestelling.id})}">stel in als verzonden</a> | 
+                                        <a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a></div>
+                                    
+                                    <div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).VERZONDEN}"><a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">bekijk</a> | 
+                                        <a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a></div> 
+                                    </td>
                                     </div>
                                 </td>
-                                    
+                                </div>        
                         </tr>
                 </tbody>
             </table>
-        </div>    
+            
         <p><a href="/bestelling/add">Nieuwe bestelling</a></p>
         <p><a href="/">Terug naar home</a></p>
     </div>

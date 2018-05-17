@@ -1,11 +1,14 @@
 package com.rsvier.workshop.controllers;
 
+import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.dao.BestelRegelRepository;
 import com.rsvier.workshop.dao.BestellingRepository;
 import com.rsvier.workshop.dao.PersoonRepository;
+import com.rsvier.workshop.domein.Artikel;
 import com.rsvier.workshop.domein.BestelRegel;
 import com.rsvier.workshop.domein.Bestelling;
 import com.rsvier.workshop.domein.Persoon;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,18 +33,15 @@ public class BestellingController {
 
     @Autowired
     private PersoonRepository persoonRepository;
-
-    @ModelAttribute("allebestellingen")
-    public List<Bestelling> alleBestellingen() {
-        Iterable<Bestelling> bestellingenIterable = bestellingRepository.findAll();
-        List<Bestelling> bestellingen = new ArrayList();
-        bestellingenIterable.forEach(bestellingen::add);
-        return bestellingen;
-    }
+    
+    @Autowired
+    private ArtikelRepository artikelRepository;
 
     @ModelAttribute("bestellingen")
     public List<Bestelling> actieveBestellingen() {
-        List<Bestelling> bestellingen = bestellingRepository.findActief();
+        Iterable<Bestelling> bestellingenIterable = bestellingRepository.findAll();
+        List<Bestelling> bestellingen = new ArrayList();
+        bestellingenIterable.forEach(bestellingen::add);
         return bestellingen;
     }
 
@@ -57,19 +57,18 @@ public class BestellingController {
         List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
         ModelAndView modelAndView;
 
-        switch (bestelling.getStatus()) {
-            case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
-                            break;
-            case VERZONDEN: modelAndView = new ModelAndView("bekijkbestelling");
-                            modelAndView.addObject("bestelling", bestelling);
-                            modelAndView.addObject("bestelregels", bestelregels);
-                            break;
-            default:        modelAndView = new ModelAndView("bestellingformulier");
-                            modelAndView.addObject("bestelling", bestelling);
-                            modelAndView.addObject("bestelregels", bestelregels);
-                            break;
+        if (bestelling.getStatus() == Bestelling.Status.OPEN) {
+            modelAndView = new ModelAndView("bestellingformulier");
+            modelAndView.addObject("bestelling", bestelling);
+            modelAndView.addObject("bestelregels", bestelregels);
         }
-
+        
+        else {
+            modelAndView = new ModelAndView("bekijkbestelling");
+            modelAndView.addObject("bestelling", bestelling);
+            modelAndView.addObject("bestelregels", bestelregels);
+        }
+        
         return modelAndView;
     }
 
@@ -80,6 +79,26 @@ public class BestellingController {
         return modelAndView;
     }
 
+    @GetMapping(value="/close")
+    public ModelAndView sluitBevestiging(@RequestParam(value="id", required=true) Long id) {
+        ModelAndView modelAndView = new ModelAndView("bestellingsluit");
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        modelAndView.addObject("bestelling",bestelling);
+        return modelAndView;
+    }
+
+    @PostMapping(value="/close")
+    public ModelAndView sluitBestelling(Bestelling bestelling) {
+        Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
+        bestelling = (Bestelling) bestellingOptional.get();
+        bestelling.setBestelDatum(LocalDate.now());
+        bestelling.setStatus(Bestelling.Status.GESLOTEN);
+        bestellingRepository.save(bestelling);
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
+        return modelAndView;
+    }
+    
     @GetMapping(value="/delete")
     public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
         ModelAndView modelAndView = new ModelAndView("bestellingdelete");
@@ -91,8 +110,30 @@ public class BestellingController {
 
     @PostMapping(value="/delete")
     public ModelAndView verwijderBestelling(Bestelling bestelling) {
-        bestelling.setStatus(Bestelling.Status.GESLOTEN);
-        bestellingRepository.save(bestelling);
+        List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(bestelling.getId());
+        Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
+        bestelling = (Bestelling) bestellingOptional.get();
+        
+        if (bestelling.getStatus() != Bestelling.Status.VERZONDEN) {
+            //plaats artikelvoorraad terug en verwijder bestelregels
+            
+            for (BestelRegel bestelRegel: bestelregels) {
+                Artikel artikel = bestelRegel.getArtikel();
+                artikel.setVoorraad(artikel.getVoorraad() + bestelRegel.getAantal());
+                artikelRepository.save(artikel);
+                bestelRegelRepository.delete(bestelRegel);
+            }
+        }
+        
+        else {
+            //verwijder bestelregels
+            for (BestelRegel bestelRegel: bestelregels) {
+                bestelRegelRepository.delete(bestelRegel);
+            }
+            
+        }
+        
+        bestellingRepository.delete(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
         return modelAndView;
     }
@@ -104,17 +145,16 @@ public class BestellingController {
         List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
         ModelAndView modelAndView;
 
-        switch (bestelling.getStatus()) {
-            case GESLOTEN:  modelAndView = new ModelAndView("redirect:/bestelling");
-                            break;
-            case VERZONDEN: modelAndView = new ModelAndView("redirect:/bestelling");
-                            break;
-            default:        modelAndView = new ModelAndView("bestellingverzend");
-                            modelAndView.addObject("bestelling", bestelling);
-                            modelAndView.addObject("bestelregels", bestelregels);
-                            break;
+        if (bestelling.getStatus() == Bestelling.Status.GESLOTEN) {
+            modelAndView = new ModelAndView("bestellingverzend");
+            modelAndView.addObject("bestelling", bestelling);
+            modelAndView.addObject("bestelregels", bestelregels);
         }
-
+        
+        else {
+            modelAndView = new ModelAndView("redirect:/bestelling");
+        }
+        
         return modelAndView;
     }
 
