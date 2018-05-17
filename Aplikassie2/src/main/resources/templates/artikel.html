@@ -25,7 +25,7 @@
                 <tbody>
                         <tr data-th-each="artikel : ${artikelen}">
                                 <td data-th-text="${artikel.naam}">Naam</td>
-                                <td data-th-text="${artikel.prijs}">Prijs</td>
+                                <td data-th-text="${'€' + artikel.prijs}">Prijs</td>
                                 <td data-th-text="${artikel.voorraad}">Voorraad</td>
                                 <td><a href="#" data-th-href="@{/artikel/delete(id=${artikel.id})}">verwijder</a> | 
                                     <a href="#" data-th-href="@{/artikel/edit(id=${artikel.id})}">pas aan</a>
