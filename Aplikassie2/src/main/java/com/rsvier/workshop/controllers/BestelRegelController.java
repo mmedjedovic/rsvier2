@@ -102,26 +102,32 @@ public class BestelRegelController {
         return modelAndView;
     }
     
-    @GetMapping(value="/nieuweregel")
-    public ModelAndView bestelRegelToevoegen(@ModelAttribute("bestelregel") BestelRegel bestelregel, @ModelAttribute("artikel") Artikel artikel,
-            @RequestParam(value="id", required=true) Long id) {
+    @GetMapping(value = "/nieuweregel")
+    public ModelAndView bestelRegelToevoegen(@ModelAttribute("bestelregel") BestelRegel bestelregel,
+            @RequestParam(value = "id", required = true) Long id) {
         ModelAndView modelAndView = new ModelAndView("bestelregelformulier");
-        
+
         List<Artikel> artikellijst = artikelRepository.findActief();
         modelAndView.addObject("artikellijst", artikellijst);
-        
+
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
-        modelAndView.addObject("bestelling",bestelling);
-        
+
+        bestelregel.setBestelling(bestelling);
+        modelAndView.addObject("bestelregel", bestelregel);
+        modelAndView.addObject("bestelling", bestelling);
+
         return modelAndView;
-    }
+    } 
     
     @PostMapping(value="/nieuweregel")
     public ModelAndView bestelRegelToegevoegd(BestelRegel bestelregel, Artikel artikel, Bestelling bestelling) {
-        System.out.println("BESTELREGEL " + bestelregel.getId());
+        System.out.println("BESTELREGEL AANTAL " + bestelregel.getAantal());
+        System.out.println("BESTELREGEL BESTELID " + bestelregel.getBestelling().getId());
+        System.out.println("BESTELREGEL ARTIKELID " + bestelregel.getArtikel().getId());
         System.out.println("ARTIKEL " + artikel.getId());
         System.out.println("BESTELLING " + bestelling.getId());
+        
         Optional artikelOptional = artikelRepository.findById(artikel.getId());
         artikel = (Artikel) artikelOptional.get();
         
@@ -135,6 +141,7 @@ public class BestelRegelController {
         Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
         bestelling = (Bestelling) bestellingOptional.get();
         
+        bestelregel.setArtikelPrijs(artikel.getPrijs());
         BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
         BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
         BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
@@ -146,7 +153,6 @@ public class BestelRegelController {
         
         bestelregel.setArtikel(artikel);
         bestelregel.setBestelling(bestelling);
-        bestelregel.setArtikelPrijs(artikel.getPrijs());
         bestelRegelRepository.save(bestelregel);
 
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));

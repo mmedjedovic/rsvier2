@@ -31,7 +31,7 @@ public class Bestelling {
     protected BigDecimal totaalprijs;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "persoon_id", nullable = false)
+    @JoinColumn(name = "persoon_id")
     protected Persoon klant;
     
     @Column(nullable = false)

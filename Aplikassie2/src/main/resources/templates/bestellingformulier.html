@@ -5,7 +5,7 @@
     <title>Bestellingformulier</title>
 </head>
 <body>
-    <h1>Bestelling</h1>
+    <h1 data-th-text="${'Bestelling met factuurnummer ' + bestelling.factuurnummer}">Bestelling</h1>
 
     <div>
         <div th:if="${bestelregels == null or #lists.isEmpty(bestelregels)}">
@@ -18,25 +18,28 @@
                 <caption>Overzicht</caption>
                 <thead>
                         <tr>
-                                <th scope="col" >Naam</th>
+                                <th scope="col" >Product</th>
                                 <th scope="col" >Prijs</th>
                                 <th scope="col" >Aantal</th>
+                                <th scope="col" >Subtotaal</th>
                                 <th scope="col" >Actie</th>
                         </tr>
                 </thead>
                 <tbody>
                     
-                        <tr data-th-each="bestelregel : ${bestelregels}">
-                                <td data-th-text="${bestelregel.artikel.naam}">Naam</td>
-                                <td data-th-text="${bestelregel.prijs}">Prijs</td>
-                                <td data-th-text="${bestelregel.aantal}">Voorraad</td>
-                                <td><a href="#" data-th-href="@{/bestelregel/delete(bestelregel_id=${bestelregel.id})(bestelling_id=${bestelling.id})}">verwijder</a> | 
-                                    <a href="#" data-th-href="@{/bestelregel/edit(bestelregel_id=${bestelregel.id})(bestelling_id=${bestelling.id})}">pas aan</a>
-                                </td>
-                        </tr>
+                    <tr data-th-each="bestelregel : ${bestelregels}">
+                            <td data-th-text="${bestelregel.artikel.naam}">Naam</td>
+                            <td data-th-text="'€' + ${bestelregel.artikelPrijs}">Prijs</td>
+                            <td data-th-text="${bestelregel.aantal}">Aantal</td>
+                            <td data-th-text="'€' + ${bestelregel.aantal} * ${bestelregel.artikelPrijs}">Subtotaal</td>
+                            <td><a href="#" data-th-href="@{/bestelregel/delete(bestelregel_id=${bestelregel.id}, bestelling_id=${bestelling.id})}">verwijder</a> | 
+                                <a href="#" data-th-href="@{/bestelregel/edit(bestelregel_id=${bestelregel.id}, bestelling_id=${bestelling.id})}">pas aan</a>
+                            </td>
+                    </tr>
+                    
                 </tbody>
             </table>
-            
+                <p data-th-text="${'Totaalprijs: €' + bestelling.totaalprijs}">Totaalprijs</p>
         </div>    
         
         <p><a data-th-href="@{add/nieuweregel(id=${bestelling.id})}">Artikel toevoegen</a></p>
