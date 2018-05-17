@@ -8,7 +8,7 @@
         <h1 data-th-text="${'Voeg een artikel toe aan bestelling met factuurnummer ' + bestelling.factuurnummer}"></h1>
 
         <div th:if="${artikellijst == null or #lists.isEmpty(artikellijst)}">
-            <p><a href="/artikelformulier">Er staan nog geen artikelen in het systeem, voeg deze eerst toe</a></p>
+            <p><a href="/artikel/add">Er staan nog geen artikelen in het systeem, voeg deze eerst toe</a></p>
         </div>
 
         <div th:if="${artikellijst != null and not #lists.isEmpty(artikellijst)}">    
