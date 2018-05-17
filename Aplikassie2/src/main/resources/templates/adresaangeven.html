@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<h4>nieuwe adres toevoegen of huidige adres wijzigen</h4>
+		<p><b>Graag velden invullen:</b></p>
+		<form method="POST" action="/klant/adresupdate" th:action="@{/klant/adresupdate}" th:object="${adres}">
+			<br><br>
+			<div>
+				<select th:field="*{adresSoort}">
+					<option th:each="adresSoort: ${T(com.rsvier.workshop.domein.Adres.AdresSoort).values()}"
+							th:value="${adresSoort}"
+							th:text="${adresSoort}"></option>
+				</select>
+			</div>
+			<div>
+				<br><br>
+				<label for="straatnaam">Straatnaam:</label>
+				<input type="text" th:field=*{straatnaam} />
+				<br><br>
+				<label for="huisnummer">Huisnummer:</label>
+				<input type="text" th:field=*{huisnummer} />
+				<br><br>
+				<label for="toevoeging">Toevoeging</label>
+				<input type="text" th:field=*{toevoeging} />
+				<br><br>
+				<label for="poscode">Postcode:</label>
+				<input type="date" th:field=*{postcode} />
+				<br><br>
+				<label for="woonplaats">Plaats:</label>
+				<input type="text" th:field=*{woonplaats} />
+			</div>
+			<div>
+				<br><br>
+				<input type="submit" value="opslaan" />
+			</div>
+		</form>
+	</div>
+</body>
+</html>

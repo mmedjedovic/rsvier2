@@ -36,6 +36,16 @@ public class KlantController {
 		return new Persoon();
 	}
 	
+	@ModelAttribute("adres")
+	public Adres getAdres() {
+		return new Adres();
+	}
+	
+	@ModelAttribute("andereAdressen")
+	public Boolean getAdrssen() {
+		return new Boolean(false);
+	}
+	
 	@GetMapping
 	public String getKlantMenu() {
 		return "klant";
@@ -50,11 +60,27 @@ public class KlantController {
 	public ModelAndView registerKlant(@ModelAttribute("persoon") Persoon persoon, Model model) {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
-		setAdresSoort(persoon);
+		setWoonAdresSoort(persoon);
 		repository.save(persoon);
-		persoon = new Persoon();
+		//persoon = new Persoon();
 		model.addAttribute("persoon", persoon);
-		return new ModelAndView("redirect:/klant");
+		return new ModelAndView("redirect:/klant/afterregister");
+	}
+	
+	@GetMapping("/afterregister")
+	public String getAfterRegister(@ModelAttribute("persoon") Persoon persoon, Model model) {
+		return "afterregister";
+	}
+	
+	@GetMapping("/adresaangeven")
+	public String adresAangeven() {
+		return "adresaangeven";
+	}
+	
+	@PostMapping("/adresupdate")
+	public ModelAndView updateAdres(@ModelAttribute("adres") Adres adres, Model model) {
+		
+		return new ModelAndView("redirect:/klant/afterregister");
 	}
 	
 	@GetMapping("/klantenoverzicht")
@@ -72,10 +98,16 @@ public class KlantController {
 	
 	
 	
-	private void setAdresSoort(Persoon persoon) {
+	private void setWoonAdresSoort(Persoon persoon) {
 		Collection<Adres> collection = persoon.getAdresCollection();
 		Iterator<Adres> iterator = collection.iterator();
 		iterator.next().setAdresSoort(AdresSoort.WOONADRES);
+	}
+	
+	private void addAdres(@ModelAttribute("persoon") Persoon persoon, Adres adres, AdresSoort adresSoort) {
+		Collection<Adres> collection = persoon.getAdresCollection();
+		adres.setAdresSoort(adresSoort);
+		collection.add(adres);
 	}
 
 }

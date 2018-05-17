@@ -14,7 +14,7 @@
 		<p><b>Klanten overzicht maken</b></p>
 		<form method="GET" action="klant/klantenoverzicht" th:action="@{klant/klantenoverzicht}" th:object="${persoon}">
 			<select th:field="*{persoonStatus}">
-				<option th:with= "persoonStatus=null" th:value="${persoonStatus}" th:text="alles"></option>
+				<option th:with= "persoonStatus=null" th:value="${persoonStatus}" th:text="ALLES"></option>
 				<option th:each="persoonStatus: ${T(com.rsvier.workshop.domein.Persoon.PersoonStatus).values()}" 
 						th:value="${persoonStatus}" 
 						th:text="${persoonStatus}"></option> 

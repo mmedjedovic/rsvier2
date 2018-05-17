@@ -37,12 +37,6 @@ public class Adres {
     protected AdresSoort adresSoort;
     
     public enum AdresSoort {WOONADRES, VERZENDADRES, REKENINGADRES}
-    
-    protected Adres() {}
-    
-    public Adres(AdresSoort adresSoort) {
-        this.adresSoort = adresSoort;
-    }
 
     public Long getId() {
         return id;
@@ -83,16 +77,16 @@ public class Adres {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
-
-    public String getWoonplaats() {
-        return woonplaats;
-    }
-
-    public void setWoonplaats(String woonplaats) {
-        this.woonplaats = woonplaats;
-    }
     
-    public AdresSoort getAdresSoort() {
+    public String getWoonplaats() {
+		return woonplaats;
+	}
+
+	public void setWoonplaats(String woonplaats) {
+		this.woonplaats = woonplaats;
+	}
+
+	public AdresSoort getAdresSoort() {
         return adresSoort;
     }
 

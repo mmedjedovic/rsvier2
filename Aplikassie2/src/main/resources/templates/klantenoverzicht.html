@@ -29,7 +29,7 @@
 				<td th:text="${persoon.achterNaam}"></td>
 				<td th:text="${persoon.geboorteDatum}"></td>
 				<td th:text="${persoon.persoonStatus}"></td>
-				<td th:text="bekijken"></td>
+				<td><a th:ref="@{/klant/adresinfo(id=${persoon.id})}">adres info</a></td>
 			</tr>
 		</table>
 	</div>
