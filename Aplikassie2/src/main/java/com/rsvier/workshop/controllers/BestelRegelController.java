@@ -231,17 +231,33 @@ public class BestelRegelController {
     }
 
     @GetMapping(value="/delete")
-    public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id, 
+    public ModelAndView verwijderBevestiging(@RequestParam(value="bestelling_id", required=true) Long id, 
             @RequestParam(value="bestelregel_id", required=true) Long bestelregel_id) {
-        //TODO
-        ModelAndView modelAndView = new ModelAndView("bestellingdelete");
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        
+        Optional bestelRegelOptional = bestelRegelRepository.findById(bestelregel_id);
+        BestelRegel bestelregel = (BestelRegel) bestelRegelOptional.get();
+        
+        Artikel artikel = bestelregel.getArtikel();
+        
+        //Voorraad artikel terugzetten
+        artikel.setVoorraad(artikel.getVoorraad() + bestelregel.getAantal());
+        artikelRepository.save(artikel);
+        
+        //Totaalprijs bestelling terugzetten
+        BigDecimal oudeTotaalPrijs = bestelling.getTotaalprijs();
+        BigDecimal artikelPrijs = bestelregel.getArtikelPrijs();
+        BigDecimal aantalArtikel = new BigDecimal(bestelregel.getAantal());
+        BigDecimal nieuweTotaalPrijs = oudeTotaalPrijs.min(artikelPrijs.multiply(aantalArtikel));
+        bestelling.setTotaalprijs(nieuweTotaalPrijs);
+        bestellingRepository.save(bestelling);
+        
+        //Bestelregel uit database halen
+        bestelRegelRepository.delete(bestelregel);
+        
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
         return modelAndView;
     }
 
-    @PostMapping(value="/delete")
-    public ModelAndView bestelRegelVerwijderd(BestelRegel bestelregel) {
-        //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
-        return modelAndView;
-    }
 }
