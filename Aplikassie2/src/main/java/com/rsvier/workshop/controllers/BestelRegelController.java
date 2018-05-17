@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -49,12 +48,6 @@ public class BestelRegelController {
         List<BestelRegel> bestelregels = new ArrayList();
         
         if (id == null) {
-            Iterable<Persoon> klantIterable = persoonRepository.findAll();
-            List<Persoon> personen = new ArrayList();
-            klantIterable.forEach(personen::add);
-
-            klant = personen.get(0);
-            
             LocalDate bestelDatum = LocalDate.now();
             
             LocalDateTime currentTime = LocalDateTime.now();
@@ -62,7 +55,6 @@ public class BestelRegelController {
             Long tempfactuurnummer = (Long.valueOf(currentTime.getNano()));
             
             bestelling.setBestelDatum(bestelDatum);
-            bestelling.setKlant(klant);
             bestelling.setTotaalprijs(BigDecimal.ZERO);
             bestelling.setFactuurnummer(tempfactuurnummer);
             bestelling.setStatus(Bestelling.Status.OPEN);
@@ -200,7 +192,15 @@ public class BestelRegelController {
             if (nieuweArtikelVoorraad < 0) {
                 //TODO errorhandling
             }
+            //totaalprijs bestelling veranderen
+            BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
+            BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
+            BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
+            BigDecimal x = aantalartikelen.multiply(artikelprijs);
+            BigDecimal nieuwetotaalprijs = oudetotaalprijs.add(x);
+            bestelling.setTotaalprijs(nieuwetotaalprijs);
             
+            bestellingRepository.save(bestelling);
             artikel.setVoorraad(nieuweArtikelVoorraad);
             artikelRepository.save(artikel);
         }
@@ -213,18 +213,18 @@ public class BestelRegelController {
             if (nieuweArtikelVoorraad > oudAantal + artikelVoorraad) {
                 //TODO errorhandling
             }
+            
+            //totaalprijs bestelling veranderen
+            BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
+            BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
+            BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
+            BigDecimal x = aantalartikelen.multiply(artikelprijs);
+            BigDecimal nieuwetotaalprijs = oudetotaalprijs.min(x);
+            bestelling.setTotaalprijs(nieuwetotaalprijs);
+            bestellingRepository.save(bestelling);
         }
         
         bestelRegelRepository.save(bestelregel);
-        
-        //totaalprijs bestelling veranderen
-        BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
-        BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
-        BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
-        BigDecimal x = aantalartikelen.multiply(artikelprijs);
-        BigDecimal nieuwetotaalprijs = oudetotaalprijs.add(x);
-        bestelling.setTotaalprijs(nieuwetotaalprijs);
-        bestellingRepository.save(bestelling);
         
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
         return modelAndView;
