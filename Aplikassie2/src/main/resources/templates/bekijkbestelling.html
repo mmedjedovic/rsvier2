@@ -13,7 +13,9 @@
             <div><p>Deze bestelling is leeg.</p></div>
         </div>
 
-        <p data-th-text="${bestelling.klant}">Klant</p>
+        <p data-th-text="${'Klant: ' + bestelling.klant.voorNaam + ' ' + bestelling.klant.tussenVoegsel + ' ' + bestelling.klant.achterNaam}">Klant</p>
+        <p data-th-text="${'Factuurnummer: ' + bestelling.factuurnummer}">Factuurnummer</p>
+        <p data-th-text="${'Bestelling gesloten op: ' + bestelling.bestelDatum}">Besteldatum</p>
 
         <div th:if="${bestelregels != null and not #lists.isEmpty(bestelregels)}">    
             <table class="box-table-a">
