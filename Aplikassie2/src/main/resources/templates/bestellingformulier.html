@@ -32,8 +32,8 @@
                             <td data-th-text="'€' + ${bestelregel.artikelPrijs}">Prijs</td>
                             <td data-th-text="${bestelregel.aantal}">Aantal</td>
                             <td data-th-text="'€' + ${bestelregel.aantal} * ${bestelregel.artikelPrijs}">Subtotaal</td>
-                            <td><a href="#" data-th-href="@{/bestelregel/delete(bestelregel_id=${bestelregel.id}, bestelling_id=${bestelling.id})}">verwijder</a> | 
-                                <a href="#" data-th-href="@{/bestelregel/edit(bestelregel_id=${bestelregel.id}, bestelling_id=${bestelling.id})}">pas aan</a>
+                            <td><a href="#" data-th-href="@{add/delete(bestelregel_id=${bestelregel.id}, bestelling_id=${bestelling.id})}">verwijder</a> | 
+                                <a href="#" data-th-href="@{add/edit(bestelregel_id=${bestelregel.id}, bestelling_id=${bestelling.id})}">pas aan</a>
                             </td>
                     </tr>
                     

@@ -63,7 +63,6 @@ public class BestelRegelController {
             
             bestelling.setBestelDatum(bestelDatum);
             bestelling.setKlant(klant);
-            //bestelling.setBestelregels(bestelregels);
             bestelling.setTotaalprijs(BigDecimal.ZERO);
             bestelling.setFactuurnummer(tempfactuurnummer);
             bestelling.setStatus(Bestelling.Status.OPEN);
@@ -122,12 +121,6 @@ public class BestelRegelController {
     
     @PostMapping(value="/nieuweregel")
     public ModelAndView bestelRegelToegevoegd(BestelRegel bestelregel, Artikel artikel, Bestelling bestelling) {
-        System.out.println("BESTELREGEL AANTAL " + bestelregel.getAantal());
-        System.out.println("BESTELREGEL BESTELID " + bestelregel.getBestelling().getId());
-        System.out.println("BESTELREGEL ARTIKELID " + bestelregel.getArtikel().getId());
-        System.out.println("ARTIKEL " + artikel.getId());
-        System.out.println("BESTELLING " + bestelling.getId());
-        
         ModelAndView modelAndView = null;
         
         Optional artikelOptional = artikelRepository.findById(artikel.getId());
@@ -167,17 +160,73 @@ public class BestelRegelController {
     }
 
     @GetMapping(value="/edit")
-    public ModelAndView wijzigBestelRegel(@RequestParam(value="id", required=true) Long id, 
+    public ModelAndView wijzigBestelRegel(@RequestParam(value="bestelling_id", required=true) Long id, 
             @RequestParam(value="bestelregel_id", required=true) Long bestelregel_id) {
-        //TODO
-        ModelAndView modelAndView = new ModelAndView("bestelregelformulier");
+        
+        ModelAndView modelAndView = new ModelAndView("bestelregelaanpassen");
+        
+        Optional bestellingOptional = bestellingRepository.findById(id);
+        Bestelling bestelling = (Bestelling) bestellingOptional.get();
+        
+        Optional bestelRegelOptional = bestelRegelRepository.findById(bestelregel_id);
+        BestelRegel bestelregel = (BestelRegel) bestelRegelOptional.get();
+        
+        List<Artikel> artikellijst = artikelRepository.findActief();
+        
+        modelAndView.addObject("bestelling",bestelling);
+        modelAndView.addObject("bestelregel",bestelregel);
+        modelAndView.addObject("artikellijst",artikellijst);
         return modelAndView;
     }
     
     @PostMapping(value="/edit")
     public ModelAndView bestelRegelGewijzigd(BestelRegel bestelregel) {
-        //TODO
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add");
+        Artikel artikel = bestelregel.getArtikel();
+        Bestelling bestelling = bestelregel.getBestelling();
+        Optional oudeBestelRegelOptional = bestelRegelRepository.findById(bestelregel.getId());
+        BestelRegel oudeBestelRegel = (BestelRegel) oudeBestelRegelOptional.get();
+        bestelregel.setId(oudeBestelRegel.getId());
+        bestelregel.setArtikelPrijs(artikel.getPrijs());
+        
+        //Artikelvoorraad aanpassen
+        int oudAantal = oudeBestelRegel.getAantal();
+        int nieuwAantal = bestelregel.getAantal();
+        int verschil = oudAantal - nieuwAantal;
+        int artikelVoorraad = artikel.getVoorraad();
+        
+        if (verschil < 0) {
+            int nieuweArtikelVoorraad = artikelVoorraad - Math.abs(verschil);
+            
+            if (nieuweArtikelVoorraad < 0) {
+                //TODO errorhandling
+            }
+            
+            artikel.setVoorraad(nieuweArtikelVoorraad);
+            artikelRepository.save(artikel);
+        }
+        
+        else if (verschil > 0) {
+            int nieuweArtikelVoorraad = artikelVoorraad + verschil;
+            artikel.setVoorraad(nieuweArtikelVoorraad);
+            artikelRepository.save(artikel);
+            
+            if (nieuweArtikelVoorraad > oudAantal + artikelVoorraad) {
+                //TODO errorhandling
+            }
+        }
+        
+        bestelRegelRepository.save(bestelregel);
+        
+        //totaalprijs bestelling veranderen
+        BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
+        BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
+        BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
+        BigDecimal x = aantalartikelen.multiply(artikelprijs);
+        BigDecimal nieuwetotaalprijs = oudetotaalprijs.add(x);
+        bestelling.setTotaalprijs(nieuwetotaalprijs);
+        bestellingRepository.save(bestelling);
+        
+        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
         return modelAndView;
     }
 
