@@ -33,10 +33,10 @@
                                 <td data-th-text="${bestelling.bestelDatum}">Datum</td>
                                 <td data-th-text="${bestelling.status}">Status</td>
                                 
-                                <td><div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).OPEN}"><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a> | 
+                                <td><div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).OPEN}"><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">sluit</a> | 
                                     <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">pas aan</a> | 
                                     <a href="#" data-th-href="@{/bestelling/verzonden(id=${bestelling.id})}">stel in als verzonden</a></div>
-                                    <div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).VERZONDEN}"><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a> | 
+                                    <div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).VERZONDEN}"><a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">sluit</a> | 
                                     <a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">bekijk</a>
                                     </div>
                                 </td>
