@@ -80,18 +80,18 @@ public class BestelRegelController {
             return "bestellingformulier";
     }
     
-    @PostMapping
-    public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel, 
-            @RequestParam(value="id", required=true) Long id, Bestelling bestelling) {
-        Optional bestellingOptional = bestellingRepository.findById(id);
-        bestelling = (Bestelling) bestellingOptional.get();
-        Set<BestelRegel> bestelRegels = bestelling.getBestelregels();
-        bestelRegels.add(bestelregel);
-        bestelling.setBestelregels(bestelRegels);
-        bestellingRepository.save(bestelling);
-        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
-        return modelAndView;
-    }
+//    @PostMapping
+//    public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel, 
+//            @RequestParam(value="id", required=true) Long id, Bestelling bestelling) {
+//        Optional bestellingOptional = bestellingRepository.findById(id);
+//        bestelling = (Bestelling) bestellingOptional.get();
+//        Set<BestelRegel> bestelRegels = bestelling.getBestelregels();
+//        bestelRegels.add(bestelregel);
+//        bestelling.setBestelregels(bestelRegels);
+//        bestellingRepository.save(bestelling);
+//        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
+//        return modelAndView;
+//    }
     
     @GetMapping(value = "/nieuweregel")
     public ModelAndView bestelRegelToevoegen(@ModelAttribute("bestelregel") BestelRegel bestelregel,
@@ -118,11 +118,16 @@ public class BestelRegelController {
         Optional artikelOptional = artikelRepository.findById(artikel.getId());
         artikel = (Artikel) artikelOptional.get();
         
+        if (bestelregel.getAantal() < 1) {
+            modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
+            return modelAndView;
+            //TODO errorhandling
+        }
+        
         if (bestelregel.getAantal() > artikel.getVoorraad()) {
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             return modelAndView;
             //TODO errorhandling
-            
         }
         
         else {
@@ -180,6 +185,11 @@ public class BestelRegelController {
         bestelregel.setId(oudeBestelRegel.getId());
         bestelregel.setArtikelPrijs(artikel.getPrijs());
         
+        //Checken of artikelaantal lager dan 1 is en als dat zo is de regel verwijderen
+        if (bestelregel.getAantal() < 1) {
+            return verwijderBestelRegel(bestelling.getId(), bestelregel.getId());
+        }
+
         //Artikelvoorraad aanpassen
         int oudAantal = oudeBestelRegel.getAantal();
         int nieuwAantal = bestelregel.getAantal();
@@ -231,7 +241,7 @@ public class BestelRegelController {
     }
 
     @GetMapping(value="/delete")
-    public ModelAndView verwijderBevestiging(@RequestParam(value="bestelling_id", required=true) Long id, 
+    public ModelAndView verwijderBestelRegel(@RequestParam(value="bestelling_id", required=true) Long id, 
             @RequestParam(value="bestelregel_id", required=true) Long bestelregel_id) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
