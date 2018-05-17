@@ -9,7 +9,7 @@
 
     <div>
         <div th:if="${artikelen == null or #lists.isEmpty(artikelen)}">
-            <div><p><a href="/artikel/add">Geen artikeklen gevonden, voeg eerst iets toe</a></p></div>
+            <div><p><a href="/artikel/add">Geen artikelen gevonden, voeg eerst iets toe</a></p></div>
         </div>
             <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">    
                 <table class="box-table-a">
