@@ -24,11 +24,11 @@
 				<th>Verwijderen</th>
 			</tr>
 			<tr th:each="persoon: ${persoonList}">
-				<td th:text="*{voorNaam}"></td>
-				<td th:text="*{tussenVoegsel}"></td>
-				<td th:text="*{achterNaam}"></td>
-				<td th:text="*{geboorteDatum}"></td>
-				<td th:text="*{persoonStatus}"></td>
+				<td th:text="${persoon.voorNaam}"></td>
+				<td th:text="${persoon.tussenVoegsel}"></td>
+				<td th:text="${persoon.achterNaam}"></td>
+				<td th:text="${persoon.geboorteDatum}"></td>
+				<td th:text="${persoon.persoonStatus}"></td>
 				<td th:text="bekijken"></td>
 			</tr>
 		</table>

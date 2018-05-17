@@ -8,11 +8,11 @@
     <h1>Klantenmenu</h1>
 
     <div>
-        <p><a href="/klantformulier">Nieuwe klant toevoegen</a></p>
+        <p><a href="klant/klantformulier">Nieuwe klant toevoegen</a></p>
      </div>
       <div>
 		<p><b>Klanten overzicht maken</b></p>
-		<form method="GET" action="/klantenoverzicht" th:action="@{/klantenoverzicht}" th:object="${persoon}">
+		<form method="GET" action="klant/klantenoverzicht" th:action="@{klant/klantenoverzicht}" th:object="${persoon}">
 			<select th:field="*{persoonStatus}">
 				<option th:with= "persoonStatus=null" th:value="${persoonStatus}" th:text="alles"></option>
 				<option th:each="persoonStatus: ${T(com.rsvier.workshop.domein.Persoon.PersoonStatus).values()}" 

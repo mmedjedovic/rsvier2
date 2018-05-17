@@ -24,7 +24,7 @@ import com.rsvier.workshop.domein.Persoon.AccountSoort;
 import com.rsvier.workshop.domein.Persoon.PersoonStatus;
 
 @Controller
-@RequestMapping
+@RequestMapping("klant")
 @SessionAttributes("persoon")
 public class KlantController {
 	
@@ -36,7 +36,7 @@ public class KlantController {
 		return new Persoon();
 	}
 	
-	@GetMapping("klant")
+	@GetMapping
 	public String getKlantMenu() {
 		return "klant";
 	}
@@ -54,7 +54,7 @@ public class KlantController {
 		repository.save(persoon);
 		persoon = new Persoon();
 		model.addAttribute("persoon", persoon);
-		return new ModelAndView("redirect:/klant");
+		return new ModelAndView("redirect: /messages");
 	}
 	
 	@GetMapping("/klantenoverzicht")

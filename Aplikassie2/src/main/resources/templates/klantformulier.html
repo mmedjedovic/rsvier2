@@ -8,7 +8,7 @@
 <body>
 	<h1>Invullen:</h1>
 	
-	<form method="POST" action="/register" th:action="@{/register}" th:object="${persoon}">
+	<form method="POST" action="klant/register" th:action="@{klant/register}" th:object="${persoon}">
 		<div>
 			<label for="voorNaam">Voornaam:</label>
 			<input type="text" th:field=*{voorNaam} />
