@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Bestellingformulier</title>
-</head>
-<body>
-    <h1>Deze bestelling kan niet meer aangepast worden</h1>
+    
+    <head>
+        <title>Bestellingformulier</title>
+    </head>
+    
+    <body>
+        <h1>Deze bestelling kan niet meer aangepast worden</h1>
 
-    <div>
         <div th:if="${bestelregels == null or #lists.isEmpty(bestelregels)}">
             <div><p>Deze bestelling is leeg.</p></div>
         </div>
-            <div th:if="${bestelregels != null and not #lists.isEmpty(bestelregels)}">    
-                <table class="box-table-a">
-                <caption>Overzicht</caption>
-                <thead>
-                        <tr>
-                                <th scope="col" >Naam</th>
-                                <th scope="col" >Prijs</th>
-                                <th scope="col" >Aantal</th>
-                                <th scope="col" >Actie</th>
-                        </tr>
-                </thead>
-                <tbody>
-                        <tr data-th-each="bestelregel : ${bestelregels}">
-                                <td data-th-text="${bestelregel.artikel.naam}">Naam</td>
-                                <td data-th-text="${bestelregel.prijs}">Prijs</td>
-                                <td data-th-text="${bestelregel.aantal}">Voorraad</td>
-                                <td><a href="#" data-th-href="@{/bestelregel/delete(id=${bestelregel.id})}">verwijder</a> | 
-                                    <a href="#" data-th-href="@{/bestelregel/edit(id=${bestelregel.id})}">pas aan</a>
-                                </td>
-                        </tr>
-                </tbody>
+
+        <p data-th-text="${bestelling.klant}">Klant</p>
+
+        <div th:if="${bestelregels != null and not #lists.isEmpty(bestelregels)}">    
+            <table class="box-table-a">
+            <caption>Overzicht</caption>
+            <thead>
+                <tr>
+                    <th scope="col" >Naam</th>
+                    <th scope="col" >Prijs</th>
+                    <th scope="col" >Aantal</th>
+                    <th scope="col" >Subtotaal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="bestelregel : ${bestelregels}">
+                    <td data-th-text="${bestelregel.artikel.naam}">Artikel</td>
+                    <td data-th-text="${bestelregel.artikelPrijs}">Prijs</td>
+                    <td data-th-text="${bestelregel.aantal}">Voorraad</td>
+                    <td data-th-text="'€' + ${bestelregel.aantal} * ${bestelregel.artikelPrijs}">Subtotaal</td>
+                </tr>
+            </tbody>
             </table>
-            
+            <p data-th-text="${'Totaalprijs: €' + bestelling.totaalprijs}">Totaalprijs</p>
         </div>    
-        
+
         <p><a href="/bestelling">Terug naar bestellingenoverzicht</a></p>
         <p><a href="/">Terug naar home</a></p>
-        
-    </div>
-	
-</body>
+
+    </body>
+    
 </html>
