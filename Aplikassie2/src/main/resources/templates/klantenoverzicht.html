@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div><a href="/">Terug naar home</a></div>
+	<div th:if="${persoonList == null or #lists.isEmpty(persoonList)}">
+		<div><a href="register">Voeg klant toe</a></div>
+		<div><a href="/">Terug naar home</a></div>
+	</div>
+	<div th:if="${persoonList != null or not #lists.isEmpty(persoonList)}">
+		<h2>Klantenoverzicht</h2>
+		<table>
+			<tr>
+				<th>Voornaam</th>
+				<th>Tussenvoegsel</th>
+				<th>Achternaam</th>
+				<th>Geboortedatum</th>
+				<th>Status</th>
+				<th>Adres</th>
+				<th>Wijzigen</th>
+				<th>Verwijderen</th>
+			</tr>
+			<tr th:each="persoon: ${persoonList}">
+				<td th:text="*{voorNaam}"></td>
+				<td th:text="*{tussenVoegsel}"></td>
+				<td th:text="*{achterNaam}"></td>
+				<td th:text="*{geboorteDatum}"></td>
+				<td th:text="*{persoonStatus}"></td>
+				<td th:text="bekijken"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

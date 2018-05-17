@@ -43,25 +43,22 @@ public class KlantController {
 	
 	@GetMapping("/klantformulier")
 	public String getFormulier(Model model) {
-		return "klantformulier";
+		return "/klantformulier";
 	}
 	
 	@PostMapping("/register")
-	public ModelAndView registerKlant(@ModelAttribute("persoon") Persoon persoon) {
+	public ModelAndView registerKlant(@ModelAttribute("persoon") Persoon persoon, Model model) {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setAdresSoort(persoon);
 		repository.save(persoon);
-		return new ModelAndView("redirect:/test");
-	}
-	
-	@GetMapping("/klantenzaken")
-	public String getKlantenZaken() {
-		return "klantenzaken";
+		persoon = new Persoon();
+		model.addAttribute("persoon", persoon);
+		return new ModelAndView("redirect:/klant");
 	}
 	
 	@GetMapping("/klantenoverzicht")
-	public String getTest(@ModelAttribute("persoon") Persoon persoon, Model model) {
+	public String getKlantenOverzicht(@ModelAttribute("persoon") Persoon persoon, Model model) {
 		Iterable<Persoon> persoonList = new ArrayList<Persoon>();
 		PersoonStatus status = persoon.getPersoonStatus();
 		if(status != null) {
