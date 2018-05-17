@@ -51,7 +51,7 @@ public class BestellingController {
     }
 
     @GetMapping(value="/edit")
-    public ModelAndView bestellingWijzigen(@RequestParam(value="id", required=true) Long id) {
+    public ModelAndView wijzigBestelling(@RequestParam(value="id", required=true) Long id) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
         List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
@@ -90,7 +90,7 @@ public class BestellingController {
     }
 
     @PostMapping(value="/delete")
-    public ModelAndView verwijderBestellingPagina(Bestelling bestelling) {
+    public ModelAndView verwijderBestelling(Bestelling bestelling) {
         bestelling.setStatus(Bestelling.Status.GESLOTEN);
         bestellingRepository.save(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
@@ -119,7 +119,7 @@ public class BestellingController {
     }
 
     @PostMapping(value="/verzonden")
-    public ModelAndView verzendBestellingPagina(Bestelling bestelling) {
+    public ModelAndView verzendBestelling(Bestelling bestelling) {
         bestelling.setStatus(Bestelling.Status.VERZONDEN);
         bestellingRepository.save(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
