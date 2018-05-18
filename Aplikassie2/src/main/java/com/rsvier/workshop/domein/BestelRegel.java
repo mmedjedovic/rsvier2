@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="bestel_regel")
@@ -30,7 +32,8 @@ public class BestelRegel {
     @Column(nullable = false, precision = 6, scale = 2)
     protected BigDecimal artikelPrijs;
     
-    @Column(nullable = false)
+    @NotNull(message="Aantal kan niet leeg zijn")
+    @Min(value=1, message="Er moet minstens 1 artikel toegevoegd worden")
     protected int aantal;
     
     public BestelRegel() {}

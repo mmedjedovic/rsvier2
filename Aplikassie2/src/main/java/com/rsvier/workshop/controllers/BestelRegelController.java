@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -111,19 +113,19 @@ public class BestelRegelController {
     } 
     
     @PostMapping(value="/nieuweregel")
-    public ModelAndView bestelRegelToegevoegd(BestelRegel bestelregel, Artikel artikel, Bestelling bestelling) {
+    public ModelAndView bestelRegelToegevoegd(@Valid BestelRegel bestelregel, Artikel artikel, 
+            Bestelling bestelling, BindingResult bindingResult) {
         ModelAndView modelAndView = null;
         
         Optional artikelOptional = artikelRepository.findById(artikel.getId());
         artikel = (Artikel) artikelOptional.get();
         
-        if (bestelregel.getAantal() < 1) {
-            modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
+        if (bindingResult.hasErrors()) {
+            modelAndView = new ModelAndView("bestelregelformulier");
             return modelAndView;
-            //TODO errorhandling
         }
         
-        if (bestelregel.getAantal() > artikel.getVoorraad()) {
+        else if (bestelregel.getAantal() > artikel.getVoorraad()) {
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             return modelAndView;
             //TODO errorhandling

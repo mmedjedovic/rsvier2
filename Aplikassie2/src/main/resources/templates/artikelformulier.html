@@ -13,7 +13,7 @@
             <h1>Voeg een artikel toe</h1>
         </div>
             
-            <form name='f' th:object="${artikel}" method='POST'>
+            <form name='f' th:object="${artikel}" method='POST' >
                 <input type="hidden" th:value= "${artikel.Id}"th:field="*{id}" />
                             <span class="validationError"
                             th:if="${#fields.hasErrors('id')}"

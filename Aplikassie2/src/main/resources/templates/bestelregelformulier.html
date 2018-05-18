@@ -21,6 +21,8 @@
                 </select>
                 <label for="aantal">Aantal:</label>
                 <input type="text" th:field="*{aantal}"/>
+                <span class="validationError" th:if="${#fields.hasErrors('aantal')}"
+                      th:errors="*{aantal}">Aantal Error</span>
                 <input type="hidden" th:value= "${bestelling.id}"th:field="*{bestelling}" />
 
                 <p><input type="submit" value="Voeg toe" /></p>

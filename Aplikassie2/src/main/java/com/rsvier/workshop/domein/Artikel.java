@@ -34,9 +34,8 @@ public class Artikel {
     @Min(value=0, message="Voorraad moet positief zijn")
     protected int voorraad;
     
-    @NotNull(message="Een artikel moet een status hebben")
     @Enumerated(EnumType.STRING)
-    @Column(name="artikel_status")
+    @Column(name="artikel_status", nullable=false)
     protected ArtikelStatus artikelStatus;
     
     public Artikel() {}

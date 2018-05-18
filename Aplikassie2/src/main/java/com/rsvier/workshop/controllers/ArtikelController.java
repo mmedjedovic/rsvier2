@@ -46,10 +46,12 @@ public class ArtikelController {
                 return modelAndView;
             }
             
-            artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
-            artikelRepository.save(artikel);
-            ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
-            return modelAndView;
+            else {
+                artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
+                artikelRepository.save(artikel);
+                ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
+                return modelAndView;
+            }    
         }
         
         @GetMapping(value="/edit")
