@@ -8,7 +8,7 @@
 	<div>
 		<h4>nieuwe adres toevoegen of huidige adres wijzigen</h4>
 		<p><b>Graag velden invullen:</b></p>
-		<form method="POST" action="/klant/adresupdate" th:action="@{/klant/adresupdate}" th:object="${adres}">
+		<form method="POST" action="/klant/adresupdate" th:action="@{/klant/adresupdate(id=${persoonId})}" th:object="${adres}">
 			<br><br>
 			<div>
 				<select th:field="*{adresSoort}">
@@ -29,7 +29,7 @@
 				<input type="text" th:field=*{toevoeging} />
 				<br><br>
 				<label for="poscode">Postcode:</label>
-				<input type="date" th:field=*{postcode} />
+				<input type="text" th:field=*{postcode} />
 				<br><br>
 				<label for="woonplaats">Plaats:</label>
 				<input type="text" th:field=*{woonplaats} />

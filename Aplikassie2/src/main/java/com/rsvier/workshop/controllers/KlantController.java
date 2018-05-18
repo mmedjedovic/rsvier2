@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rsvier.workshop.dao.AdresRepository;
 import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.Adres;
+import com.rsvier.workshop.domein.Bestelling;
 import com.rsvier.workshop.domein.Persoon;
 import com.rsvier.workshop.domein.Adres.AdresSoort;
 import com.rsvier.workshop.domein.Persoon.AccountSoort;
@@ -29,7 +33,10 @@ import com.rsvier.workshop.domein.Persoon.PersoonStatus;
 public class KlantController {
 	
 	@Autowired
-	PersoonRepository repository;
+	PersoonRepository persoonRepository;
+	
+	@Autowired
+	AdresRepository adresRepository;
 	
 	@ModelAttribute("persoon")
 	public Persoon getPersoon() {
@@ -61,26 +68,10 @@ public class KlantController {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setWoonAdresSoort(persoon);
-		repository.save(persoon);
-		//persoon = new Persoon();
+		persoonRepository.save(persoon);
+		persoon = new Persoon();
 		model.addAttribute("persoon", persoon);
-		return new ModelAndView("redirect:/klant/afterregister");
-	}
-	
-	@GetMapping("/afterregister")
-	public String getAfterRegister(@ModelAttribute("persoon") Persoon persoon, Model model) {
-		return "afterregister";
-	}
-	
-	@GetMapping("/adresaangeven")
-	public String adresAangeven() {
-		return "adresaangeven";
-	}
-	
-	@PostMapping("/adresupdate")
-	public ModelAndView updateAdres(@ModelAttribute("adres") Adres adres, Model model) {
-		
-		return new ModelAndView("redirect:/klant/afterregister");
+		return new ModelAndView("redirect:/klant");
 	}
 	
 	@GetMapping("/klantenoverzicht")
@@ -88,15 +79,41 @@ public class KlantController {
 		Iterable<Persoon> persoonList = new ArrayList<Persoon>();
 		PersoonStatus status = persoon.getPersoonStatus();
 		if(status != null) {
-			persoonList = repository.findByPersoonStatus(status);
+			persoonList = persoonRepository.findByPersoonStatus(status);
 		} else {
-			persoonList = repository.findAll();
+			persoonList = persoonRepository.findAll();
 		}
 		model.addAttribute("persoonList", persoonList);
 		return "klantenoverzicht";
 	}
 	
+	@GetMapping(value="/adresoverzicht")
+    public String wijzigBestelling(@RequestParam(value="id", required=true) Long id, Model model) {
+		List<Adres> adresList = new ArrayList<>();
+		Optional<Persoon> persoonOptional = persoonRepository.findById(id);
+		Persoon persoon = persoonOptional.get();
+		adresList = (List<Adres>) persoon.getAdresCollection();
+		model.addAttribute("adresList", adresList);
+		model.addAttribute("persoonId", persoon.getId());
+		return "adresoverzicht";
+	}
 	
+	@GetMapping("/adresaangeven")
+	public String adresAangeven(@RequestParam(value="id", required=true) Long id, Model model) {
+		Adres adres = new Adres();
+		model.addAttribute("persoonId", id);
+		model.addAttribute("adres", adres);
+		return "adresaangeven";
+	}
+	
+	@PostMapping("/adresupdate")
+	public ModelAndView updateAdres(@RequestParam(value="id", required=true) Long persoonId, @ModelAttribute("adres") Adres adres, Model model) {
+		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
+		Persoon persoon = optionaalPersoon.get();
+		addAdres(persoon, adres);
+		persoonRepository.save(persoon);
+		return new ModelAndView("redirect:/klant");
+	}
 	
 	private void setWoonAdresSoort(Persoon persoon) {
 		Collection<Adres> collection = persoon.getAdresCollection();
@@ -104,9 +121,14 @@ public class KlantController {
 		iterator.next().setAdresSoort(AdresSoort.WOONADRES);
 	}
 	
-	private void addAdres(@ModelAttribute("persoon") Persoon persoon, Adres adres, AdresSoort adresSoort) {
+	private void addAdres(Persoon persoon, Adres adres) {
 		Collection<Adres> collection = persoon.getAdresCollection();
-		adres.setAdresSoort(adresSoort);
+		Iterator<Adres> iterator = collection.iterator();
+		if(iterator.hasNext()) {
+			if(iterator.next().getAdresSoort().equals(adres.getAdresSoort())) {
+				iterator.remove();
+			}
+		}
 		collection.add(adres);
 	}
 

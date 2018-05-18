@@ -8,7 +8,6 @@
 	<div><a href="/">Terug naar home</a></div>
 	<div th:if="${persoonList == null or #lists.isEmpty(persoonList)}">
 		<div><a href="register">Voeg klant toe</a></div>
-		<div><a href="/">Terug naar home</a></div>
 	</div>
 	<div th:if="${persoonList != null or not #lists.isEmpty(persoonList)}">
 		<h2>Klantenoverzicht</h2>
@@ -23,13 +22,13 @@
 				<th>Wijzigen</th>
 				<th>Verwijderen</th>
 			</tr>
-			<tr th:each="persoon: ${persoonList}">
-				<td th:text="${persoon.voorNaam}"></td>
-				<td th:text="${persoon.tussenVoegsel}"></td>
-				<td th:text="${persoon.achterNaam}"></td>
-				<td th:text="${persoon.geboorteDatum}"></td>
-				<td th:text="${persoon.persoonStatus}"></td>
-				<td><a th:ref="@{/klant/adresinfo(id=${persoon.id})}">adres info</a></td>
+			<tr data-th-each="persoon: ${persoonList}">
+				<td data-th-text="${persoon.voorNaam}"></td>
+				<td data-th-text="${persoon.tussenVoegsel}"></td>
+				<td data-th-text="${persoon.achterNaam}"></td>
+				<td data-th-text="${persoon.geboorteDatum}"></td>
+				<td data-th-text="${persoon.persoonStatus}"></td>
+				<td><a href="#" data-th-href="@{/klant/adresoverzicht(id=${persoon.id})}">adres info</a></td>
 			</tr>
 		</table>
 	</div>

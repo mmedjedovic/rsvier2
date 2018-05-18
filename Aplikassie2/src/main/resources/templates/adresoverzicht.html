@@ -1,0 +1,33 @@
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div th:if="${adresList == null or #lists.isEmpty(adresList)}">
+	<div><p>List is leeg</p></div>
+</div>
+<div th:if="${adresList != null or not #list.isEmpty(adresList)}">
+	<table>
+		<tr>
+			<th>Straatnaam</th>
+			<th>Huisnummer</th>
+			<th>Toevoeging</th>
+			<th>Postcode</th>
+			<th>Woonplaats</th>
+			<th>Adres soort</th>
+			<th>Actie</th>
+		</tr>
+		<tr data-th-each="adres: ${adresList}">
+			<td data-th-text="${adres.straatnaam}"></td>
+			<td data-th-text="${adres.huisnummer}"></td>
+			<td data-th-text="${adres.toevoeging}"></td>
+			<td data-th-text="${adres.postcode}"></td>
+			<td data-th-text="${adres.woonplaats}"></td>
+			<td data-th-text="${adres.adresSoort}"></td>
+			<td><a href="#" data-th-href="@{/klant/adresaangeven(id=${persoonId})}">adres wijzigen</a></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

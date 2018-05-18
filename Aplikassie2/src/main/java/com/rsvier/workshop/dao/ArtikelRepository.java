@@ -12,4 +12,5 @@ public interface ArtikelRepository extends CrudRepository<Artikel, Long>{
     @Query(value = "SELECT * FROM artikel a WHERE a.artikel_status = 'ACTIEF'",
             nativeQuery=true)
     public List<Artikel> findActief();
+    
 }
