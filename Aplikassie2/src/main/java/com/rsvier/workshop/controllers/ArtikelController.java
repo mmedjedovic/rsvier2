@@ -4,8 +4,10 @@ import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.domein.Artikel;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +39,13 @@ public class ArtikelController {
         }
         
         @PostMapping(value="/add")
-        public ModelAndView artikelToegevoegen (Artikel artikel) {
+        public ModelAndView artikelToegevoegen (@Valid Artikel artikel, BindingResult bindingResult) {
+            
+            if (bindingResult.hasErrors()) {
+                ModelAndView modelAndView = new ModelAndView("artikelformulier");
+                return modelAndView;
+            }
+            
             artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
             artikelRepository.save(artikel);
             ModelAndView modelAndView = new ModelAndView("redirect:/artikel");

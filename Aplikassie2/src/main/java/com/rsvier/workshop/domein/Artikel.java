@@ -9,6 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="artikel")
@@ -18,17 +22,21 @@ public class Artikel {
     @GeneratedValue(strategy=GenerationType.AUTO)
     protected Long id;
     
-    @Column(nullable = false, length = 45)
+    @NotNull(message="Vul a.u.b. een naam in")
+    @Size(min=2, max=30, message="Een artikelnaam moet tussen 2 en 30 tekens zijn")
     protected String naam;
     
-    @Column(nullable = false, precision = 6, scale = 2)
+    @NotNull(message="Prijs kan niet leeg zijn")
+    @Digits(integer=6, fraction=2, message="De prijs kan maximaal 9999.99 bedragen en moet gescheiden zijn met een punt")
     protected BigDecimal prijs;
     
-    @Column(nullable = false)
+    @NotNull(message="Voorraad moet worden ingevuld")
+    @Min(value=0, message="Voorraad moet positief zijn")
     protected int voorraad;
     
+    @NotNull(message="Een artikel moet een status hebben")
     @Enumerated(EnumType.STRING)
-    @Column(name="artikel_status", nullable=false)
+    @Column(name="artikel_status")
     protected ArtikelStatus artikelStatus;
     
     public Artikel() {}
