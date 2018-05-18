@@ -27,7 +27,7 @@ public class Artikel {
     protected String naam;
     
     @NotNull(message="Prijs kan niet leeg zijn")
-    @Digits(integer=6, fraction=2, message="De prijs kan maximaal 9999.99 bedragen en moet gescheiden zijn met een punt")
+    @Digits(integer=6, fraction=2, message="De prijs kan maximaal 999999.99 bedragen en moet gescheiden zijn met een punt")
     protected BigDecimal prijs;
     
     @NotNull(message="Voorraad moet worden ingevuld")
