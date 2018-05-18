@@ -19,8 +19,7 @@
 				<th>Geboortedatum</th>
 				<th>Status</th>
 				<th>Adres</th>
-				<th>Wijzigen</th>
-				<th>Verwijderen</th>
+				<th>Actie</th>
 			</tr>
 			<tr data-th-each="persoon: ${persoonList}">
 				<td data-th-text="${persoon.voorNaam}"></td>
@@ -29,6 +28,8 @@
 				<td data-th-text="${persoon.geboorteDatum}"></td>
 				<td data-th-text="${persoon.persoonStatus}"></td>
 				<td><a href="#" data-th-href="@{/klant/adresoverzicht(id=${persoon.id})}">adres info</a></td>
+				<td><a href="#" data-th-href="@{/klant/edit(id=${persoon.id})}">edit</a></td>
+				<td><a href="#" data-th-href="@{/klant/delete(id=${persoon.id})}">delete</a></td>
 			</tr>
 		</table>
 	</div>

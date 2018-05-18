@@ -94,7 +94,7 @@ public class Adres {
         this.adresSoort = adresSoort;
     }
 
-    @Override
+	@Override
     public String toString() {
         return straatnaam + " " + huisnummer + toevoeging + ", " + postcode + ", " + woonplaats;
     }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Wijzig onderstaande felden</h1>
+	
+	<form method="POST" action="klant/persoonupdate" th:action="@{/klant/persoonupdate}" th:object="${persoon}">
+		<div>
+			<label for="voorNaam">Voornaam:</label>
+			<input type="text" th:field=*{voorNaam} />
+			<br><br>
+			<label for="achterNaam">Achternaam:</label>
+			<input type="text" th:field=*{achterNaam} />
+			<br><br>
+			<label for="tussenVoegsel">Tussenvoegsel</label>
+			<input type="text" th:field=*{tussenVoegsel} />
+			<br><br>
+			<label for="geboorteDatum">Geboortedatum:</label>
+			<input type="date" th:field=*{geboorteDatum} />
+			<br><br>
+			<input type="submit" value="update" >
+		</div>
+</body>
+</html>

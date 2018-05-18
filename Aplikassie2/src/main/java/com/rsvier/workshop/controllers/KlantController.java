@@ -88,7 +88,7 @@ public class KlantController {
 	}
 	
 	@GetMapping(value="/adresoverzicht")
-    public String wijzigBestelling(@RequestParam(value="id", required=true) Long id, Model model) {
+    public String adresOverzicht(@RequestParam(value="id", required=true) Long id, Model model) {
 		List<Adres> adresList = new ArrayList<>();
 		Optional<Persoon> persoonOptional = persoonRepository.findById(id);
 		Persoon persoon = persoonOptional.get();
@@ -115,6 +115,34 @@ public class KlantController {
 		return new ModelAndView("redirect:/klant");
 	}
 	
+	@GetMapping("/delete")
+	public ModelAndView deleteKlant(@RequestParam(value="id", required=true) Long persoonId, Model model) {
+		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
+		Persoon persoon = optionaalPersoon.get();
+		if(persoon.getPersoonStatus().equals(PersoonStatus.INACTIEF)) {
+			persoonRepository.delete(persoon);
+		}
+		if(persoon.getPersoonStatus().equals(PersoonStatus.ACTIEF)) {
+			persoon.setPersoonStatus(PersoonStatus.INACTIEF);
+			persoonRepository.save(persoon);
+		}
+		return new ModelAndView("redirect:/klant");
+	}
+	
+	@GetMapping("/edit")
+	public String editFormulierPersoon(@RequestParam(value="id", required=true) Long persoonId, Model model) {
+		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
+		Persoon persoon = optionaalPersoon.get();
+		model.addAttribute("persoon", persoon);
+		return "editpersoon";
+	}
+	
+	@PostMapping("/persoonupdate")
+	public ModelAndView persoonUpdate(@ModelAttribute("persoon") Persoon persoon, Model model) {
+		persoonRepository.save(persoon);
+		return new ModelAndView("redirect:/klant");
+	}
+	
 	private void setWoonAdresSoort(Persoon persoon) {
 		Collection<Adres> collection = persoon.getAdresCollection();
 		Iterator<Adres> iterator = collection.iterator();
@@ -130,6 +158,9 @@ public class KlantController {
 			}
 		}
 		collection.add(adres);
+		adresRepository.save(adres);
 	}
+	
+	
 
 }
