@@ -113,44 +113,47 @@ public class BestelRegelController {
     } 
     
     @PostMapping(value="/nieuweregel")
-    public ModelAndView bestelRegelToegevoegd(@Valid BestelRegel bestelregel, Artikel artikel, 
+    public ModelAndView bestelRegelToegevoegd(@Valid BestelRegel bestelRegel, Artikel artikel, 
             Bestelling bestelling, BindingResult bindingResult) {
         ModelAndView modelAndView = null;
         
         Optional artikelOptional = artikelRepository.findById(artikel.getId());
         artikel = (Artikel) artikelOptional.get();
         
-        if (bindingResult.hasErrors()) {
-            modelAndView = new ModelAndView("bestelregelformulier");
+        //if (bindingResult.hasErrors()) {
+        if (bestelRegel.getAantal() < 1) {
+            //modelAndView = bestelRegelToevoegen(bestelRegel, bestelling.getId());
+            modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
+            //modelAndView = new ModelAndView("bestelregelformulier");
             return modelAndView;
         }
         
-        else if (bestelregel.getAantal() > artikel.getVoorraad()) {
+        else if (bestelRegel.getAantal() > artikel.getVoorraad()) {
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             return modelAndView;
             //TODO errorhandling
         }
         
         else {
-            artikel.setVoorraad(artikel.getVoorraad() - bestelregel.getAantal());
+            artikel.setVoorraad(artikel.getVoorraad() - bestelRegel.getAantal());
             artikelRepository.save(artikel);
 
             Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
             bestelling = (Bestelling) bestellingOptional.get();
 
-            bestelregel.setArtikelPrijs(artikel.getPrijs());
+            bestelRegel.setArtikelPrijs(artikel.getPrijs());
             BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
-            BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
-            BigDecimal aantalartikelen = new BigDecimal(bestelregel.getAantal());
+            BigDecimal artikelprijs = bestelRegel.getArtikelPrijs();
+            BigDecimal aantalartikelen = new BigDecimal(bestelRegel.getAantal());
             BigDecimal x = aantalartikelen.multiply(artikelprijs);
             BigDecimal nieuwetotaalprijs = oudetotaalprijs.add(x);
 
             bestelling.setTotaalprijs(nieuwetotaalprijs);
             bestellingRepository.save(bestelling);
 
-            bestelregel.setArtikel(artikel);
-            bestelregel.setBestelling(bestelling);
-            bestelRegelRepository.save(bestelregel);
+            bestelRegel.setArtikel(artikel);
+            bestelRegel.setBestelling(bestelling);
+            bestelRegelRepository.save(bestelRegel);
 
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             return modelAndView;

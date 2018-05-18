@@ -32,8 +32,9 @@ public class BestelRegel {
     @Column(nullable = false, precision = 6, scale = 2)
     protected BigDecimal artikelPrijs;
     
-    @NotNull(message="Aantal kan niet leeg zijn")
-    @Min(value=1, message="Er moet minstens 1 artikel toegevoegd worden")
+    //@NotNull(message="Aantal kan niet leeg zijn")
+    //@Min(value=1, message="Er moet minstens 1 artikel toegevoegd worden")
+    @Column(nullable = false)
     protected int aantal;
     
     public BestelRegel() {}
