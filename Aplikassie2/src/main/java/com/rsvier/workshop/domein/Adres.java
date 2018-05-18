@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Adres {
 	
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="adres_id")
     protected Long id;
 	

@@ -24,7 +24,7 @@ import javax.persistence.Table;
 public class Bestelling {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     
     @Column(nullable = false, precision = 6, scale = 2)

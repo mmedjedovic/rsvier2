@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 public class Artikel {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     
     @NotNull(message="Vul a.u.b. een naam in")

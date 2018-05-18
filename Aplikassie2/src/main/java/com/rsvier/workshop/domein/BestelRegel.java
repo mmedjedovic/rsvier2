@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class BestelRegel {
     
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)

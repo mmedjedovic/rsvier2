@@ -27,7 +27,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Persoon {
 	
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="persoon_id")
     protected Long id;
 	
