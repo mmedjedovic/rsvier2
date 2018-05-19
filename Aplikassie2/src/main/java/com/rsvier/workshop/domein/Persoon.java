@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,9 +32,11 @@ public class Persoon {
     @Column(name="persoon_id")
     protected Long id;
 	
+    @Size(min=3, max=40)
     @Column(name="voornaam", nullable=false)
     protected String voorNaam;
 	
+    @Size(min=3, max=40)
     @Column(name="achternaam", nullable=false)
     protected String achterNaam;
 	
@@ -59,9 +62,11 @@ public class Persoon {
     @Column(name="persoon_status")
     public PersoonStatus persoonStatus;
     
+    @Size(min=3, max=15)
     @Column(nullable=false)
     protected String gebruikersnaam;
     
+    @Size(min=4, max=10)
     @Column(nullable=false)
     protected String wachtwoord;
     

@@ -6,9 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +59,10 @@ public class AdresController {
 	}
 	
 	@PostMapping("/maakadres")
-	public ModelAndView updateAdres(@RequestParam(value="id", required=true) Long persoonId, @ModelAttribute("adres") Adres adres, Model model) {
+	public ModelAndView maakAdres(@RequestParam(value="id", required=true) Long persoonId, @Valid @ModelAttribute("adres") Adres adres, Model model, Errors errors) {
+		if(errors.hasErrors()) {
+			return new ModelAndView("adresoverzicht");
+		}
 		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
 		Persoon persoon = optionaalPersoon.get();
 		Collection<Adres> collection = persoon.getAdresCollection();

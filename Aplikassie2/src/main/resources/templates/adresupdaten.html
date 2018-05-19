@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -15,18 +16,23 @@
 		<div>
 			<label for="straatnaam">Straatnaam:</label>
 			<input type="text" th:field="*{straatnaam}"/>
+			<span th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span>
 			<br><br>
 			<label for="huisnummer">Huisnummer:</label>
 			<input type="number" th:field="*{huisnummer}"/>
+			<span th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span>
 			<br><br>
 			<label for="toevoeging">Toevoeging:</label>
 			<input type="text" th:field="*{toevoeging}"/>
+			<span th:if="${#fields.hasErrors('toevoeging')}" th:errors="*{toevoeging}"></span>
 			<br><br>
 			<label for="postcode">Postcode:</label>
 			<input type="text" th:field="*{postcode}"/>
+			<span th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></span>
 			<br><br>
 			<label for="woonplaats">Plaats:</label>
 			<input type="text" th:field="*{woonplaats}"/>
+			<span th:if="${#fields.hasErrors('woonplaats')}" th:errors="*{woonplaats}"></span>
 			<br><br>
 			<input type="hidden" th:field="*{adresSoort}"/>
 			<br><br>

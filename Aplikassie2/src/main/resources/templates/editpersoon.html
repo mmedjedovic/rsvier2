@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -11,17 +12,22 @@
 		<div>
 			<label for="voorNaam">Voornaam:</label>
 			<input type="text" th:field=*{voorNaam} />
+			<span th:if="${#fields.hasErrors('voorNaam')}" th:errors="*{voorNaam}"></span>
 			<br><br>
 			<label for="achterNaam">Achternaam:</label>
 			<input type="text" th:field=*{achterNaam} />
+			<span th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span>
 			<br><br>
 			<label for="tussenVoegsel">Tussenvoegsel</label>
 			<input type="text" th:field=*{tussenVoegsel} />
+			<span th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span>
 			<br><br>
 			<label for="geboorteDatum">Geboortedatum:</label>
 			<input type="date" th:field=*{geboorteDatum} />
+			<span th:if="${#fields.hasErrors('geboorteDatum')}" th:errors="*{geboorteDatum}"></span>
 			<br><br>
 			<input type="submit" value="update" >
 		</div>
+	</form>
 </body>
 </html>
