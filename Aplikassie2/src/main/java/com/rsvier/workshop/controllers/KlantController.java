@@ -48,9 +48,9 @@ public class KlantController {
 		return new Adres();
 	}
 	
-	@ModelAttribute("andereAdressen")
-	public Boolean getAdrssen() {
-		return new Boolean(false);
+	@ModelAttribute("message")
+	public String getMessage() {
+		return new String();
 	}
 	
 	@GetMapping
@@ -64,7 +64,7 @@ public class KlantController {
 	}
 	
 	@PostMapping("/register")
-	public ModelAndView registerKlant(@ModelAttribute("persoon") Persoon persoon, Model model) {
+	public ModelAndView registerKlant(@ModelAttribute("persoon") Persoon persoon, @ModelAttribute("message") String message, Model model) {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setWoonAdresSoort(persoon);
@@ -87,31 +87,17 @@ public class KlantController {
 		return "klantenoverzicht";
 	}
 	
-	@GetMapping(value="/adresoverzicht")
-    public String adresOverzicht(@RequestParam(value="id", required=true) Long id, Model model) {
-		List<Adres> adresList = new ArrayList<>();
-		Optional<Persoon> persoonOptional = persoonRepository.findById(id);
-		Persoon persoon = persoonOptional.get();
-		adresList = (List<Adres>) persoon.getAdresCollection();
-		model.addAttribute("adresList", adresList);
-		model.addAttribute("persoonId", persoon.getId());
-		return "adresoverzicht";
-	}
-	
-	@GetMapping("/adresaangeven")
-	public String adresAangeven(@RequestParam(value="id", required=true) Long id, Model model) {
-		Adres adres = new Adres();
-		model.addAttribute("persoonId", id);
-		model.addAttribute("adres", adres);
-		return "adresaangeven";
-	}
-	
-	@PostMapping("/adresupdate")
-	public ModelAndView updateAdres(@RequestParam(value="id", required=true) Long persoonId, @ModelAttribute("adres") Adres adres, Model model) {
+	@GetMapping("/wijzigstatus")
+	public ModelAndView wijzigStatus(@RequestParam(value="id", required=true) Long persoonId, Model model) {
 		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
 		Persoon persoon = optionaalPersoon.get();
-		addAdres(persoon, adres);
-		persoonRepository.save(persoon);
+		if(persoon.getPersoonStatus().equals(PersoonStatus.INACTIEF)) {
+			persoon.setPersoonStatus(PersoonStatus.ACTIEF);
+			persoonRepository.save(persoon);
+		} else if(persoon.getPersoonStatus().equals(PersoonStatus.ACTIEF)) {
+			persoon.setPersoonStatus(PersoonStatus.INACTIEF);
+			persoonRepository.save(persoon);
+		}
 		return new ModelAndView("redirect:/klant");
 	}
 	
@@ -119,13 +105,7 @@ public class KlantController {
 	public ModelAndView deleteKlant(@RequestParam(value="id", required=true) Long persoonId, Model model) {
 		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
 		Persoon persoon = optionaalPersoon.get();
-		if(persoon.getPersoonStatus().equals(PersoonStatus.INACTIEF)) {
-			persoonRepository.delete(persoon);
-		}
-		if(persoon.getPersoonStatus().equals(PersoonStatus.ACTIEF)) {
-			persoon.setPersoonStatus(PersoonStatus.INACTIEF);
-			persoonRepository.save(persoon);
-		}
+		persoonRepository.delete(persoon);
 		return new ModelAndView("redirect:/klant");
 	}
 	
@@ -143,24 +123,12 @@ public class KlantController {
 		return new ModelAndView("redirect:/klant");
 	}
 	
+	
+	
 	private void setWoonAdresSoort(Persoon persoon) {
 		Collection<Adres> collection = persoon.getAdresCollection();
 		Iterator<Adres> iterator = collection.iterator();
 		iterator.next().setAdresSoort(AdresSoort.WOONADRES);
 	}
-	
-	private void addAdres(Persoon persoon, Adres adres) {
-		Collection<Adres> collection = persoon.getAdresCollection();
-		Iterator<Adres> iterator = collection.iterator();
-		if(iterator.hasNext()) {
-			if(iterator.next().getAdresSoort().equals(adres.getAdresSoort())) {
-				iterator.remove();
-			}
-		}
-		collection.add(adres);
-		adresRepository.save(adres);
-	}
-	
-	
 
 }

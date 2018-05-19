@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<h3>Adres aanpassen:</h3>
+	</div>
+	<br><br>
+	<div th:text="${adres.adresSoort}"></div>
+	<br></br>
+	<form method="POST" action="/adres/executeupdate" th:action="@{/adres/executeupdate}" th:object="${adres}">
+		<div>
+			<label for="straatnaam">Straatnaam:</label>
+			<input type="text" th:field="*{straatnaam}"/>
+			<br><br>
+			<label for="huisnummer">Huisnummer:</label>
+			<input type="number" th:field="*{huisnummer}"/>
+			<br><br>
+			<label for="toevoeging">Toevoeging:</label>
+			<input type="text" th:field="*{toevoeging}"/>
+			<br><br>
+			<label for="postcode">Postcode:</label>
+			<input type="text" th:field="*{postcode}"/>
+			<br><br>
+			<label for="woonplaats">Plaats:</label>
+			<input type="text" th:field="*{woonplaats}"/>
+			<br><br>
+			<input type="hidden" th:field="*{adresSoort}"/>
+			<br><br>
+			<input type="hidden" th:field="*{id}"/>
+			<br><br>
+			<input type="submit" value="updaten" />
+		</div>
+	</form>
+	
+</body>
+</html>

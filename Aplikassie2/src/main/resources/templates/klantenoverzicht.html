@@ -5,7 +5,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div><a href="/">Terug naar home</a></div>
+	 <div><a href="/">Terug naar home</a></div>
+	<div><a href="/klant">Terug naar klantmenu</a></div>
+	<br><br>
 	<div th:if="${persoonList == null or #lists.isEmpty(persoonList)}">
 		<div><a href="register">Voeg klant toe</a></div>
 	</div>
@@ -20,6 +22,8 @@
 				<th>Status</th>
 				<th>Adres</th>
 				<th>Actie</th>
+				<th>Actie</th>
+				<th>Actie</th>
 			</tr>
 			<tr data-th-each="persoon: ${persoonList}">
 				<td data-th-text="${persoon.voorNaam}"></td>
@@ -27,9 +31,17 @@
 				<td data-th-text="${persoon.achterNaam}"></td>
 				<td data-th-text="${persoon.geboorteDatum}"></td>
 				<td data-th-text="${persoon.persoonStatus}"></td>
-				<td><a href="#" data-th-href="@{/klant/adresoverzicht(id=${persoon.id})}">adres info</a></td>
-				<td><a href="#" data-th-href="@{/klant/edit(id=${persoon.id})}">edit</a></td>
-				<td><a href="#" data-th-href="@{/klant/delete(id=${persoon.id})}">delete</a></td>
+				<td><a href="#" data-th-href="@{/adres/adresoverzicht(id=${persoon.id})}">adres info</a></td>
+				<td><a href="#" data-th-href="@{/klant/edit(id=${persoon.id})}">update</a></td>
+				<td th:if="${persoon.persoonStatus.name()} == 'ACTIEF'">
+					<a href="#" data-th-href="@{/klant/wijzigstatus(id=${persoon.id})}">inactief maken</a>
+				</td>
+				<td th:if="${persoon.persoonStatus.name()} == 'INACTIEF'">
+					<a href="#" data-th-href="@{/klant/wijzigstatus(id=${persoon.id})}">actief maken</a>
+				</td>
+				<td th:if="${persoon.persoonStatus.name()} == 'INACTIEF'">
+					<a href="#" data-th-href="@{/klant/delete(id=${persoon.id})}">delete</a>
+				</td>
 			</tr>
 		</table>
 	</div>
