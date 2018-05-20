@@ -12,7 +12,7 @@
 	<div>
 		<h4>nieuwe adres toevoegen</h4>
 		<p><b>Graag velden invullen:</b></p>
-		<form method="POST" action="/adres/maakadres" th:action="@{/adres/maakadres(id=${persoonId})}" th:object="${adres}">
+		<form method="POST" action="/adres/maakadres" th:action="@{/adres/maakadres}" th:object="${adres}">
 			<br><br>
 			<div>
 				<select th:field="*{adresSoort}">

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rsvier.workshop.dao.AdresRepository;
@@ -25,6 +26,7 @@ import com.rsvier.workshop.domein.Adres;
 import com.rsvier.workshop.domein.Persoon;
 
 @Controller
+@SessionAttributes("persoon")
 @RequestMapping("/adres")
 public class AdresController {
 	
@@ -34,9 +36,19 @@ public class AdresController {
 	@Autowired
 	PersoonRepository persoonRepository;
 	
-	@ModelAttribute
+	@ModelAttribute("adres")
 	public Adres getAdres() {
 		return new Adres();
+	}
+	
+	@ModelAttribute("persoon")
+	public Persoon getPersoon() {
+		return new Persoon();
+	}
+	
+	@ModelAttribute("message")
+	public String getMessage() {
+		return new String();
 	}
 	
 	@GetMapping(value="/adresoverzicht")
@@ -52,32 +64,33 @@ public class AdresController {
 	}
 	
 	@GetMapping("/adresaangeven")
-	public String adresAangeven(@RequestParam(value="id", required=true) Long id, Model model) {
+	public String adresAangeven(@RequestParam(value="id", required=true) Long id, Model model, @ModelAttribute("persoon") Persoon persoon) {
 		Adres adres = new Adres();
-		model.addAttribute("persoonId", id);
+		Optional<Persoon> persoonOptional = persoonRepository.findById(id);
+		persoon = persoonOptional.get();
+		model.addAttribute("persoon", persoon);
 		model.addAttribute("adres", adres);
 		return "adresaangeven";
 	}
-	//@ModelAttribute("adres") weggehaald na @Validation
+	 
 	@PostMapping("/maakadres")
-	public ModelAndView maakAdres(@RequestParam(value="id", required=true) Long persoonId, @ModelAttribute("adres") Adres adres, Model model) {
-		/**
+	public ModelAndView maakAdres(@Valid Adres adres, Errors errors, Model model, Persoon persoon) {
 		if(errors.hasErrors()) {
 			return new ModelAndView("adresaangeven");
-		}*/
-		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
-		Persoon persoon = optionaalPersoon.get();
+		}
 		Collection<Adres> collection = persoon.getAdresCollection();
 		Iterator<Adres> iterator = collection.iterator();
 		//in gevall dat hetzelefde soortadres bestaat dan niet adres maken eerst oude adres verwijderen
 		if(iterator.hasNext()) {
 			if(iterator.next().getAdresSoort().equals(adres.getAdresSoort())) {
-				return new ModelAndView("redirect:/klant");
+				ModelAndView modelAndView = new ModelAndView("redirect:/klant");
+				return modelAndView;
 			}
 		}
 		Adres nieuwAdres = adresRepository.save(adres);
 		collection.add(nieuwAdres);
 		persoonRepository.save(persoon);
+		persoon = new Persoon();
 		return new ModelAndView("redirect:/klant");	
 	}
 	
@@ -90,8 +103,11 @@ public class AdresController {
 	}
 	
 	@PostMapping("/executeupdate")
-	public ModelAndView updateAdres(@ModelAttribute("adres") Adres adres) {
-		Adres nieuwAdres = adresRepository.save(adres);
+	public ModelAndView updateAdres(@Valid Adres adres, Errors errors) {
+		if(errors.hasErrors()) {
+			return new ModelAndView("/adresupdaten");
+		}
+		adresRepository.save(adres);
 		return new ModelAndView("redirect:/klant");
 	}
 	

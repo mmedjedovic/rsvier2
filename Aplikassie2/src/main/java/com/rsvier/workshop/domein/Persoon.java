@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,17 +33,20 @@ public class Persoon {
     @Column(name="persoon_id")
     protected Long id;
 	
-    @Size(min=3, max=40)
+    @NotNull(message="Vul a.u.b. een naam in")
+    @Size(min=2, max=30, message="Een naam moet tussen 2 en 30 tekens zijn")
     @Column(name="voornaam", nullable=false)
     protected String voorNaam;
 	
-    @Size(min=3, max=40)
+    @NotNull(message="Vul a.u.b. een naam in")
+    @Size(min=2, max=30, message="Een achternaam moet tussen 2 en 30 tekens zijn")
     @Column(name="achternaam", nullable=false)
     protected String achterNaam;
 	
     @Column(name="tussenvoegsel")
     protected String tussenVoegsel;
     
+    @NotNull(message="Vul a.u.b. uw geboortedatum")
     @Column(name="geboortedatum")
     @DateTimeFormat(pattern="yyyy-MM-dd")
     protected LocalDate geboorteDatum;
@@ -50,7 +54,7 @@ public class Persoon {
     @OneToMany(mappedBy="klant", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
     protected Set<Bestelling> bestellingSet = new HashSet<>();
     
-    @OneToMany(fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch=FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name="persoon_id")
     protected Collection<Adres> adresCollection = new ArrayList<>();
     
@@ -62,11 +66,13 @@ public class Persoon {
     @Column(name="persoon_status")
     public PersoonStatus persoonStatus;
     
-    @Size(min=3, max=15)
+    @NotNull(message="Vul gebruikersnaam")
+    @Size(min=2, max=15, message="gebruikersnaam moet tussen 2 en 15 tekens zijn")
     @Column(nullable=false)
     protected String gebruikersnaam;
     
-    @Size(min=4, max=10)
+    @NotNull(message="Vul wachtwoord")
+    @Size(min=4, max=10, message="wachtwoord moet tussen 4 en 10 tekens zijn")
     @Column(nullable=false)
     protected String wachtwoord;
     
