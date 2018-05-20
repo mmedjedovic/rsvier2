@@ -5,6 +5,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<br><br>
+<div><a href="/klant/klantenoverzicht">Terug naar klant overzicht</a></div>
+<br><br>
 <body>
 	<div>
 		<h4>nieuwe adres toevoegen</h4>
@@ -22,10 +25,10 @@
 				<br><br>
 				<label for="straatnaam">Straatnaam:</label>
 				<input type="text" th:field=*{straatnaam} />
-				<span th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span>
+				<span class="validationError" th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span>
 				<br><br>
 				<label for="huisnummer">Huisnummer:</label>
-				<input type="text" th:field=*{huisnummer} />
+				<input type="number" th:field=*{huisnummer} />
 				<span th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span>
 				<br><br>
 				<label for="toevoeging">Toevoeging</label>

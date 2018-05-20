@@ -47,6 +47,7 @@ public class AdresController {
 		adresList = (List<Adres>) persoon.getAdresCollection();
 		model.addAttribute("adresList", adresList);
 		model.addAttribute("persoonId", persoon.getId());
+		model.addAttribute("naam", persoon.getVoorNaam());
 		return "adresoverzicht";
 	}
 	
@@ -57,12 +58,13 @@ public class AdresController {
 		model.addAttribute("adres", adres);
 		return "adresaangeven";
 	}
-	
+	//@ModelAttribute("adres") weggehaald na @Validation
 	@PostMapping("/maakadres")
-	public ModelAndView maakAdres(@RequestParam(value="id", required=true) Long persoonId, @Valid @ModelAttribute("adres") Adres adres, Model model, Errors errors) {
+	public ModelAndView maakAdres(@RequestParam(value="id", required=true) Long persoonId, @ModelAttribute("adres") Adres adres, Model model) {
+		/**
 		if(errors.hasErrors()) {
-			return new ModelAndView("adresoverzicht");
-		}
+			return new ModelAndView("adresaangeven");
+		}*/
 		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
 		Persoon persoon = optionaalPersoon.get();
 		Collection<Adres> collection = persoon.getAdresCollection();

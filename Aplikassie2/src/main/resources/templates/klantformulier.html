@@ -35,33 +35,26 @@
 			<h3>Woonadres</h3>
 			<label for="straatnaam">Straatnaam:</label>
 			<input type="text" th:field=*{adresCollection[0].straatnaam} />
-			<span th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span>
 			<br><br>
 			<label for="huisnummer">Huisnummer:</label>
-			<input type="text" th:field=*{adresCollection[0].huisnummer} />
-			<span th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span>
+			<input type="number" th:field=*{adresCollection[0].huisnummer} />
 			<br><br>
 			<label for="toevoeging">Toevoeging:</label>
 			<input type="text" th:field=*{adresCollection[0].toevoeging} />
-			<span th:if="${#fields.hasErrors('toevoeging')}" th:errors="*{toevoeging}"></span>
 			<br><br>
 			<label for="postcode">Postcode:</label>
 			<input type="text" th:field=*{adresCollection[0].postcode} />
-			<span th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></span>
 			<br><br>
 			<label for="woonplaats">Woonplaats:</label>
 			<input type="text" th:field=*{adresCollection[0].woonplaats} />
-			<span th:if="${#fields.hasErrors('woonplaats')}" th:errors="*{woonplaats}"></span>
 			<br><br>
 		</div>
 		<div>
 			<label for="gebruikersnaam">Gebruikersnaam:</label>
 			<input type="text" th:field=*{gebruikersnaam} />
-			<span th:if="${#fields.hasErrors('gebruikersnaam')}" th:errors="*{gebruikersnaam}"></span>
 			<br><br>
 			<label for="wachtwoord">Wachtwoord:</label>
 			<input type="text" th:field=*{wachtwoord} />
-			<span th:if="${#fields.hasErrors('wachtwoord')}" th:errors="*{wachtwoord}"></span>
 			<br><br>
 		</div>
 		<input type="submit" value="register" />

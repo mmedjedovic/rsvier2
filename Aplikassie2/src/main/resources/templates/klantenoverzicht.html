@@ -9,7 +9,7 @@
 	<div><a href="/klant">Terug naar klantmenu</a></div>
 	<br><br>
 	<div th:if="${persoonList == null or #lists.isEmpty(persoonList)}">
-		<div><a href="register">Voeg klant toe</a></div>
+		<div><span>lijst is leeg: </span><a href="/klant/klantformulier">voeg een klant toe</a></div>
 	</div>
 	<div th:if="${persoonList != null or not #lists.isEmpty(persoonList)}">
 		<h2>Klantenoverzicht</h2>

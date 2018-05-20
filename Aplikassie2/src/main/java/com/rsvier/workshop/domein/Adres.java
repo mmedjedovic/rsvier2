@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,11 +21,9 @@ public class Adres {
     @Column(name="adres_id")
     protected Long id;
 	
-    @Size(min=3, message="test")
     @Column(nullable=false)
     protected String straatnaam;
 	
-    @NotNull
     @Column(nullable=false)
     protected int huisnummer;
 	
