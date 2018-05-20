@@ -2,6 +2,7 @@ package com.rsvier.workshop.domein;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,66 +23,73 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Table(name="persoon")
-public class Persoon {
-	
+@Table(name = "persoon")
+public class Persoon implements UserDetails {
+    
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="persoon_id")
+    @Column(name = "persoon_id")
     protected Long id;
-	
-    @NotNull(message="Vul a.u.b. een naam in")
-    @Size(min=2, max=30, message="Een naam moet tussen 2 en 30 tekens zijn")
-    @Column(name="voornaam", nullable=false)
+
+    @NotNull(message = "Vul a.u.b. een naam in")
+    @Size(min = 2, max = 30, message = "Een naam moet tussen 2 en 30 tekens zijn")
+    @Column(name = "voornaam", nullable = false)
     protected String voorNaam;
-	
-    @NotNull(message="Vul a.u.b. een naam in")
-    @Size(min=2, max=30, message="Een achternaam moet tussen 2 en 30 tekens zijn")
-    @Column(name="achternaam", nullable=false)
+
+    @NotNull(message = "Vul a.u.b. een naam in")
+    @Size(min = 2, max = 30, message = "Een achternaam moet tussen 2 en 30 tekens zijn")
+    @Column(name = "achternaam", nullable = false)
     protected String achterNaam;
-	
-    @Column(name="tussenvoegsel")
+
+    @Column(name = "tussenvoegsel")
     protected String tussenVoegsel;
-    
-    @NotNull(message="Vul a.u.b. uw geboortedatum")
-    @Column(name="geboortedatum")
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+
+    @NotNull(message = "Vul a.u.b. uw geboortedatum")
+    @Column(name = "geboortedatum")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected LocalDate geboorteDatum;
-	
-    @OneToMany(mappedBy="klant", fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
+
+    @OneToMany(mappedBy = "klant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     protected Set<Bestelling> bestellingSet = new HashSet<>();
-    
-    @OneToMany(fetch=FetchType.EAGER, cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name="persoon_id")
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "persoon_id")
     protected Collection<Adres> adresCollection = new ArrayList<>();
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(name="accountsoort", nullable=false)
+    @Column(name = "accountsoort", nullable = false)
     protected AccountSoort accountSoort;
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(name="persoon_status")
+    @Column(name = "persoon_status")
     public PersoonStatus persoonStatus;
-    
-    @NotNull(message="Vul gebruikersnaam")
-    @Size(min=2, max=15, message="gebruikersnaam moet tussen 2 en 15 tekens zijn")
-    @Column(nullable=false)
+
+    @NotNull(message = "Vul gebruikersnaam")
+    @Size(min = 2, max = 15, message = "gebruikersnaam moet tussen 2 en 15 tekens zijn")
+    @Column(nullable = false)
     protected String gebruikersnaam;
-    
-    @NotNull(message="Vul wachtwoord")
-    @Size(min=4, max=10, message="wachtwoord moet tussen 4 en 10 tekens zijn")
-    @Column(nullable=false)
+
+    @NotNull(message = "Vul wachtwoord")
+    @Column(nullable = false)
     protected String wachtwoord;
-    
-    public enum PersoonStatus {ACTIEF, INACTIEF}
-    
-    public enum AccountSoort {ADMINISTRATOR, MEDEWERKER, KLANT}
-    
-    
-    public Persoon() {}
+
+    public enum PersoonStatus {
+        ACTIEF, INACTIEF
+    }
+
+    public enum AccountSoort {
+        ADMINISTRATOR, MEDEWERKER, KLANT
+    }
+
+    public Persoon() {
+    }
 
     public Long getId() {
         return id;
@@ -170,9 +178,44 @@ public class Persoon {
     public void setWachtwoord(String wachtwoord) {
         this.wachtwoord = wachtwoord;
     }
-    
+
     @Override
     public String toString() {
         return achterNaam + ", " + voorNaam + " " + tussenVoegsel;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_MEDEWERKER"));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public String getPassword() {
+        return wachtwoord;
+    }
+
+    @Override
+    public String getUsername() {
+        return gebruikersnaam;
     }
 }

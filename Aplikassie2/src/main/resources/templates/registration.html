@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Registratie</title>
+    </head>
+    
+    <body>
+        <h1>Account registreren:</h1>
+
+        <form method="POST" th:action="@{/register}" th:object="${registrationForm}">
+            <div>
+                <p><label for="voorNaam">Voornaam:</label>
+                <input type="text" th:field=*{voorNaam} />
+                <span th:if="${#fields.hasErrors('voorNaam')}" th:errors="*{voorNaam}"></span></p>
+
+                <p><label for="achterNaam">Achternaam:</label>
+                <input type="text" th:field=*{achterNaam} />
+                <span th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span></p>
+
+                <p><label for="tussenVoegsel">Tussenvoegsel</label>
+                <input type="text" th:field=*{tussenVoegsel} />
+                <span th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span></p>
+
+                <p><label for="geboorteDatum">Geboortedatum:</label>
+                <input type="date" th:field=*{geboorteDatum} />
+                <span th:if="${#fields.hasErrors('geboorteDatum')}" th:errors="*{geboorteDatum}"></span></p>
+            </div>
+            <div>
+                <h3>Woonadres</h3>
+                <p><label for="straatnaam">Straatnaam:</label>
+                <input type="text" th:field=*{straatnaam} />
+                <span th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span></p>
+
+                <p><label for="huisnummer">Huisnummer:</label>
+                <input type="number" th:field=*{huisnummer} />
+                <span th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span></p>
+
+                <p><label for="toevoeging">Toevoeging:</label>
+                <input type="text" th:field=*{toevoeging} />
+                <span th:if="${#fields.hasErrors('toevoeging')}" th:errors="*{toevoeging}"></span></p>
+
+                <p><label for="postcode">Postcode:</label>
+                <input type="text" th:field=*{postcode} />
+                <span th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></span></p>
+
+                <p><label for="woonplaats">Woonplaats:</label>
+                <input type="text" th:field=*{woonplaats} />
+                <span th:if="${#fields.hasErrors('woonplaats')}" th:errors="*{woonplaats}"></span></p>
+                    
+            </div>
+            <div>
+                <p><label for="gebruikersnaam">Gebruikersnaam:</label>
+                <input type="text" th:field=*{gebruikersnaam} />
+                <span th:if="${#fields.hasErrors('gebruikersnaam')}" th:errors="*{gebruikersnaam}"></span></p>
+                
+                <p><label for="wachtwoord">Wachtwoord:</label>
+                <input type="password" th:field=*{wachtwoord} />
+                <span th:if="${#fields.hasErrors('wachtwoord')}" th:errors="*{wachtwoord}"></span></p>
+
+            </div>
+            <input type="submit" value="Registreer" /> <input type="reset" value="Reset"/>
+        </form>
+
+        <p><a href="/">Terug naar home</a></p>
+
+    </body>
+</html>
