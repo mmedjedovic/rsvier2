@@ -31,7 +31,7 @@
             <tbody>
                 <tr data-th-each="bestelregel : ${bestelregels}">
                     <td data-th-text="${bestelregel.artikel.naam}">Artikel</td>
-                    <td data-th-text="'€' + ${bestelregel.artikelPrijs}">Prijs</td>
+                    <td data-th-text="${bestelregel.artikelPrijs}">Prijs</td>
                     <td data-th-text="${bestelregel.aantal}">Voorraad</td>
                     <td data-th-text="'€' + ${bestelregel.aantal} * ${bestelregel.artikelPrijs}">Subtotaal</td>
                 </tr>
