@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value="/bestelling")
+@RequestMapping(value = "/bestelling")
 public class BestellingController {
-	
+
     @Autowired
     private BestellingRepository bestellingRepository;
 
@@ -33,7 +33,7 @@ public class BestellingController {
 
     @Autowired
     private PersoonRepository persoonRepository;
-    
+
     @Autowired
     private ArtikelRepository artikelRepository;
 
@@ -50,8 +50,8 @@ public class BestellingController {
         return "bestelling";
     }
 
-    @GetMapping(value="/edit")
-    public ModelAndView wijzigBestelling(@RequestParam(value="id", required=true) Long id) {
+    @GetMapping(value = "/edit")
+    public ModelAndView wijzigBestelling(@RequestParam(value = "id", required = true) Long id) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
         List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
@@ -61,34 +61,32 @@ public class BestellingController {
             modelAndView = new ModelAndView("bestellingformulier");
             modelAndView.addObject("bestelling", bestelling);
             modelAndView.addObject("bestelregels", bestelregels);
-        }
-        
-        else {
+        } else {
             modelAndView = new ModelAndView("bekijkbestelling");
             modelAndView.addObject("bestelling", bestelling);
             modelAndView.addObject("bestelregels", bestelregels);
         }
-        
+
         return modelAndView;
     }
 
-    @PostMapping(value="/edit")
+    @PostMapping(value = "/edit")
     public ModelAndView bestellingGewijzigd(Bestelling bestelling) {
         bestellingRepository.save(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
         return modelAndView;
     }
 
-    @GetMapping(value="/close")
-    public ModelAndView sluitBevestiging(@RequestParam(value="id", required=true) Long id) {
+    @GetMapping(value = "/close")
+    public ModelAndView sluitBevestiging(@RequestParam(value = "id", required = true) Long id) {
         ModelAndView modelAndView = new ModelAndView("bestellingsluit");
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
-        modelAndView.addObject("bestelling",bestelling);
+        modelAndView.addObject("bestelling", bestelling);
         return modelAndView;
     }
 
-    @PostMapping(value="/close")
+    @PostMapping(value = "/close")
     public ModelAndView sluitBestelling(Bestelling bestelling) {
         Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
         bestelling = (Bestelling) bestellingOptional.get();
@@ -98,48 +96,46 @@ public class BestellingController {
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
         return modelAndView;
     }
-    
-    @GetMapping(value="/delete")
-    public ModelAndView verwijderBevestiging(@RequestParam(value="id", required=true) Long id) {
+
+    @GetMapping(value = "/delete")
+    public ModelAndView verwijderBevestiging(@RequestParam(value = "id", required = true) Long id) {
         ModelAndView modelAndView = new ModelAndView("bestellingdelete");
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
-        modelAndView.addObject("bestelling",bestelling);
+        modelAndView.addObject("bestelling", bestelling);
         return modelAndView;
     }
 
-    @PostMapping(value="/delete")
+    @PostMapping(value = "/delete")
     public ModelAndView verwijderBestelling(Bestelling bestelling) {
         List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(bestelling.getId());
         Optional bestellingOptional = bestellingRepository.findById(bestelling.getId());
         bestelling = (Bestelling) bestellingOptional.get();
-        
+
         if (bestelling.getStatus() != Bestelling.Status.VERZONDEN) {
             //plaats artikelvoorraad terug en verwijder bestelregels
-            
-            for (BestelRegel bestelRegel: bestelregels) {
+
+            for (BestelRegel bestelRegel : bestelregels) {
                 Artikel artikel = bestelRegel.getArtikel();
                 artikel.setVoorraad(artikel.getVoorraad() + bestelRegel.getAantal());
                 artikelRepository.save(artikel);
                 bestelRegelRepository.delete(bestelRegel);
             }
-        }
-        
-        else {
+        } else {
             //verwijder bestelregels
-            for (BestelRegel bestelRegel: bestelregels) {
+            for (BestelRegel bestelRegel : bestelregels) {
                 bestelRegelRepository.delete(bestelRegel);
             }
-            
+
         }
-        
+
         bestellingRepository.delete(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
         return modelAndView;
     }
 
-    @GetMapping(value="/verzonden")
-    public ModelAndView verzendBevestiging(@RequestParam(value="id", required=true) Long id) {
+    @GetMapping(value = "/verzonden")
+    public ModelAndView verzendBevestiging(@RequestParam(value = "id", required = true) Long id) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
         List<BestelRegel> bestelregels = bestelRegelRepository.findByBestelling_id(id);
@@ -149,42 +145,38 @@ public class BestellingController {
             modelAndView = new ModelAndView("bestellingverzend");
             modelAndView.addObject("bestelling", bestelling);
             modelAndView.addObject("bestelregels", bestelregels);
-        }
-        
-        else {
+        } else {
             modelAndView = new ModelAndView("redirect:/bestelling");
         }
-        
+
         return modelAndView;
     }
 
-    @PostMapping(value="/verzonden")
+    @PostMapping(value = "/verzonden")
     public ModelAndView verzendBestelling(Bestelling bestelling) {
         bestelling.setStatus(Bestelling.Status.VERZONDEN);
         bestellingRepository.save(bestelling);
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling");
         return modelAndView;
     }
-    
-    @GetMapping(value="/add/klant")
-    public ModelAndView klantToevoegen(@RequestParam(value="id", required=true) Long id, 
-            @RequestParam(value="klant_id", required=false) Long klant_id, @ModelAttribute Persoon klant) {
-        
+
+    @GetMapping(value = "/add/klant")
+    public ModelAndView klantToevoegen(@RequestParam(value = "id", required = true) Long id,
+            @RequestParam(value = "klant_id", required = false) Long klant_id, @ModelAttribute Persoon klant) {
+
         if (klant_id == null) {
             ModelAndView modelAndView = new ModelAndView("kiesklant");
             Optional bestellingOptional = bestellingRepository.findById(id);
             Bestelling bestelling = (Bestelling) bestellingOptional.get();
-            modelAndView.addObject("bestelling",bestelling);
+            modelAndView.addObject("bestelling", bestelling);
 
             Iterable<Persoon> klantIterable = persoonRepository.findAll();
             List<Persoon> klanten = new ArrayList();
             klantIterable.forEach(klanten::add);
-            modelAndView.addObject("klanten",klanten);
+            modelAndView.addObject("klanten", klanten);
 
             return modelAndView;
-        }
-        
-        else {
+        } else {
             ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
             Optional bestellingOptional = bestellingRepository.findById(id);
             Bestelling bestelling = (Bestelling) bestellingOptional.get();

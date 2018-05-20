@@ -3,7 +3,6 @@ package com.rsvier.workshop.controllers;
 import com.rsvier.workshop.dao.ArtikelRepository;
 import com.rsvier.workshop.dao.BestelRegelRepository;
 import com.rsvier.workshop.dao.BestellingRepository;
-import com.rsvier.workshop.dao.PersoonRepository;
 import com.rsvier.workshop.domein.Artikel;
 import com.rsvier.workshop.domein.BestelRegel;
 import com.rsvier.workshop.domein.Bestelling;
@@ -27,73 +26,55 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping(value="/bestelling/add")
+@RequestMapping(value = "/bestelling/add")
 public class BestelRegelController {
-    
+
     @Autowired
     private BestellingRepository bestellingRepository;
-        
+
     @Autowired
     private BestelRegelRepository bestelRegelRepository;
-    
-    @Autowired 
-    private PersoonRepository persoonRepository;
-    
+
     @Autowired
     private ArtikelRepository artikelRepository;
-    
+
     @GetMapping
-    public String bestellingToevoegformulier(@ModelAttribute BestelRegel bestelRegel, 
-            @ModelAttribute Bestelling bestelling, @ModelAttribute Persoon klant, Model model, 
-            @RequestParam(value="id", required=false) Long id) {
+    public String bestellingToevoegformulier(@ModelAttribute BestelRegel bestelRegel,
+            @ModelAttribute Bestelling bestelling, @ModelAttribute Persoon klant, Model model,
+            @RequestParam(value = "id", required = false) Long id) {
         List<BestelRegel> bestelregels = new ArrayList();
-        
+
         if (id == null) {
             LocalDate bestelDatum = LocalDate.now();
-            
+
             LocalDateTime currentTime = LocalDateTime.now();
 
             Long tempfactuurnummer = (Long.valueOf(currentTime.getNano()));
-            
+
             bestelling.setBestelDatum(bestelDatum);
             bestelling.setTotaalprijs(BigDecimal.ZERO);
             bestelling.setFactuurnummer(tempfactuurnummer);
             bestelling.setStatus(Bestelling.Status.OPEN);
-            
+
             bestellingRepository.save(bestelling);
-            
+
             //super omslachtige manier om een factuurnummer te genereren
             bestelling = bestellingRepository.findByFactuurnummer(tempfactuurnummer);
             String factuurstring = String.valueOf(bestelDatum.getYear() + String.valueOf(bestelling.getId()));
             Long factuurnummer = Long.valueOf(factuurstring);
             bestelling.setFactuurnummer(factuurnummer);
             bestellingRepository.save(bestelling);
-        }
-        
-        else {
+        } else {
             Optional bestellingOptional = bestellingRepository.findById(id);
             bestelling = (Bestelling) bestellingOptional.get();
             bestelregels = bestelRegelRepository.findByBestelling_id(bestelling.getId());
-            
+
         }
-            model.addAttribute(bestelling);
-            model.addAttribute("bestelregels",bestelregels);
-            return "bestellingformulier";
+        model.addAttribute(bestelling);
+        model.addAttribute("bestelregels", bestelregels);
+        return "bestellingformulier";
     }
-    
-//    @PostMapping
-//    public ModelAndView bestelRegelToegevoegen (BestelRegel bestelregel, 
-//            @RequestParam(value="id", required=true) Long id, Bestelling bestelling) {
-//        Optional bestellingOptional = bestellingRepository.findById(id);
-//        bestelling = (Bestelling) bestellingOptional.get();
-//        Set<BestelRegel> bestelRegels = bestelling.getBestelregels();
-//        bestelRegels.add(bestelregel);
-//        bestelling.setBestelregels(bestelRegels);
-//        bestellingRepository.save(bestelling);
-//        ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(id));
-//        return modelAndView;
-//    }
-    
+
     @GetMapping(value = "/nieuweregel")
     public ModelAndView bestelRegelToevoegen(@ModelAttribute("bestelregel") BestelRegel bestelregel,
             @RequestParam(value = "id", required = true) Long id) {
@@ -110,31 +91,27 @@ public class BestelRegelController {
         modelAndView.addObject("bestelling", bestelling);
 
         return modelAndView;
-    } 
-    
-    @PostMapping(value="/nieuweregel")
-    public ModelAndView bestelRegelToegevoegd(@Valid BestelRegel bestelRegel, Artikel artikel, 
+    }
+
+    @PostMapping(value = "/nieuweregel")
+    public ModelAndView bestelRegelToegevoegd(@Valid BestelRegel bestelRegel, Artikel artikel,
             Bestelling bestelling, BindingResult bindingResult) {
         ModelAndView modelAndView = null;
-        
+
         Optional artikelOptional = artikelRepository.findById(artikel.getId());
         artikel = (Artikel) artikelOptional.get();
-        
+
         //if (bindingResult.hasErrors()) {
         if (bestelRegel.getAantal() < 1) {
             //modelAndView = bestelRegelToevoegen(bestelRegel, bestelling.getId());
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             //modelAndView = new ModelAndView("bestelregelformulier");
             return modelAndView;
-        }
-        
-        else if (bestelRegel.getAantal() > artikel.getVoorraad()) {
+        } else if (bestelRegel.getAantal() > artikel.getVoorraad()) {
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             return modelAndView;
             //TODO errorhandling
-        }
-        
-        else {
+        } else {
             artikel.setVoorraad(artikel.getVoorraad() - bestelRegel.getAantal());
             artikelRepository.save(artikel);
 
@@ -157,30 +134,30 @@ public class BestelRegelController {
 
             modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
             return modelAndView;
-        }    
+        }
     }
 
-    @GetMapping(value="/edit")
-    public ModelAndView wijzigBestelRegel(@RequestParam(value="bestelling_id", required=true) Long id, 
-            @RequestParam(value="bestelregel_id", required=true) Long bestelregel_id) {
-        
+    @GetMapping(value = "/edit")
+    public ModelAndView wijzigBestelRegel(@RequestParam(value = "bestelling_id", required = true) Long id,
+            @RequestParam(value = "bestelregel_id", required = true) Long bestelregel_id) {
+
         ModelAndView modelAndView = new ModelAndView("bestelregelaanpassen");
-        
+
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
-        
+
         Optional bestelRegelOptional = bestelRegelRepository.findById(bestelregel_id);
         BestelRegel bestelregel = (BestelRegel) bestelRegelOptional.get();
-        
+
         List<Artikel> artikellijst = artikelRepository.findActief();
-        
-        modelAndView.addObject("bestelling",bestelling);
-        modelAndView.addObject("bestelregel",bestelregel);
-        modelAndView.addObject("artikellijst",artikellijst);
+
+        modelAndView.addObject("bestelling", bestelling);
+        modelAndView.addObject("bestelregel", bestelregel);
+        modelAndView.addObject("artikellijst", artikellijst);
         return modelAndView;
     }
-    
-    @PostMapping(value="/edit")
+
+    @PostMapping(value = "/edit")
     public ModelAndView bestelRegelGewijzigd(BestelRegel bestelregel) {
         Artikel artikel = bestelregel.getArtikel();
         Bestelling bestelling = bestelregel.getBestelling();
@@ -188,7 +165,7 @@ public class BestelRegelController {
         BestelRegel oudeBestelRegel = (BestelRegel) oudeBestelRegelOptional.get();
         bestelregel.setId(oudeBestelRegel.getId());
         bestelregel.setArtikelPrijs(artikel.getPrijs());
-        
+
         //Checken of artikelaantal lager dan 1 is en als dat zo is de regel verwijderen
         if (bestelregel.getAantal() < 1) {
             return verwijderBestelRegel(bestelling.getId(), bestelregel.getId());
@@ -199,10 +176,10 @@ public class BestelRegelController {
         int nieuwAantal = bestelregel.getAantal();
         int verschil = oudAantal - nieuwAantal;
         int artikelVoorraad = artikel.getVoorraad();
-        
+
         if (verschil < 0) {
             int nieuweArtikelVoorraad = artikelVoorraad - Math.abs(verschil);
-            
+
             if (nieuweArtikelVoorraad < 0) {
                 //TODO errorhandling
             }
@@ -213,21 +190,19 @@ public class BestelRegelController {
             BigDecimal x = aantalartikelen.multiply(artikelprijs);
             BigDecimal nieuwetotaalprijs = oudetotaalprijs.add(x);
             bestelling.setTotaalprijs(nieuwetotaalprijs);
-            
+
             bestellingRepository.save(bestelling);
             artikel.setVoorraad(nieuweArtikelVoorraad);
             artikelRepository.save(artikel);
-        }
-        
-        else if (verschil > 0) {
+        } else if (verschil > 0) {
             int nieuweArtikelVoorraad = artikelVoorraad + verschil;
             artikel.setVoorraad(nieuweArtikelVoorraad);
             artikelRepository.save(artikel);
-            
+
             if (nieuweArtikelVoorraad > oudAantal + artikelVoorraad) {
                 //TODO errorhandling
             }
-            
+
             //totaalprijs bestelling veranderen
             BigDecimal oudetotaalprijs = bestelling.getTotaalprijs();
             BigDecimal artikelprijs = bestelregel.getArtikelPrijs();
@@ -237,28 +212,28 @@ public class BestelRegelController {
             bestelling.setTotaalprijs(nieuwetotaalprijs);
             bestellingRepository.save(bestelling);
         }
-        
+
         bestelRegelRepository.save(bestelregel);
-        
+
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
         return modelAndView;
     }
 
-    @GetMapping(value="/delete")
-    public ModelAndView verwijderBestelRegel(@RequestParam(value="bestelling_id", required=true) Long id, 
-            @RequestParam(value="bestelregel_id", required=true) Long bestelregel_id) {
+    @GetMapping(value = "/delete")
+    public ModelAndView verwijderBestelRegel(@RequestParam(value = "bestelling_id", required = true) Long id,
+            @RequestParam(value = "bestelregel_id", required = true) Long bestelregel_id) {
         Optional bestellingOptional = bestellingRepository.findById(id);
         Bestelling bestelling = (Bestelling) bestellingOptional.get();
-        
+
         Optional bestelRegelOptional = bestelRegelRepository.findById(bestelregel_id);
         BestelRegel bestelregel = (BestelRegel) bestelRegelOptional.get();
-        
+
         Artikel artikel = bestelregel.getArtikel();
-        
+
         //Voorraad artikel terugzetten
         artikel.setVoorraad(artikel.getVoorraad() + bestelregel.getAantal());
         artikelRepository.save(artikel);
-        
+
         //Totaalprijs bestelling terugzetten
         BigDecimal oudeTotaalPrijs = bestelling.getTotaalprijs();
         BigDecimal artikelPrijs = bestelregel.getArtikelPrijs();
@@ -266,12 +241,11 @@ public class BestelRegelController {
         BigDecimal nieuweTotaalPrijs = oudeTotaalPrijs.min(artikelPrijs.multiply(aantalArtikel));
         bestelling.setTotaalprijs(nieuweTotaalPrijs);
         bestellingRepository.save(bestelling);
-        
+
         //Bestelregel uit database halen
         bestelRegelRepository.delete(bestelregel);
-        
+
         ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/add?id=" + String.valueOf(bestelling.getId()));
         return modelAndView;
     }
-
 }
