@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,18 +22,24 @@ public class Adres {
     @Column(name="adres_id")
     protected Long id;
 	
+    @NotNull(message="Vul a.u.b. straatnaam in")
+    @Size(min=2, max=30, message="straatnaam moet tussen 2 en 30 letters zijn")
     @Column(nullable=false)
     protected String straatnaam;
 	
+    @NotNull
     @Column(nullable=false)
     protected int huisnummer;
 	
     protected String toevoeging;
     
+    @NotNull(message="Vul a.u.b. postcode in")
+    @Size(min=6, max=6, message="Postcode moet tussen 6 tekens zijn")
     @Column(nullable=false)
     protected String postcode;
     
-    @Size(min=2, max=40)
+    @NotNull(message="Vul a.u.b. een naam in")
+    @Size(min=2, max=30, message="Een naam moet tussen 2 en 30 tekens zijn")
     @Column(nullable=false)
     protected String woonplaats;
     
