@@ -69,11 +69,17 @@ public class ArtikelController {
     }
 
     @PostMapping(value = "/edit")
-    public ModelAndView artikelGewijzigd(Artikel artikel) {
-        artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
-        artikelRepository.save(artikel);
-        ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
-        return modelAndView;
+    public ModelAndView artikelGewijzigd(@Valid Artikel artikel, BindingResult bindingResult) {
+        
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("artikelformulier");
+            return modelAndView;
+        } else {
+            artikel.setArtikelStatus(Artikel.ArtikelStatus.ACTIEF);
+            artikelRepository.save(artikel);
+            ModelAndView modelAndView = new ModelAndView("redirect:/artikel");
+            return modelAndView;
+        }
     }
 
     @GetMapping(value = "/delete")
