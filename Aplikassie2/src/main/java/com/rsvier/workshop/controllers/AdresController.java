@@ -74,7 +74,7 @@ public class AdresController {
 	}
 	 
 	@PostMapping("/maakadres")
-	public ModelAndView maakAdres(@Valid Adres adres, Errors errors, Model model, Persoon persoon) {
+	public ModelAndView maakAdres(@Valid Adres adres, Errors errors, Model model, Persoon persoon, @ModelAttribute("message") String message) {
 		if(errors.hasErrors()) {
 			return new ModelAndView("adresaangeven");
 		}
@@ -109,6 +109,12 @@ public class AdresController {
 		}
 		adresRepository.save(adres);
 		return new ModelAndView("redirect:/klant");
+	}
+	
+	@GetMapping("/adresdelete")
+	public ModelAndView deleteAdres(@RequestParam(value="id", required=true) Long id, Model model) {
+		adresRepository.deleteById(id);
+		return new ModelAndView("redirect: adresoverzicht");
 	}
 	
 	

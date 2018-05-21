@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <br><br>
@@ -18,10 +19,6 @@
 	<a href="#" data-th-href="@{/adres/adresaangeven(id=${persoonId})}">nieuwe adres toevoegen</a>
 </div>
 <br><br>
-<div th:if="${adresList == null or #lists.isEmpty(adresList)}">
-	<div><p>List is leeg</p></div>
-</div>
-<div th:if="${adresList != null or not #list.isEmpty(adresList)}">
 	<table>
 		<tr>
 			<th>Straatnaam</th>
@@ -39,9 +36,11 @@
 			<td data-th-text="${adres.postcode}"></td>
 			<td data-th-text="${adres.woonplaats}"></td>
 			<td data-th-text="${adres.adresSoort}"></td>
-			<td><a href="#" data-th-href="@{/adres/adresupdaten(id=${adres.id})}">adres wijzigen</a></td>
+			<td>
+				<a href="#" data-th-href="@{/adres/adresupdaten(id=${adres.id})}">adres wijzigen</a> |
+				<a th:if="${adres.adresSoort.name()} != 'WOONADRES'" href="#" data-th-href="@{/adres/adresdelete(id=${adres.id})}">adres vewijderen</a>
+			</td>
 		</tr>
 	</table>
-</div>
 </body>
 </html>

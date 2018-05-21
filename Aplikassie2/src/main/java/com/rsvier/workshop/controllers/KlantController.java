@@ -107,14 +107,6 @@ public class KlantController {
 		return new ModelAndView("redirect:/klant");
 	}
 	
-	@GetMapping("/delete")
-	public ModelAndView deleteKlant(@RequestParam(value="id", required=true) Long persoonId, Model model) {
-		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
-		Persoon persoon = optionaalPersoon.get();
-		persoonRepository.delete(persoon);
-		return new ModelAndView("redirect:/klant");
-	}
-	
 	@GetMapping("/edit")
 	public String editFormulierPersoon(@RequestParam(value="id", required=true) Long persoonId, Model model) {
 		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
@@ -126,6 +118,14 @@ public class KlantController {
 	@PostMapping("/persoonupdate")
 	public ModelAndView persoonUpdate(@ModelAttribute("persoon") Persoon persoon, Model model) {
 		persoonRepository.save(persoon);
+		return new ModelAndView("redirect:/klant");
+	}
+	
+	@GetMapping("/delete")
+	public ModelAndView deleteKlant(@RequestParam(value="id", required=true) Long persoonId, Model model) {
+		Optional<Persoon> optionaalPersoon = persoonRepository.findById(persoonId);
+		Persoon persoon = optionaalPersoon.get();
+		persoonRepository.delete(persoon);
 		return new ModelAndView("redirect:/klant");
 	}
 	

@@ -27,7 +27,7 @@ public class ArtikelController {
         List<Artikel> artikelen = artikelRepository.findActief();
         return artikelen;
     }
-
+    
     @GetMapping
     public String getOverizicht() {
         return "artikel";
@@ -55,7 +55,7 @@ public class ArtikelController {
     @GetMapping(value = "/edit")
     public ModelAndView artikelWijzigen(@RequestParam(value = "id", required = true) Long id) {
 
-        Optional artikelOptional = artikelRepository.findById(id);
+        Optional<Artikel> artikelOptional = artikelRepository.findById(id);
         Artikel artikel = (Artikel) artikelOptional.get();
 
         if (artikel.getArtikelStatus() == Artikel.ArtikelStatus.INACTIEF) {

@@ -3,6 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Applikaassie2</title>
+     <!-- <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <br><br>
@@ -14,6 +16,7 @@
         <p><a href="klant/klantformulier">Nieuwe klant toevoegen</a></p>
      </div>
       <div>
+      <fieldset class="fieldset-auto-width">
 		<p><b>Klanten overzicht maken</b></p>
 		<form method="GET" action="klant/klantenoverzicht" th:action="@{klant/klantenoverzicht}" th:object="${persoon}">
 			<select th:field="*{persoonStatus}">
@@ -25,9 +28,7 @@
 			<br><br>
 			<input type="submit" value="select" name="select">
 		</form>
+		</fieldset>
 	</div>    
-    <br><br><br>
-    <div th:tex="${message}"></div>
-	
 </body>
 </html>
