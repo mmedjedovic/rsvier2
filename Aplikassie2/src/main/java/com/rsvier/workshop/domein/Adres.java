@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -34,7 +35,7 @@ public class Adres {
     protected String toevoeging;
     
     @NotNull(message="Vul a.u.b. postcode in")
-    @Size(min=6, max=6, message="Postcode moet tussen 6 tekens zijn")
+    @Size (min = 6, max = 6, message = "Vul een geldige postcode in (zonder spatie)")
     @Column(nullable=false)
     protected String postcode;
     

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Inloggen</title>
+    </head>
+    <body>
+        <h1>Log in</h1>
+        
+        <div th:if="${error}">
+            Inloggen mislukt. Voer gebruikersnaam en wachtwoord opnieuw in.
+        </div>
+        
+        <p><a th:href="@{/register}">Registreer een nieuwe medewerker</a></p>
+        
+        <form method="POST" th:action="@{/login}">
+            <label for="username">Gebruikersnaam: </label>
+            <input type="text" name="gebruikersnaam"/><br/>
+            <label for="password">Wachtwoord: </label>
+            <input type="password" name="wachtwoord"/><br/>
+            <input type="submit" value="Login"/>
+        </form>
+    
+    </body>
+</html>
