@@ -13,7 +13,7 @@
 	<div>
 		<h4>nieuwe adres toevoegen</h4>
 		<p><b>Graag velden invullen:</b></p>
-		<form method="POST" action="/adres/maakadres" th:action="@{/adres/maakadres}" th:object="${adres}">
+		<form class="bodyForm" method="POST" action="/adres/maakadres" th:action="@{/adres/maakadres}" th:object="${adres}">
 			<br><br>
 			<div>
 				<select th:field="*{adresSoort}">
@@ -24,30 +24,30 @@
 			</div>
 			<div>
 				<br><br>
-				<label for="straatnaam">Straatnaam:</label>
+				<label class="labelForm" for="straatnaam">Straatnaam:</label>
 				<input type="text" th:field=*{straatnaam} />
 				<span class="validationError" th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span>
 				<br><br>
-				<label for="huisnummer">Huisnummer:</label>
+				<label class="labelForm" for="huisnummer">Huisnummer:</label>
 				<input type="number" th:field=*{huisnummer} />
 				<span class="validationError" th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span>
 				<br><br>
-				<label for="toevoeging">Toevoeging</label>
+				<label class="labelForm" for="toevoeging">Toevoeging</label>
 				<input type="text" th:field=*{toevoeging} />
 				<span class="validationError" th:if="${#fields.hasErrors('toevoeging')}" th:errors="*{toevoeging}"></span>
 				<br><br>
-				<label for="poscode">Postcode:</label>
+				<label class="labelForm" for="poscode">Postcode:</label>
 				<input type="text" th:field=*{postcode} />
 				<span class="validationError" th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></span>
 				<br><br>
-				<label for="woonplaats">Plaats:</label>
+				<label class="labelForm" for="woonplaats">Plaats:</label>
 				<input type="text" th:field=*{woonplaats} />
 				<span class="validationError" th:if="${#fields.hasErrors('woonplaats')}" th:errors="*{woonplaats}"></span>
 				<br><br>
 			</div>
 			<div>
 				<br><br>
-				<input type="submit" value="opslaan" />
+				<input class="button" type="submit" value="opslaan" />
 			</div>
 		</form>
 	</div>

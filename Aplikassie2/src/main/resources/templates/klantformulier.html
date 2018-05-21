@@ -13,59 +13,62 @@
 	<div><a href="/klant">Terug naar klantmenu</a></div>
 	<br><br>
 	<h1>Invullen:</h1>
-	
-	<form method="POST" action="klant/register" th:action="@{/klant/register}" th:object="${persoon}">
+	<div>
+	<br>
+	<form class="bodyForm" method="POST" action="klant/register" th:action="@{/klant/register}" th:object="${persoon}">
+		<h3>Persoon</h3>
 		<div>
-			<label for="voorNaam">Voornaam:</label>
-			<input type="text" th:field=*{voorNaam} />
+			<label class="labelForm" for="voorNaam">Voornaam:</label>
+			<input class="inputForm" type="text" th:field=*{voorNaam} />
 			<span class="validationError" th:if="${#fields.hasErrors('voorNaam')}" th:errors="*{voorNaam}"></span>
 			<br><br>
-			<label for="achterNaam">Achternaam:</label>
-			<input type="text" th:field=*{achterNaam} />
+			<label class="labelForm" for="achterNaam">Achternaam:</label>
+			<input class="inputForm" type="text" th:field=*{achterNaam} />
 			<span class="validationError" th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span>
 			<br><br>
-			<label for="tussenVoegsel">Tussenvoegsel</label>
-			<input type="text" th:field=*{tussenVoegsel} />
+			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel</label>
+			<input class="inputForm" type="text" th:field=*{tussenVoegsel} />
 			<span class="validationError" th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span>
 			<br><br>
-			<label for="geboorteDatum">Geboortedatum:</label>
-			<input type="date" th:field=*{geboorteDatum} />
+			<label class="labelForm" for="geboorteDatum">Geboortedatum:</label>
+			<input class="inputForm" type="date" th:field=*{geboorteDatum} />
 			<span class="validationError" th:if="${#fields.hasErrors('geboorteDatum')}" th:errors="*{geboorteDatum}"></span>
 		</div>
 		<div>
 			<h3>Woonadres</h3>
-			<label for="straatnaam">Straatnaam:</label>
-			<input type="text" th:field=*{adresCollection[0].straatnaam} />
+			<label class="labelForm" for="straatnaam">Straatnaam:</label>
+			<input class="inputForm" type="text" th:field=*{adresCollection[0].straatnaam} />
 			<span class="validationError" th:if="${#fields.hasErrors('adresCollection[0].straatnaam')}" th:errors="*{adresCollection[0].straatnaam}"></span>
 			<br><br>
-			<label for="huisnummer">Huisnummer:</label>
-			<input type="number" th:field=*{adresCollection[0].huisnummer} />
+			<label class="labelForm" for="huisnummer">Huisnummer:</label>
+			<input class="inputForm" type="number" th:field=*{adresCollection[0].huisnummer} />
 			<span class="validationError" th:if="${#fields.hasErrors('adresCollection[0].huisnummer')}" th:errors="*{adresCollection[0].huisnummer}"></span>
 			<br><br>
-			<label for="toevoeging">Toevoeging:</label>
-			<input type="text" th:field=*{adresCollection[0].toevoeging} />
+			<label class="labelForm" for="toevoeging">Toevoeging:</label>
+			<input class="inputForm" type="text" th:field=*{adresCollection[0].toevoeging} />
 			<span class="validationError" th:if="${#fields.hasErrors('adresCollection[0].toevoeging')}" th:errors="*{adresCollection[0].toevoeging}"></span>
 			<br><br>
-			<label for="postcode">Postcode:</label>
-			<input type="text" th:field=*{adresCollection[0].postcode} />
+			<label class="labelForm" for="postcode">Postcode:</label>
+			<input class="inputForm" type="text" th:field=*{adresCollection[0].postcode} />
 			<span class="validationError" th:if="${#fields.hasErrors('adresCollection[0].postcode')}" th:errors="*{adresCollection[0].postcode}"></span>
 			<br><br>
-			<label for="woonplaats">Woonplaats:</label>
-			<input type="text" th:field=*{adresCollection[0].woonplaats} />
+			<label class="labelForm" for="woonplaats">Woonplaats:</label>
+			<input class="inputForm" type="text" th:field=*{adresCollection[0].woonplaats} />
 			<span class="validationError" th:if="${#fields.hasErrors('adresCollection[0].woonplaats')}" th:errors="*{adresCollection[0].woonplaats}"></span>
 			<br><br>
 		</div>
 		<div>
-			<label for="gebruikersnaam">Gebruikersnaam:</label>
-			<input type="text" th:field=*{gebruikersnaam} />
+			<label class="labelForm" for="gebruikersnaam">Gebruikersnaam:</label>
+			<input class="inputForm" type="text" th:field=*{gebruikersnaam} />
 			<span class="validationError" th:if="${#fields.hasErrors('gebruikersnaam')}" th:errors="*{gebruikersnaam}"></span>
 			<br><br>
-			<label for="wachtwoord">Wachtwoord:</label>
-			<input type="text" th:field=*{wachtwoord} />
+			<label class="labelForm" for="wachtwoord">Wachtwoord:</label>
+			<input class="inputForm" type="text" th:field=*{wachtwoord} />
 			<span class="validationError" th:if="${#fields.hasErrors('wachtwoord')}" th:errors="*{wachtwoord}"></span>
 			<br><br>
 		</div>
-		<input type="submit" value="register" />
+		<input class="button" type="submit" value="register" />
 	</form>
+	</div>
 </body>
 </html>

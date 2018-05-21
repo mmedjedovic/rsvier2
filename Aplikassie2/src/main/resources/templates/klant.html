@@ -16,9 +16,8 @@
         <p><a href="klant/klantformulier">Nieuwe klant toevoegen</a></p>
      </div>
       <div>
-      <fieldset class="fieldset-auto-width">
-		<p><b>Klanten overzicht maken</b></p>
-		<form method="GET" action="klant/klantenoverzicht" th:action="@{klant/klantenoverzicht}" th:object="${persoon}">
+		<p><b>Klanten overzicht maken:</b></p>
+		<form class="bodyForm" method="GET" action="klant/klantenoverzicht" th:action="@{klant/klantenoverzicht}" th:object="${persoon}">
 			<select th:field="*{persoonStatus}">
 				<option th:with= "persoonStatus=null" th:value="${persoonStatus}" th:text="ALLES"></option>
 				<option th:each="persoonStatus: ${T(com.rsvier.workshop.domein.Persoon.PersoonStatus).values()}" 
@@ -26,9 +25,8 @@
 						th:text="${persoonStatus}"></option> 
 			</select>
 			<br><br>
-			<input type="submit" value="select" name="select">
+			<input class="button" type="submit" value="select" name="select">
 		</form>
-		</fieldset>
 	</div>    
 </body>
 </html>

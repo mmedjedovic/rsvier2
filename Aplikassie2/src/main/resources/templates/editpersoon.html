@@ -9,25 +9,25 @@
 <body>
 	<h1>Wijzig onderstaande felden</h1>
 	
-	<form method="POST" action="klant/persoonupdate" th:action="@{/klant/persoonupdate}" th:object="${persoon}">
+	<form class="bodyForm" method="POST" action="klant/persoonupdate" th:action="@{/klant/persoonupdate}" th:object="${persoon}">
 		<div>
-			<label for="voorNaam">Voornaam:</label>
-			<input type="text" th:field=*{voorNaam} />
+			<label class="labelForm" for="voorNaam">Voornaam:</label>
+			<input class="inputForm" type="text" th:field=*{voorNaam} />
 			<span class="validationError" th:if="${#fields.hasErrors('voorNaam')}" th:errors="*{voorNaam}"></span>
 			<br><br>
-			<label for="achterNaam">Achternaam:</label>
-			<input type="text" th:field=*{achterNaam} />
+			<label class="labelForm" for="achterNaam">Achternaam:</label>
+			<input class="inputForm" type="text" th:field=*{achterNaam} />
 			<span  class="validationError" th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span>
 			<br><br>
-			<label for="tussenVoegsel">Tussenvoegsel</label>
-			<input type="text" th:field=*{tussenVoegsel} />
+			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel</label>
+			<input class="inputForm" type="text" th:field=*{tussenVoegsel} />
 			<span class="validationError" th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span>
 			<br><br>
-			<label for="geboorteDatum">Geboortedatum:</label>
-			<input type="date" th:field=*{geboorteDatum} />
+			<label class="labelForm" for="geboorteDatum">Geboortedatum:</label>
+			<input class="inputForm" type="date" th:field=*{geboorteDatum} />
 			<span class="validationError" th:if="${#fields.hasErrors('geboorteDatum')}" th:errors="*{geboorteDatum}"></span>
 			<br><br>
-			<input type="submit" value="update" >
+			<input class="button" type="submit" value="update" >
 		</div>
 	</form>
 </body>

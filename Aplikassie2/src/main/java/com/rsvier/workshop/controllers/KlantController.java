@@ -57,12 +57,18 @@ public class KlantController {
 	}
 	
 	@GetMapping
-	public String getKlantMenu() {
+	public String getKlantMenu(Persoon persoon) {
+		if(persoon != null) {
+			persoon = null;
+		}
 		return "klant";
 	}
 	
 	@GetMapping("/klantformulier")
-	public String getFormulier(Model model) {
+	public String getFormulier(Model model, Persoon persoon) {
+		if(persoon != null) {
+			persoon = null;
+		}
 		return "/klantformulier";
 	}
 	

@@ -13,7 +13,7 @@
         </div>
 
         <div th:if="${artikellijst != null and not #lists.isEmpty(artikellijst)}">    
-            <form method="POST" th:object="${bestelregel}" th:action="@{/bestelling/add/nieuweregel}">
+            <form class="bodyForm" method="POST" th:object="${bestelregel}" th:action="@{/bestelling/add/nieuweregel}">
                 <label>Kies artikel:</label>
                 <select th:field="*{artikel}">
                     <option th:each="artikeloptie : ${artikellijst}"
@@ -21,15 +21,15 @@
                             th:utext="${artikeloptie.naam + ' €' + artikeloptie.prijs + ' (voorraad: ' + artikeloptie.voorraad + ')'}"/>
                 </select>
                 
-                <label for="aantal">Aantal:</label>
-                <input type="text" th:value= "${bestelregel.Aantal}"th:field="*{aantal}" />
+                <label class="labelForm" for="aantal">Aantal:</label>
+                <input class="inputForm" type="text" th:value= "${bestelregel.Aantal}"th:field="*{aantal}" />
                 <span class="validationError"
                 th:if="${#fields.hasErrors('aantal')}"
                 th:errors="*{aantal}">Aantal Error</span>
 
                 <input type="hidden" th:value= "${bestelling.id}"th:field="*{bestelling}" />
 
-                <p><input type="submit" value="Voeg toe" /></p>
+                <p><input class="button" type="submit" value="Voeg toe" /></p>
             </form>
         </div>    
         

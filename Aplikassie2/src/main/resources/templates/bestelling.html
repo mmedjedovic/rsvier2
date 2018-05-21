@@ -43,10 +43,7 @@
                                     
                                     <div th:if="${bestelling.status == T(com.rsvier.workshop.domein.Bestelling.Status).VERZONDEN}"><a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">bekijk</a> | 
                                         <a href="#" data-th-href="@{/bestelling/delete(id=${bestelling.id})}">verwijder</a></div> 
-                                    </td>
-                                    </div>
-                                </td>
-                                </div>        
+                                </td>        
                         </tr>
                 </tbody>
             </table>
