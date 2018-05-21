@@ -70,7 +70,7 @@ public class KlantController {
 	public ModelAndView registerKlant(@Valid Persoon persoon, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return new ModelAndView("klantformulier");
-		}
+		} else {
 		persoon.setPersoonStatus(PersoonStatus.ACTIEF);
 		persoon.setAccountSoort(AccountSoort.KLANT);
 		setWoonAdresSoort(persoon);
@@ -78,6 +78,7 @@ public class KlantController {
 		persoon = new Persoon();
 		model.addAttribute("persoon", persoon);
 		return new ModelAndView("redirect:/klant");
+                }
 	}
 	
 	@GetMapping("/klantenoverzicht")

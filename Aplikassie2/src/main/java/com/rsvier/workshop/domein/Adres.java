@@ -35,7 +35,7 @@ public class Adres {
     protected String toevoeging;
     
     @NotNull(message="Vul a.u.b. postcode in")
-    @Pattern(regexp="^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i", message = "Vul een geldige postcode in")
+    @Size (min = 6, max = 6, message = "Vul een geldige postcode in (zonder spatie)")
     @Column(nullable=false)
     protected String postcode;
     
