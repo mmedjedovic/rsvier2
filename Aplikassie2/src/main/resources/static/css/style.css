@@ -26,11 +26,6 @@ th {
 	background-color: lightgrey;
 }
 
-/**
-p	{ 
-	display: table-row;  
-}	*/
-
 form  { 
 	display: table;
 	border-radius: 5px;
@@ -45,7 +40,8 @@ form  {
 	margin-bottom: 5px;
 }
 
-.inputForm { 
+.inputForm {
+	height: 20px;
 	display: table-cell;
 	background-color: white;
    	border: none;
