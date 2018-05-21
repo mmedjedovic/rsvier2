@@ -7,6 +7,9 @@
     
     <body>
         <h1>Account registreren:</h1>
+        <div th:if="${error}">
+            Registreren mislukt, vul de informatie aan zoals aangegeven.
+        </div>
 
         <form method="POST" th:action="@{/register}" th:object="${registrationForm}">
             <div>

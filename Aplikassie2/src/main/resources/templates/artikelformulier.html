@@ -12,6 +12,10 @@
         <div th:if="${artikel.id == null}">
             <h1>Voeg een artikel toe</h1>
         </div>
+        
+        <div th:if="${error}">
+            Invoer mislukt, probeer het aub opnieuw.
+        </div>
 
         <form name='f' th:object="${artikel}" method='POST' >
             <input type="hidden" th:value= "${artikel.Id}"th:field="*{id}" />
