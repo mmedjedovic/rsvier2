@@ -6,12 +6,15 @@ import com.rsvier.workshop.domein.Persoon;
 import com.rsvier.workshop.security.RegistrationForm;
 import java.util.Collection;
 import java.util.Iterator;
+import javax.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/register")
@@ -32,7 +35,12 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(RegistrationForm form) {
+    public ModelAndView processRegistration(@Valid RegistrationForm form, BindingResult bindingResult) {
+        
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("registration");
+        } else {
+        
         Persoon medewerker = form.toPersoon(passwordEncoder);
         
         medewerker.setAccountSoort(Persoon.AccountSoort.MEDEWERKER);
@@ -40,7 +48,8 @@ public class RegistrationController {
         setWoonAdresSoort(medewerker);
         persoonRepository.save(medewerker);
         
-        return "redirect:/login";
+        return new ModelAndView("redirect:/login");
+        }
     }
     
     private void setWoonAdresSoort(Persoon persoon) {
