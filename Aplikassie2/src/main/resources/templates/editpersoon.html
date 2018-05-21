@@ -3,11 +3,11 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Persoonsgegevens wijzigen</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
-	<h1>Wijzig onderstaande felden</h1>
+	<h1>Wijzig onderstaande velden</h1>
 	
 	<form class="bodyForm" method="POST" action="klant/persoonupdate" th:action="@{/klant/persoonupdate}" th:object="${persoon}">
 		<div>
@@ -19,7 +19,7 @@
 			<input class="inputForm" type="text" th:field=*{achterNaam} />
 			<span  class="validationError" th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span>
 			<br><br>
-			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel</label>
+			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel:</label>
 			<input class="inputForm" type="text" th:field=*{tussenVoegsel} />
 			<span class="validationError" th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span>
 			<br><br>

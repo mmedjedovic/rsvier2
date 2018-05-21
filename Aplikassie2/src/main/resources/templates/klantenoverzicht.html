@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Klantenoverzicht</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
@@ -11,7 +11,7 @@
 	<div><a href="/klant">Terug naar klantmenu</a></div>
 	<br><br>
 	<div th:if="${persoonList == null or #lists.isEmpty(persoonList)}">
-		<div><span>lijst is leeg: </span><a href="/klant/klantformulier">voeg een klant toe</a></div>
+		<div><span>Lijst is leeg: </span><a href="/klant/klantformulier">voeg een klant toe</a></div>
 	</div>
 	<div th:if="${persoonList != null and not #lists.isEmpty(persoonList)}">
 		<h2>Klantenoverzicht</h2>

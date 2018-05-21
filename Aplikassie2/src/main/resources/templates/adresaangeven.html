@@ -11,8 +11,8 @@
 <br><br>
 <body>
 	<div>
-		<h4>Nieuwe adres toevoegen</h4>
-		<p><b>Graag velden invullen:</b></p>
+		<h4>Nieuw adres toevoegen</h4>
+		<p><b>Vul de velden in:</b></p>
 		<form class="bodyForm" method="POST" action="/adres/maakadres" th:action="@{/adres/maakadres}" th:object="${adres}">
 			<br><br>
 			<div>
@@ -32,7 +32,7 @@
 				<input class="inputForm" type="number" th:field=*{huisnummer} />
 				<span class="validationError" th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span>
 				<br><br>
-				<label class="labelForm" for="toevoeging">Toevoeging</label>
+				<label class="labelForm" for="toevoeging">Toevoeging:</label>
 				<input class="inputForm" type="text" th:field=*{toevoeging} />
 				<span class="validationError" th:if="${#fields.hasErrors('toevoeging')}" th:errors="*{toevoeging}"></span>
 				<br><br>

@@ -4,7 +4,7 @@
       
 <head>
 <meta charset="UTF-8">
-<title>Applikaassie2</title>
+<title>Klantenformulier</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
@@ -26,7 +26,7 @@
 			<input class="inputForm" type="text" th:field=*{achterNaam} />
 			<span class="validationError" th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span>
 			<br><br>
-			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel</label>
+			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel:</label>
 			<input class="inputForm" type="text" th:field=*{tussenVoegsel} />
 			<span class="validationError" th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span>
 			<br><br>
@@ -63,7 +63,7 @@
 			<span class="validationError" th:if="${#fields.hasErrors('gebruikersnaam')}" th:errors="*{gebruikersnaam}"></span>
 			<br><br>
 			<label class="labelForm" for="wachtwoord">Wachtwoord:</label>
-			<input class="inputForm" type="text" th:field=*{wachtwoord} />
+			<input class="inputForm" type="password" th:field=*{wachtwoord} />
 			<span class="validationError" th:if="${#fields.hasErrors('wachtwoord')}" th:errors="*{wachtwoord}"></span>
 			<br><br>
 		</div>
