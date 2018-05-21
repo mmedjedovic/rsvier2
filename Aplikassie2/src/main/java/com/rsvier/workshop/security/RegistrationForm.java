@@ -44,7 +44,7 @@ public class RegistrationForm {
     protected String toevoeging;
 
     @NotNull(message = "Vul a.u.b. postcode in")
-    @Pattern(regexp="/^[1-9][0-9]{3}[\\s]?[A-Za-z]{2}$/i", message = "Vul een geldige postcode in")
+    @Pattern(regexp="^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i", message = "Vul een geldige postcode in")
     protected String postcode;
 
     @NotNull(message = "Vul a.u.b. een naam in")
