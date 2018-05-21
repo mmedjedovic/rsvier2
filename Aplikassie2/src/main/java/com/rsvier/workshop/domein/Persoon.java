@@ -76,7 +76,7 @@ public class Persoon implements UserDetails {
     @Column(nullable = false)
     protected String gebruikersnaam;
 
-    @NotNull(message = "Vul wachtwoord")
+    @NotNull(message = "Vul wachtwoord in")
     @Column(nullable = false)
     protected String wachtwoord;
 
