@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<br><br>
+<div>
+	<a href="/klant/klantenoverzicht">Terug naar klantenoverzicht</a>
+</div>
+<br><br>
+<h3 th:text="'Klant: ' + ${naam}"></h3>
+<br><br>
+<div>
+	<a href="#" data-th-href="@{/adres/adresaangeven(id=${persoonId})}">Nieuw adres toevoegen</a>
+</div>
+<br><br>
+	<table>
+		<tr>
+			<th>Straatnaam</th>
+			<th>Huisnummer</th>
+			<th>Toevoeging</th>
+			<th>Postcode</th>
+			<th>Plaats</th>
+			<th>Adres soort</th>
+			<th>Actie</th>
+		</tr>
+		<tr data-th-each="adres: ${adresList}">
+			<td data-th-text="${adres.straatnaam}"></td>
+			<td data-th-text="${adres.huisnummer}"></td>
+			<td data-th-text="${adres.toevoeging}"></td>
+			<td data-th-text="${adres.postcode}"></td>
+			<td data-th-text="${adres.woonplaats}"></td>
+			<td data-th-text="${adres.adresSoort}"></td>
+			<td>
+				<a href="#" data-th-href="@{/adres/adresupdaten(id=${adres.id})}">adres wijzigen</a> |
+				<a th:if="${adres.adresSoort.name()} != 'WOONADRES'" href="#" data-th-href="@{/adres/adresdelete(id=${adres.id})}">adres vewijderen</a>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

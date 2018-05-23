@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wijs een klant toe</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <h1 data-th-text="${'Wijs een klant toe aan bestelling met factuurnummer ' + bestelling.factuurnummer}"></h1>
+    
+    <div>
+        <div th:if="${klanten == null or #lists.isEmpty(klanten)}">
+            <p><a href="/klant/klantformulier">Er staan nog geen klanten in het systeem, voeg deze eerst toe</a></p>
+        </div>
+        
+                    
+            <div th:if="${klanten != null and not #lists.isEmpty(klanten)}">    
+                <table class="box-table-a">
+                <caption>Overzicht</caption>
+                <thead>
+                        <tr>
+                                <th scope="col" >Naam</th>
+                                <th scope="col" >Geboortedatum</th>
+                                <th scope="col" >Toewijzen</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    
+                        <tr data-th-each="klantkeuze : ${klanten}">
+                                <td data-th-text="${klantkeuze.achterNaam + ', ' + klantkeuze.voorNaam + ' ' + klantkeuze.tussenVoegsel}">Naam</td>
+                                <td data-th-text="${klantkeuze.geboorteDatum}">Geboortedatum</td>
+                                <td>
+                                    <a href="#" data-th-href="@{/bestelling/add/klant(id=${bestelling.id}, klant_id=${klantkeuze.id})}">voeg toe</a> 
+                                </td>
+                        </tr>
+                </tbody>
+            </table>
+            
+        </div>    
+        
+        <p><a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">Terug naar bestelling</a></p>
+        <p><a href="/bestelling">Terug naar bestellingenoverzicht</a></p>
+        <p><a href="/">Terug naar home</a></p>
+        
+    </div>
+	
+</body>
+</html>

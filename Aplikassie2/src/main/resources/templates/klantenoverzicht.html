@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Klantenoverzicht</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+	 <div><a href="/">Terug naar home</a></div>
+	<div><a href="/klant">Terug naar klantmenu</a></div>
+	<br><br>
+	<div th:if="${persoonList == null or #lists.isEmpty(persoonList)}">
+		<div><span>Lijst is leeg: </span><a href="/klant/klantformulier">voeg een klant toe</a></div>
+	</div>
+	<div th:if="${persoonList != null and not #lists.isEmpty(persoonList)}">
+		<h2>Klantenoverzicht</h2>
+		<table>
+			<tr>
+				<th>Voornaam</th>
+				<th>Tussenvoegsel</th>
+				<th>Achternaam</th>
+				<th>Geboortedatum</th>
+				<th>Status</th>
+				<th>Actie</th>
+				<th>Actie</th>
+			</tr>
+			<tr data-th-each="persoon: ${persoonList}">
+				<td data-th-text="${persoon.voorNaam}"></td>
+				<td data-th-text="${persoon.tussenVoegsel}"></td>
+				<td data-th-text="${persoon.achterNaam}"></td>
+				<td data-th-text="${persoon.geboorteDatum}"></td>
+				<td data-th-text="${persoon.persoonStatus}"></td>
+				<td><a href="#" data-th-href="@{/adres/adresoverzicht(id=${persoon.id})}">adres info</a></td>
+				<td>
+					<a href="#" data-th-href="@{/klant/edit(id=${persoon.id})}">update klant</a> |
+					<a href="#" th:if="${persoon.persoonStatus.name()} == 'ACTIEF'" data-th-href="@{/klant/wijzigstatus(id=${persoon.id})}">inactief maken</a> 
+					<a href="#" th:if="${persoon.persoonStatus.name()} == 'INACTIEF'" data-th-href="@{/klant/wijzigstatus(id=${persoon.id})}">actief maken</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

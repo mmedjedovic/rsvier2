@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Registratie</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    
+    <body>
+        <h1>Account registreren:</h1>
+        <div th:if="${error}">
+            Registreren mislukt, vul de informatie aan zoals aangegeven.
+        </div>
+		<div>
+        <form class="bodyForm" method="POST" th:action="@{/register}" th:object="${registrationForm}">
+            <div>
+                <p><label class="labelForm" for="voorNaam">Voornaam:</label>
+                <input class="inputForm" type="text" th:field=*{voorNaam} />
+                <span class="validationError" th:if="${#fields.hasErrors('voorNaam')}" th:errors="*{voorNaam}"></span></p>
+
+                <p><label class="labelForm" for="achterNaam">Achternaam:</label>
+                <input class="inputForm" type="text" th:field=*{achterNaam} />
+                <span class="validationError" th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span></p>
+
+                <p><label class="labelForm" for="tussenVoegsel">Tussenvoegsel:</label>
+                <input class="inputForm" type="text" th:field=*{tussenVoegsel} />
+                <span class="validationError" th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span></p>
+
+                <p><label class="labelForm" for="geboorteDatum">Geboortedatum:</label>
+                <input class="inputForm" type="date" th:field=*{geboorteDatum} />
+                <span class="validationError" th:if="${#fields.hasErrors('geboorteDatum')}" th:errors="*{geboorteDatum}"></span></p>
+            </div>
+            <div>
+                <h3>Woonadres</h3>
+                <p><label class="labelForm" for="straatnaam">Straatnaam:</label>
+                <input class="inputForm" type="text" th:field=*{straatnaam} />
+                <span class="validationError" th:if="${#fields.hasErrors('straatnaam')}" th:errors="*{straatnaam}"></span></p>
+
+                <p><label class="labelForm" for="huisnummer">Huisnummer:</label>
+                <input class="inputForm" type="number" th:field=*{huisnummer} />
+                <span class="validationError" th:if="${#fields.hasErrors('huisnummer')}" th:errors="*{huisnummer}"></span></p>
+
+                <p><label class="labelForm" for="toevoeging">Toevoeging:</label>
+                <input class="inputForm" type="text" th:field=*{toevoeging} />
+                <span class="validationError" th:if="${#fields.hasErrors('toevoeging')}" th:errors="*{toevoeging}"></span></p>
+
+                <p><label class="labelForm" for="postcode">Postcode:</label>
+                <input class="inputForm" type="text" th:field=*{postcode} />
+                <span class="validationError" th:if="${#fields.hasErrors('postcode')}" th:errors="*{postcode}"></span></p>
+
+                <p><label class="labelForm" for="woonplaats">Woonplaats:</label>
+                <input class="inputForm" type="text" th:field=*{woonplaats} />
+                <span class="validationError" th:if="${#fields.hasErrors('woonplaats')}" th:errors="*{woonplaats}"></span></p>
+                    
+            </div>
+            <div>
+                <p><label class="labelForm" for="gebruikersnaam">Gebruikersnaam:</label>
+                <input class="inputForm" type="text" th:field=*{gebruikersnaam} />
+                <span class="validationError" th:if="${#fields.hasErrors('gebruikersnaam')}" th:errors="*{gebruikersnaam}"></span></p>
+                
+                <p><label class="labelForm" for="wachtwoord">Wachtwoord:</label>
+                <input class="inputForm" type="password" th:field=*{wachtwoord} />
+                <span class="validationError" th:if="${#fields.hasErrors('wachtwoord')}" th:errors="*{wachtwoord}"></span></p>
+
+            </div>
+            <input class="button" type="submit" value="Registreer" /> <input type="reset" value="Reset"/>
+        </form>
+		</div>
+        <p><a href="/">Terug naar home</a></p>
+
+    </body>
+</html>

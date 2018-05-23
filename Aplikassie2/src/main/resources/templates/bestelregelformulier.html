@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Artikel aan bestellling toevoegen</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <h1 data-th-text="${'Voeg een artikel toe aan bestelling met factuurnummer ' + bestelling.factuurnummer}"></h1>
+
+        <div th:if="${artikellijst == null or #lists.isEmpty(artikellijst)}">
+            <p><a href="/artikel/add">Er staan nog geen artikelen in het systeem, voeg deze eerst toe</a></p>
+        </div>
+
+        <div th:if="${artikellijst != null and not #lists.isEmpty(artikellijst)}">    
+            <form class="bodyForm" method="POST" th:object="${bestelregel}" th:action="@{/bestelling/add/nieuweregel}">
+                <label>Kies artikel:</label>
+                <select th:field="*{artikel}">
+                    <option th:each="artikeloptie : ${artikellijst}"
+                            th:value="${artikeloptie.id}"
+                            th:utext="${artikeloptie.naam + ' €' + artikeloptie.prijs + ' (voorraad: ' + artikeloptie.voorraad + ')'}"/>
+                </select>
+                
+                <label class="labelForm" for="aantal">Aantal:</label>
+                <input class="inputForm" type="text" th:value= "${bestelregel.Aantal}"th:field="*{aantal}" />
+                <span class="validationError"
+                th:if="${#fields.hasErrors('aantal')}"
+                th:errors="*{aantal}">Aantal Error</span>
+
+                <input type="hidden" th:value= "${bestelling.id}"th:field="*{bestelling}" />
+
+                <p><input class="button" type="submit" value="Voeg toe" /></p>
+            </form>
+        </div>    
+        
+        <p><a href="#" data-th-href="@{/bestelling/edit(id=${bestelling.id})}">Terug naar bestelling</a></p>
+        <p><a href="/bestelling">Terug naar bestellingenoverzicht</a></p>
+        <p><a href="/">Terug naar home</a></p>
+        
+    </body>
+</html>

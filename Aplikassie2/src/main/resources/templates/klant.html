@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Klantenmenu</title>
+     <!-- <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<br><br>
+<div><a href="/">Terug naar home</a></div>
+<br><br>
+    <h1>Klantenmenu</h1>
+
+    <div>
+        <p><a href="klant/klantformulier">Nieuwe klant toevoegen</a></p>
+     </div>
+      <div>
+		<p><b>Klantenoverzicht maken:</b></p>
+		<form class="bodyForm" method="GET" action="klant/klantenoverzicht" th:action="@{klant/klantenoverzicht}" th:object="${persoon}">
+			<select th:field="*{persoonStatus}">
+				<option th:with= "persoonStatus=null" th:value="${persoonStatus}" th:text="ALLES"></option>
+				<option th:each="persoonStatus: ${T(com.rsvier.workshop.domein.Persoon.PersoonStatus).values()}" 
+						th:value="${persoonStatus}" 
+						th:text="${persoonStatus}"></option> 
+			</select>
+			<br><br>
+			<input class="button" type="submit" value="select" name="select">
+		</form>
+	</div>    
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Artikelmenu</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <h1>Artikelmenu</h1>
+
+    <div th:if="${artikelen == null or #lists.isEmpty(artikelen)}">
+        <div><p> <a href="/artikel/add">Geen artikelen gevonden, voeg eerst iets toe</a></p></div>
+    </div>
+        
+    <div th:if="${artikelen != null and not #lists.isEmpty(artikelen)}">    
+        <table class="box-table-a">
+            <caption>Overzicht</caption>
+            <thead>
+                    <tr>
+                            <th scope="col" >Naam</th>
+                            <th scope="col" >Prijs</th>
+                            <th scope="col" >Voorraad</th>
+                            <th scope="col" >Actie</th>
+                    </tr>
+            </thead>
+            <tbody>
+                    <tr data-th-each="artikel : ${artikelen}">
+                            <td data-th-text="${artikel.naam}">Naam</td>
+                            <td data-th-text="${'€' + artikel.prijs}">Prijs</td>
+                            <td data-th-text="${artikel.voorraad}">Voorraad</td>
+                            <td><a href="#" data-th-href="@{/artikel/delete(id=${artikel.id})}">verwijder</a> | 
+                                <a href="#" data-th-href="@{/artikel/edit(id=${artikel.id})}">pas aan</a>
+                            </td>
+                    </tr>
+            </tbody>
+        </table>
+        
+        <p><a href="/artikel/add">Artikel toevoegen</a></p>
+    </div>
+   
+    <p><a href="/">Terug naar home</a></p>
+    
+	
+</body>
+</html>

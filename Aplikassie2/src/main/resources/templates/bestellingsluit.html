@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Bestelling sluiten?</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        
+        <h1>Deze bestelling zal gesloten worden en is daarna niet meer aan te passen, zeker weten?</h1>
+        
+        <form name='f' th:object="${bestelling}" method='POST' >
+                <input type="hidden" th:value= "${bestelling.Id}"th:field="*{id}" readonly/>
+                            
+                <table>
+                    
+                        <tr>
+                            <td><label for="naam">Factuurnummer:</label></td>
+                            <td data-th-text="${bestelling.factuurnummer}">Factuurnummer</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><label for="prijs">Totaalprijs:</label></td>
+                            <td data-th-text="'€' + ${bestelling.totaalprijs}">Totaalprijs</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><label for="voorraad">Klant:</label></td>
+                            <td data-th-text="${bestelling.klant}">Klant</td>
+                            
+                        </tr>
+                        <tr>
+                            <td><label for="voorraad">Datum:</label></td>
+                            <td data-th-text="${bestelling.bestelDatum}">Datum</td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td><label for="voorraad">Status:</label></td>
+                            <td data-th-text="${bestelling.status}">Status</td>
+                            
+                        </tr>
+                           
+                    
+
+                    <tr>
+                        <td><input name="submit" type="submit" value="Sluit" /></td>
+                        <td><a href="/bestelling">Terug</a></td>
+                    </tr>
+                    
+                </table>
+            </form>
+        
+    </body>
+</html>

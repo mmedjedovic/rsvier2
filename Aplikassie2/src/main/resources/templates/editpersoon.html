@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Persoonsgegevens wijzigen</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+	<h1>Wijzig onderstaande velden</h1>
+	
+	<form class="bodyForm" method="POST" action="klant/persoonupdate" th:action="@{/klant/persoonupdate}" th:object="${persoon}">
+		<div>
+			<label class="labelForm" for="voorNaam">Voornaam:</label>
+			<input class="inputForm" type="text" th:field=*{voorNaam} />
+			<span class="validationError" th:if="${#fields.hasErrors('voorNaam')}" th:errors="*{voorNaam}"></span>
+			<br><br>
+			<label class="labelForm" for="achterNaam">Achternaam:</label>
+			<input class="inputForm" type="text" th:field=*{achterNaam} />
+			<span  class="validationError" th:if="${#fields.hasErrors('achterNaam')}" th:errors="*{achterNaam}"></span>
+			<br><br>
+			<label class="labelForm" for="tussenVoegsel">Tussenvoegsel:</label>
+			<input class="inputForm" type="text" th:field=*{tussenVoegsel} />
+			<span class="validationError" th:if="${#fields.hasErrors('tussenVoegsel')}" th:errors="*{tussenVoegsel}"></span>
+			<br><br>
+			<label class="labelForm" for="geboorteDatum">Geboortedatum:</label>
+			<input class="inputForm" type="date" th:field=*{geboorteDatum} />
+			<span class="validationError" th:if="${#fields.hasErrors('geboorteDatum')}" th:errors="*{geboorteDatum}"></span>
+			<br><br>
+			<input class="button" type="submit" value="update" >
+		</div>
+	</form>
+</body>
+</html>

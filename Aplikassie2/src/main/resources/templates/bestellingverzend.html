@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Bestelling</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        
+        <h1>Deze bestelling wordt als verzonden ingsteld. Aanpassen is hierna niet meer mogelijk. Zeker weten?</h1>
+        
+        <form name='f' th:object="${bestelling}" method='POST' >
+                <input type="hidden" th:value= "${bestelling.Id}"th:field="*{id}" readonly/>
+                            
+                <table>
+                    <tr>
+                        <td><label for="naam">Factuurnummer:</label>
+                            <input type="text" th:value= "${bestelling.factuurnummer}"th:field="*{factuurnummer}" readonly/>
+                            
+                        </td>
+                        <td>
+                            <label for="prijs">Totaalprijs:</label>
+                            <input type="text" th:value= "${bestelling.totaalprijs}"th:field="*{totaalprijs}" readonly/>
+                            
+                        </td>
+                        <td>
+                            <label for="voorraad">Klant:</label>
+                            <input type="text" th:value= "${bestelling.klant}"th:field="*{klant}" readonly/>
+                            
+                        </td>
+                        <td>
+                            <label for="voorraad">Datum:</label>
+                            <input type="text" th:value= "${bestelling.bestelDatum}"th:field="*{bestelDatum}" readonly/>
+                            
+                        </td>
+                        
+                        <td>
+                            <label for="voorraad">Status:</label>
+                            <input type="text" th:value= "${bestelling.status}"th:field="*{status}" readonly/>
+                            
+                        </td>
+                           
+                    </tr>
+
+                    <tr>
+                        <td><input name="submit" type="submit" value="Deze bestelling als verzonden instellen" /></td>
+                        <td><a href="/bestelling">Terug</a></td>
+                    </tr>
+                    
+                </table>
+            </form>
+        
+    </body>
+</html>

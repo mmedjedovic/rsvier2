@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    
+    <head>
+        <title>Bestellingformulier</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    
+    <body>
+        <h1>Deze bestelling kan niet meer aangepast worden</h1>
+
+        <div th:if="${bestelregels == null or #lists.isEmpty(bestelregels)}">
+            <div><p>Deze bestelling is leeg.</p></div>
+        </div>
+
+        <p data-th-text="${'Klant: ' + bestelling.klant.voorNaam + ' ' + bestelling.klant.tussenVoegsel + ' ' + bestelling.klant.achterNaam}">Klant</p>
+        <p data-th-text="${'Factuurnummer: ' + bestelling.factuurnummer}">Factuurnummer</p>
+        <p data-th-text="${'Bestelling gesloten op: ' + bestelling.bestelDatum}">Besteldatum</p>
+
+        <div th:if="${bestelregels != null and not #lists.isEmpty(bestelregels)}">    
+            <table class="box-table-a">
+            <caption>Overzicht</caption>
+            <thead>
+                <tr>
+                    <th scope="col" >Naam</th>
+                    <th scope="col" >Prijs</th>
+                    <th scope="col" >Aantal</th>
+                    <th scope="col" >Subtotaal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="bestelregel : ${bestelregels}">
+                    <td data-th-text="${bestelregel.artikel.naam}">Artikel</td>
+                    <td data-th-text="'€' + ${bestelregel.artikelPrijs}">Prijs</td>
+                    <td data-th-text="${bestelregel.aantal}">Voorraad</td>
+                    <td data-th-text="'€' + ${bestelregel.aantal} * ${bestelregel.artikelPrijs}">Subtotaal</td>
+                </tr>
+            </tbody>
+            </table>
+            <p data-th-text="${'Totaalprijs: €' + bestelling.totaalprijs}">Totaalprijs</p>
+            <p data-th-text="${'Status: ' + bestelling.status}">Totaalprijs</p>
+        </div>    
+
+        <p><a href="/bestelling">Terug naar bestellingenoverzicht</a></p>
+        <p><a href="/">Terug naar home</a></p>
+
+    </body>
+    
+</html>
